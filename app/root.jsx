@@ -1,13 +1,14 @@
+import store from './redux/store.jsx'
+import {Provider} from "react-redux";
 import {
   isRouteErrorResponse,
   Links,
   Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration
+  Outlet
 } from 'react-router'
 
 import './app.css'
+import Body from "./components/body.jsx";
 
 export const links = () => [
   {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
@@ -31,11 +32,11 @@ export function Layout({children}) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-      </body>
+      <Provider store={store}>
+        <Body>
+          {children}
+        </Body>
+      </Provider>
     </html>
   )
 }

@@ -1,11 +1,9 @@
-
-import IconLinkButton from '@components/buttons/links/icon.jsx'
-import FooterNavigationBar from '@components/navigation-bars/footer.jsx'
-import socialMediaConstant from '@constants/social-media.jsx'
-import stringUtility from '@utilities/string.jsx'
 import {useSelector} from 'react-redux'
-
 import {createSelector, createStructuredSelector} from 'reselect'
+import socialMediaConstant from "../constants/social-media.jsx";
+import stringUtility from "../utilities/string.jsx";
+import IconLinkButton from "./buttons/links/icon.jsx";
+import FooterNavigationBar from "./navigation-bars/footer.jsx";
 
 const themeStates = createStructuredSelector(
   {
@@ -16,7 +14,7 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function FooterClient({className}) {
+export default function Footer({className}) {
   const {
     backgroundTheme,
     borderTheme
