@@ -30,9 +30,9 @@ export default function Footer({className}) {
         'container-layout section-pt pb-6 section-px'
       ])}>
       <div className={'flex flex-col lg:flex-row lg:gap-10'}>
-        <h1 className={'basis-full lg:basis-2/6 text-big-2'}>
+        <p className={'basis-full lg:basis-2/6 text-big-2'}>
           Thinh
-        </h1>
+        </p>
         <FooterNavigationBar />
       </div>
       <hr className={`content-mt ${borderTheme.opacity.ten.primaryColor}`} />

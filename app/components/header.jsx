@@ -180,9 +180,9 @@ export default function Header({className}) {
           'container-layout content-py section-px lg:pl-0 lg:pr-2',
           'flex justify-between items-center'
         ])}>
-        <h1 className={'text-big-2'}>
+        <p className={'text-big-2'}>
           Thinh
-        </h1>
+        </p>
         <HeaderNavigationBar />
         <IconButton
           ariaLabel={'Hamburger button'}
