@@ -78,15 +78,9 @@ first JavaScript entry point. Inside `main.jsx`, the React app is initialized by
 `layout.jsx` — into the DOM. `Layout.jsx` is the first React component and serves as the top-level component of the
 application.
 
-## `public` vs `assets`
+## `sitemap.xml` generator
 
-| Feature                           | `public/`                            | `src/assets/`                          |
-| --------------------------------- | ------------------------------------ | -------------------------------------- |
-| Direct access via URL             | ✅ Yes (`/file.png`)                  | ❌ No                                   |
-| Processed by Vite (hashing, etc.) | ❌ No                                 | ✅ Yes                                  |
-| Usable with `import` in JS/TS     | ❌ No                                 | ✅ Yes                                  |
-| Included in dependency graph      | ❌ No                                 | ✅ Yes                                  |
-| Ideal for                         | Favicons, `robots.txt`, static files | Images, fonts, and assets used in code |
+Execute this command `node sitemap-generator.mjs`
 
 # Global state management with Redux
 

@@ -1,0 +1,9 @@
+# Applies to all crawlers
+User-agent: *
+# Prevents crawlers from accessing paths (multiple settings)
+Disallow: /projects/
+# Allows everything else
+Allow: /
+
+# Helps crawlers find all pages efficiently.
+Sitemap: https://tatthinhle.vercel.app/sitemap.xml
