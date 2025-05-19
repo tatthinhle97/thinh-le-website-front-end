@@ -12,7 +12,7 @@ const white = {
   },
   data: {
     focus: {
-      accentColor700: 'data-[focus]:bg-white-accent-color-700'
+      accentColor700: 'data-focus:bg-white-accent-color-700'
     }
   },
   hover: {
@@ -51,7 +51,7 @@ const black = {
   },
   data: {
     focus: {
-      accentColor700: 'data-[focus]:bg-black-accent-color-700'
+      accentColor700: 'data-focus:bg-black-accent-color-700'
     }
   },
   hover: {

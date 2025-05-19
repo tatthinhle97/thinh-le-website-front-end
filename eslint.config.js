@@ -4,7 +4,7 @@ import stylisticJsx from '@stylistic/eslint-plugin-jsx'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
-import pluginReact from 'eslint-plugin-react'
+import react from 'eslint-plugin-react'
 import {defineConfig} from 'eslint/config'
 
 export default defineConfig([
@@ -25,7 +25,7 @@ export default defineConfig([
     }
   },
   // Generated
-  pluginReact.configs.flat.recommended,
+  react.configs.flat.recommended,
   {
     files: ['**/*.{js,jsx}'],
     plugins: {
@@ -102,10 +102,9 @@ export default defineConfig([
     }
   },
   {
-    files: ['**/*.{js,jsx}'],
-    plugins: [
-      'react'
-    ],
+    plugins: {
+      react
+    },
     rules: {
       'react/react-in-jsx-scope': 'off'
     }
