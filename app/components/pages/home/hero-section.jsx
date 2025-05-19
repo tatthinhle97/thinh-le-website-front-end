@@ -1,5 +1,11 @@
+import {DownloadCircle01Icon, Mailbox01Icon, SourceCodeCircleIcon} from "@hugeicons-pro/core-solid-rounded";
+import {HugeiconsIcon} from "@hugeicons/react";
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
+import pageMetadataConstant from "../../../constants/metadata/page.jsx";
+import stringUtility from "../../../utilities/string.jsx";
+import PrimaryLinkButton from "../../buttons/links/primary.jsx";
+import SecondaryLinkButton from "../../buttons/links/secondary.jsx";
 
 const themeStates = createStructuredSelector(
   {
@@ -57,10 +63,7 @@ export default function HeroSection() {
             className={'button-link-icon-text min-w-fit justify-center'}
             href={pageMetadataConstant.projects.path}>
             <div className={'wh-normal'}>
-              <SourceCodeCircleIcon
-                size={'100%'}
-                variant={'solid'}
-                type={'rounded'} />
+              <HugeiconsIcon icon={SourceCodeCircleIcon} />
             </div>
             Projects
           </PrimaryLinkButton>
@@ -69,10 +72,7 @@ export default function HeroSection() {
             className={'button-link-icon-text min-w-fit justify-center'}
             href={'https://drive.google.com/file/d/1xFrFyALouO559dB6mST_BbmfoqLRRy0-/view?usp=sharing'}>
             <div className={'wh-normal'}>
-              <DownloadCircle01Icon
-                size={'100%'}
-                variant={'solid'}
-                type={'rounded'} />
+              <HugeiconsIcon icon={DownloadCircle01Icon} />
             </div>
             Resume
           </SecondaryLinkButton>
