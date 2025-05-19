@@ -31,7 +31,7 @@ export default function Footer({className}) {
       ])}>
       <div className={'flex flex-col lg:flex-row lg:gap-10'}>
         <p className={'basis-full lg:basis-2/6 text-big-2'}>
-          Thinh
+          Tat Thinh Le
         </p>
         <FooterNavigationBar />
       </div>
@@ -41,7 +41,7 @@ export default function Footer({className}) {
         'md:justify-between content-mt'
       ])}>
         <p>
-          © 2024 Thinh Le&apos;s website, Inc. All rights reserved.
+          © 2024 Tat Thinh Le&apos;s website, Inc. All rights reserved.
         </p>
         <div className={'flex content-gap justify-center xs:justify-start'}>
           {socialMediaConstant.allSocialMedia.map(

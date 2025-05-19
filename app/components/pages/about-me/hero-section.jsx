@@ -60,7 +60,7 @@ export default function HeroSection() {
       </div>
       <section className={'basis-3/5'}>
         <h1 className={'text-big-4 font-bold'}>
-          Thinh Le (Terry)
+          Tat Thinh Le (Terry)
         </h1>
         <p className={'text-big-2 content-mt'}>
           I’m a <span

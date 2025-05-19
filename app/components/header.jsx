@@ -181,7 +181,7 @@ export default function Header({className}) {
           'flex justify-between items-center'
         ])}>
         <p className={'text-big-2'}>
-          Thinh
+          Tat Thinh Le
         </p>
         <HeaderNavigationBar />
         <IconButton

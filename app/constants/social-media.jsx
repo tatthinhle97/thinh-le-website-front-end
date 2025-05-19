@@ -3,7 +3,7 @@ import {Facebook01Icon, Github01Icon, Home01Icon, LeetcodeIcon, Linkedin01Icon} 
 
 const facebook = {
   label: 'Facebook icon',
-  link: 'https://www.facebook.com/letatthinh527',
+  link: 'https://www.facebook.com/tatthinhle97',
   icon: <HugeiconsIcon icon={Facebook01Icon} />
 }
 
