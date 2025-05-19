@@ -1,4 +1,4 @@
-import pageMetadataConstant from '@constants/metadata/page.js'
+import pageMetadataConstant from "../../../../constants/metadata/page.jsx";
 
 export function meta() {
   return [

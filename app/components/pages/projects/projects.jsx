@@ -1,6 +1,6 @@
-import Card from '@components/card.jsx'
-import projectConstant from '@constants/project.js'
-import stringUtility from '@utilities/string.jsx'
+import projectConstant from "../../../constants/project.jsx";
+import stringUtility from "../../../utilities/string.jsx";
+import Card from "../../card.jsx";
 
 export default function Projects() {
   return <section>

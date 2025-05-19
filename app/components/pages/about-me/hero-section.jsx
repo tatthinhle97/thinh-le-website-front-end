@@ -1,8 +1,8 @@
-import stringUtility from '@utilities/string.jsx'
 import {useEffect, useRef} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import Typed from 'typed.js'
+import stringUtility from "../../../utilities/string.jsx";
 
 const themeStates = createStructuredSelector(
   {

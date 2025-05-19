@@ -1,4 +1,4 @@
-import pageMetadataConstant from '@constants/metadata/page.js'
+import pageMetadataConstant from "../../../constants/metadata/page.jsx";
 import HeroSection from './hero-section.jsx'
 import Projects from './projects.jsx'
 
