@@ -26,7 +26,7 @@ export default function useNavigationBar() {
               ? 'flex gap-2 items-center'
               : undefined,
             (location.pathname === _navigationItem.path ||
-              _navigationItem.path.isSubStringOf(location.pathname))
+                stringUtility.isSubStringOf(_navigationItem.path, location.pathname))
               ? activeNavigationItemClassName
               : nonActiveNavigationItemClassName
           ])}

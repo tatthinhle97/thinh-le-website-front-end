@@ -20,13 +20,14 @@ const merge = (_strings, _separator = ' ') => {
   return result
 }
 
-String.prototype.isSubStringOf = function (_stringToCheck) {
+const isSubStringOf = function (_stringToCheck, _string) {
   return _stringToCheck && _stringToCheck.length > 1 &&
-      this.includes(_stringToCheck)
+      _string.includes(_stringToCheck)
 }
 
 const stringUtility = {
-  merge
+  merge,
+  isSubStringOf
 }
 
 export default stringUtility
