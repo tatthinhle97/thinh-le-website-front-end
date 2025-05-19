@@ -1,0 +1,17 @@
+import pageMetadataConstant from '@constants/metadata/page.js'
+import HeroSection from './hero-section.jsx'
+import Projects from './projects.jsx'
+
+export function meta() {
+  return [
+    {title: pageMetadataConstant.projects.title},
+    {name: 'description', content: pageMetadataConstant.projects.description}
+  ]
+}
+
+export default function ProjectsPage() {
+  return <>
+    <HeroSection />
+    <Projects />
+  </>
+}

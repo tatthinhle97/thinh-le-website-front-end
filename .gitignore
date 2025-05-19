@@ -5,3 +5,4 @@
 .idea/
 /.react-router/
 /build/
+.npmrc

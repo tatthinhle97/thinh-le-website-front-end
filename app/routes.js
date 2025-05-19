@@ -1,3 +1,7 @@
 import { index } from "@react-router/dev/routes";
 
-export default [index("routes/home.jsx")];
+const pagePrefix = 'components/pages'
+
+export default [
+  index(`${pagePrefix}/home/index.jsx`)
+];
