@@ -1,9 +1,9 @@
 import {useMemo} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import navigationItemConstant from "../../constants/navigation-item.jsx";
-import useNavigationBar from "../../hooks/navigation-bar.jsx";
-import stringUtility from "../../utilities/string.jsx";
+import navigationItemConstant from '../../constants/navigation-item.jsx'
+import useNavigationBar from '../../hooks/navigation-bar.jsx'
+import stringUtility from '../../utilities/string.jsx'
 
 const themeStates = createStructuredSelector({
   textTheme: (_state) => _state.textTheme

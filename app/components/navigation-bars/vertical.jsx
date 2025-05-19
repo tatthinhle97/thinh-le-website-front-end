@@ -41,8 +41,7 @@ export default function VerticalNavigationBar() {
   return <nav
     onClick={onVerticalNavigationBarClick}
     className={stringUtility.merge([
-      'flex flex-col gap-2',
-      backgroundTheme.primaryColor
+      'flex flex-col gap-2'
     ])}>
     {renderNavigationItems(
       navigationItemConstant.allNavigationItems,

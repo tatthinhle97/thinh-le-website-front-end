@@ -6,7 +6,6 @@ import stringUtility from '../utilities/string.jsx'
 
 export default function useNavigationBar() {
   const location = useLocation()
-  console.log('pathname', location.pathname)
   const onNavigationItemClick = useContext(NavigationBarContext)
 
   const isChildPath = useCallback((_navigationItemPathName) => {
@@ -24,8 +23,6 @@ export default function useNavigationBar() {
   ) => {
     return navigationItems
       .map((_navigationItem, _index) => {
-        console.log('_navigationItem.path', _navigationItem.path)
-        console.log('is item child of location path?', isChildPath(_navigationItem.path))
         return <NavLink
           onClick={onNavigationItemClick}
           key={_index}

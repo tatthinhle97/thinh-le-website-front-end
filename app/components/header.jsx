@@ -13,8 +13,7 @@ import VerticalNavigationBar from './navigation-bars/vertical.jsx'
 const themeStates = createStructuredSelector(
   {
     backgroundTheme: (_state) => _state.backgroundTheme,
-    shadowTheme: (_state) => _state.shadowTheme,
-    textTheme: (_state) => _state.textTheme
+    shadowTheme: (_state) => _state.shadowTheme
   },
   createSelector
 )
@@ -178,7 +177,8 @@ export default function Header({className}) {
       <section
         className={stringUtility.merge([
           'container-layout content-py section-px lg:pl-0 lg:pr-2',
-          'flex justify-between items-center'
+          'flex justify-between items-center',
+          backgroundTheme.primaryColor
         ])}>
         <p className={'text-big-2'}>
           Tat Thinh Le

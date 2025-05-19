@@ -1,28 +1,24 @@
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import socialMediaConstant from "../constants/social-media.jsx";
-import stringUtility from "../utilities/string.jsx";
-import IconLinkButton from "./buttons/links/icon.jsx";
-import FooterNavigationBar from "./navigation-bars/footer.jsx";
+import socialMediaConstant from '../constants/social-media.jsx'
+import stringUtility from '../utilities/string.jsx'
+import IconLinkButton from './buttons/links/icon.jsx'
+import FooterNavigationBar from './navigation-bars/footer.jsx'
 
 const themeStates = createStructuredSelector(
   {
-    backgroundTheme: (_state) => _state.backgroundTheme,
-    borderTheme: (_state) => _state.borderTheme,
-    textTheme: (_state) => _state.textTheme
+    borderTheme: (_state) => _state.borderTheme
   },
   createSelector
 )
 
 export default function Footer({className}) {
   const {
-    backgroundTheme,
     borderTheme
   } = useSelector(themeStates)
 
   return <footer
     className={stringUtility.merge([
-      backgroundTheme.primaryColor,
       className
     ])}>
     <div
