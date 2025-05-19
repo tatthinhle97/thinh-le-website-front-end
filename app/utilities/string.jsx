@@ -21,7 +21,7 @@ const merge = (_strings, _separator = ' ') => {
 }
 
 const isSubStringOf = function (_stringToCheck, _string) {
-  return _stringToCheck && _stringToCheck.length > 1 &&
+  return _stringToCheck.length > 1 &&
       _string.includes(_stringToCheck)
 }
 
