@@ -1,6 +1,7 @@
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
-import stringUtility from "../../../utilities/string.jsx";
+import stringUtility from '../../../utilities/string.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -10,20 +11,38 @@ const themeStates = createStructuredSelector(
 )
 
 export default function IconLinkButton({
-  ariaLabel, className, href, children
+  ariaLabel,
+  className,
+  href,
+  children,
+  isExternalLink = true
 }) {
   const {
     textTheme
   } = useSelector(themeStates)
 
-  return <a
-    aria-label={ariaLabel}
-    className={stringUtility.merge([
-      textTheme.hover.accentColor700,
-      className
-    ])}
-    href={href}
-    target='_blank' rel='noreferrer'>
-    {children}
-  </a>
+  return isExternalLink
+    ?
+    <a
+      aria-label={ariaLabel}
+      className={stringUtility.merge([
+        textTheme.hover.accentColor700,
+        className
+      ])}
+      href={href}
+      target='_blank' rel='noreferrer'>
+      {children}
+    </a>
+    :
+    <Link
+      aria-label={ariaLabel}
+      className={stringUtility.merge([
+        textTheme.hover.accentColor700,
+        className
+      ])}
+      to={{
+        pathname: href
+      }}>
+      {children}
+    </Link>
 }

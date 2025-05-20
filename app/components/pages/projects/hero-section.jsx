@@ -1,6 +1,6 @@
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import stringUtility from "../../../utilities/string.jsx";
+import stringUtility from '../../../utilities/string.jsx'
 
 const themeStates = createStructuredSelector(
   {

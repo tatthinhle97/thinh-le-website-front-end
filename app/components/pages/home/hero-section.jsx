@@ -1,11 +1,11 @@
-import {DownloadCircle01Icon, Mailbox01Icon, SourceCodeCircleIcon} from "@hugeicons-pro/core-solid-rounded";
-import {HugeiconsIcon} from "@hugeicons/react";
+import {DownloadCircle01Icon, Mailbox01Icon, SourceCodeCircleIcon} from '@hugeicons-pro/core-solid-rounded'
+import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import pageMetadataConstant from "../../../constants/metadata/page.jsx";
-import stringUtility from "../../../utilities/string.jsx";
-import PrimaryLinkButton from "../../buttons/links/primary.jsx";
-import SecondaryLinkButton from "../../buttons/links/secondary.jsx";
+import pageMetadataConstant from '../../../constants/metadata/page.jsx'
+import stringUtility from '../../../utilities/string.jsx'
+import PrimaryLinkButton from '../../buttons/links/primary.jsx'
+import SecondaryLinkButton from '../../buttons/links/secondary.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -61,19 +61,16 @@ export default function HeroSection() {
           <PrimaryLinkButton
             ariaLabel={'Projects'}
             className={'button-link-icon-text min-w-fit justify-center'}
-            href={pageMetadataConstant.projects.path}>
-            <div className={'wh-normal'}>
-              <HugeiconsIcon icon={SourceCodeCircleIcon} />
-            </div>
+            href={pageMetadataConstant.projects.path}
+            isExternalLink={false}>
+            <HugeiconsIcon icon={SourceCodeCircleIcon} />
             Projects
           </PrimaryLinkButton>
           <SecondaryLinkButton
             ariaLabel={'Download resume'}
             className={'button-link-icon-text min-w-fit justify-center'}
             href={'https://drive.google.com/file/d/1xFrFyALouO559dB6mST_BbmfoqLRRy0-/view?usp=sharing'}>
-            <div className={'wh-normal'}>
-              <HugeiconsIcon icon={DownloadCircle01Icon} />
-            </div>
+            <HugeiconsIcon icon={DownloadCircle01Icon} />
             Resume
           </SecondaryLinkButton>
         </div>

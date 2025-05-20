@@ -18,7 +18,7 @@ const projects = {
 
 const saleAndRentalListingsProject = {
   path: '/projects/sale-and-rental-listings',
-  title: 'Sale and rental listings across the US',
+  title: 'Sale and rental listings',
   description: 'Search for sale and rental listings across the US, integrating interactive data visualizations to analyze trends and insights in the housing market.'
 }
 

@@ -39,11 +39,10 @@ export default function Footer({className}) {
         <p>
           © 2024 Tat Thinh Le&apos;s website, Inc. All rights reserved.
         </p>
-        <div className={'flex content-gap justify-center xs:justify-start'}>
+        <div className={'flex content-gap justify-center xs:justify-start items-center'}>
           {socialMediaConstant.allSocialMedia.map(
             (_socialMedia, _index) => {
               return <IconLinkButton
-                className={'wh-normal'}
                 key={_index}
                 ariaLabel={_socialMedia.label}
                 href={_socialMedia.link}>
