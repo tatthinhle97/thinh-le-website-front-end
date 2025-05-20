@@ -24,14 +24,14 @@ export default function HeroSection() {
   } = useSelector(themeStates)
 
   return <section className={'bg-stockton bg-cover bg-no-repeat bg-center'}>
+    {/* Set min height to avoid layout shift */}
     <div className={stringUtility.merge([
-      'container-layout feature-py section-px'
+      'container-layout feature-py section-px min-h-120'
     ])}>
       <article className={stringUtility.merge([
         backgroundTheme.opacity.ninety.primaryColor,
         'rounded-big-1',
-        // Set min height to avoid layout shift
-        'max-w-2xl lg:max-w-(--breakpoint-md) min-h-120 p-12 transition-max-width'
+        'max-w-2xl lg:max-w-(--breakpoint-md) p-12 transition-max-width'
       ])}>
         <p className={stringUtility.merge([
           'inline-block py-1 px-2 relative',
