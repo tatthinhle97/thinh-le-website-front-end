@@ -24,9 +24,8 @@ export default function HeroSection() {
   } = useSelector(themeStates)
 
   return <section className={'bg-stockton bg-cover bg-no-repeat bg-center'}>
-    {/* Set min height to avoid layout shift */}
     <div className={stringUtility.merge([
-      'container-layout feature-py section-px min-h-120'
+      'container-layout feature-py section-px'
     ])}>
       <article className={stringUtility.merge([
         backgroundTheme.opacity.ninety.primaryColor,
