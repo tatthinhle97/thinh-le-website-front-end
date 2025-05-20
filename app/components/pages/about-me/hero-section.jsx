@@ -2,7 +2,7 @@ import {useEffect, useRef} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import Typed from 'typed.js'
-import stringUtility from "../../../utilities/string.jsx";
+import stringUtility from '../../../utilities/string.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -46,7 +46,7 @@ export default function HeroSection() {
 
   return <section>
     <div className={stringUtility.merge([
-      'container-layout feature-py section-px',
+      'container-layout feature-pt section-px',
       'flex flex-col-reverse lg:flex-row section-gap justify-between',
       'items-center'
     ])}>

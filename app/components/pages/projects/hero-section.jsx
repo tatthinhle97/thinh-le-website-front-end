@@ -16,7 +16,7 @@ export default function HeroSection() {
 
   return <section>
     <div className={stringUtility.merge([
-      'container-layout section-pt section-px text-center'
+      'container-layout section-py section-px text-center'
     ])}>
       <p className={`content-mt ${textTheme.secondaryColor600}`}>
         A collection of personal and academic projects showcasing my skills in

@@ -1,4 +1,5 @@
 import pageMetadataConstant from '../../../constants/metadata/page.jsx'
+import Footer from '../../footer.jsx'
 import HeroSection from './hero-section.jsx'
 
 export function meta() {
@@ -10,6 +11,9 @@ export function meta() {
 
 export default function HomePage() {
   return <>
-    <HeroSection />
+    <main>
+      <HeroSection />
+    </main>
+    <Footer />
   </>
 }

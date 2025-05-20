@@ -19,15 +19,12 @@ export default function Body({children}) {
 
   return <body
     className={stringUtility.merge([
-      'min-w-80 relative text-normal flex flex-col min-h-screen',
+      'min-w-80 relative text-normal',
       backgroundTheme.primaryColor,
       textTheme.secondaryColor
     ])}>
     <Header />
-    <main className={'flex-1'}>
-      {children}
-    </main>
-    <Footer />
+    {children}
     <ScrollRestoration />
     <Scripts />
   </body>
