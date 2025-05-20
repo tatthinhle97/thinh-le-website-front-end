@@ -7,7 +7,8 @@
   --aspect-3\/2: 3 / 2;
   --aspect-4\/3: 4 / 3;
 
-  --background-image-stockton: url('/background/stockton-background.avif');
+  --background-image-stockton-desktop: url('/background/stockton-background-desktop.avif');
+  --background-image-stockton-mobile: url('/background/stockton-background-mobile.avif');
   --background-image-profile: url('/profile.webp');
   --background-image-sale-and-rental-listings: url('/projects/sale-and-rental-listings.webp');
 

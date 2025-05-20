@@ -27,16 +27,15 @@ export default function useNavigationBar() {
           onClick={onNavigationItemClick}
           key={_index}
           to={_navigationItem.path}
-          className={({isActive}) =>
-            stringUtility.merge([
-              className,
-              shouldDisplayIcon
-                ? 'flex gap-2 items-center'
-                : undefined,
-              (isActive || isChildPath(_navigationItem.path))
-                ? activeNavigationItemClassName
-                : nonActiveNavigationItemClassName
-            ])}>
+          className={stringUtility.merge([
+            className,
+            shouldDisplayIcon
+              ? 'flex gap-2 items-center'
+              : undefined,
+            (location.pathname === _navigationItem.path || isChildPath(_navigationItem.path))
+              ? activeNavigationItemClassName
+              : nonActiveNavigationItemClassName
+          ])}>
           {renderUtility.renderIfTrue(
             shouldDisplayIcon,
             _navigationItem.iconComponent

@@ -23,7 +23,7 @@ export default function HeroSection() {
     borderTheme
   } = useSelector(themeStates)
 
-  return <section className={'bg-stockton bg-cover bg-no-repeat bg-center'}>
+  return <section className={'bg-stockton-mobile lg:bg-stockton-desktop bg-cover bg-no-repeat bg-center'}>
     <div className={stringUtility.merge([
       'container-layout feature-py section-px'
     ])}>
