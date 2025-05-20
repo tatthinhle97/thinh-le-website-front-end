@@ -72,11 +72,7 @@ View the [TypeScript compilerOptions documentation](https://www.typescriptlang.o
 
 ## Main flow
 
-The base template is written in the `index.html` file. The browser loads this file first, which includes a
-`<div id="root">` that acts as the mounting point for the React application. It then loads the `main.jsx` file as the
-first JavaScript entry point. Inside `main.jsx`, the React app is initialized by rendering the root component —
-`layout.jsx` — into the DOM. `Layout.jsx` is the first React component and serves as the top-level component of the
-application.
+
 
 ## `sitemap.xml` generator
 

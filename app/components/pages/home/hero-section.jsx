@@ -30,7 +30,8 @@ export default function HeroSection() {
       <article className={stringUtility.merge([
         backgroundTheme.opacity.ninety.primaryColor,
         'rounded-big-1',
-        'max-w-2xl lg:max-w-(--breakpoint-md) p-12 transition-max-width'
+        // Set min height to avoid layout shift
+        'max-w-2xl lg:max-w-(--breakpoint-md) min-h-120 p-12 transition-max-width'
       ])}>
         <p className={stringUtility.merge([
           'inline-block py-1 px-2 relative',
