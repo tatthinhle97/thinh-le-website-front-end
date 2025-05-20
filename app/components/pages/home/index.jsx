@@ -9,7 +9,7 @@ export function meta() {
 }
 
 export default function HomePage() {
-  return <>
+  return <main>
     <HeroSection />
-  </>
+  </main>
 }

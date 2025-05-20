@@ -2,9 +2,9 @@
 import {useSelector} from 'react-redux'
 import {Scripts, ScrollRestoration} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
-import stringUtility from "../utilities/string.jsx";
-import Footer from "./footer.jsx";
-import Header from "./header.jsx";
+import stringUtility from '../utilities/string.jsx'
+import Footer from './footer.jsx'
+import Header from './header.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -24,9 +24,7 @@ export default function Body({children}) {
       textTheme.secondaryColor
     ])}>
     <Header />
-    <main>
-      {children}
-    </main>
+    {children}
     <Footer />
     <ScrollRestoration />
     <Scripts />
