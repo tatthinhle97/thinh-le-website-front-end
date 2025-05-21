@@ -1,3 +1,6 @@
+import {Search01Icon} from '@hugeicons-pro/core-solid-rounded'
+import {HugeiconsIcon} from '@hugeicons/react'
+import {AdvancedMarker} from '@vis.gl/react-google-maps'
 import {useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
@@ -9,8 +12,8 @@ import projectConstant from '../../../../constants/project.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import SaleAndRentalListingsContext from '../../../../contexts/sale-and-rental-listings.jsx'
+import GoogleMap from '../../../maps/google/index.jsx'
 import PanelBar from './panel-bar.jsx'
-import LeafletMap from '../../../map.jsx'
 
 export function meta() {
   return [
@@ -119,8 +122,7 @@ export default function SaleAndRentalListingsPage({
         'mt-12 relative'
       ])}>
       <SaleAndRentalListingsContext.Provider
-        value={{
-          listings, setListings,
+        value={{listings, setListings,
           searchPanelRef, filterPanelRef,
           isSearchFormValidationEnabled, setIsSearchFormValidationEnabled,
           togglePanel
@@ -164,7 +166,14 @@ export default function SaleAndRentalListingsPage({
           </div>
           <div className={'flex flex-col lg:flex-row content-gap'}>
             <div className={'basis-1/2'}>test</div>
-            <LeafletMap className={'basis-1/2'} />
+            <GoogleMap
+              locations={listings}
+              getTitle={(_location) => _location.formattedAddress}
+              getLatitude={(_location) => _location.latitude}
+              getLongitude={(_location) => _location.longitude}
+              // TODO: Use different icons for different listing types
+              icon={<HugeiconsIcon icon={Search01Icon} />}
+              className={'basis-1/2'} />
           </div>
         </section>
       </SaleAndRentalListingsContext.Provider>

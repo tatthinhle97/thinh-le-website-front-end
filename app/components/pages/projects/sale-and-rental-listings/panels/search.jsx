@@ -133,7 +133,6 @@ export default function SearchPanel({
 
     const formData = new FormData(_event.target)
     const data = Object.fromEntries(formData.entries())
-    console.log(data)
 
     // Add additional logic from parent component
     togglePanel(panelName.search)

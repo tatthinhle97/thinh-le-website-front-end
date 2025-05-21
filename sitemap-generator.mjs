@@ -29,7 +29,6 @@ export async function generateSitemap() {
   sitemap.end();
 
   await streamToPromise(sitemap);
-  console.log('✅ Sitemap generated at /public/sitemap.xml');
 }
 
 // Run the function if the file is executed directly

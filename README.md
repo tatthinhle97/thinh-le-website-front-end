@@ -134,6 +134,31 @@ npm install @headlessui/react
 npm install typed.js
 ```
 
+# Map with Google
+
+Follow the instructions on [Add a Google map to a React app](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js)page.
+
+Install these packages:
+
+```bash
+npm install @vis.gl/react-google-maps
+npm i @googlemaps/markerclusterer
+```
+
+Create an API key on [Google Console](https://console.cloud.google.com/).
+
+## Map ID
+
+A map ID is a unique identifier that represents Google Map styling and configuration settings that are stored in Google Cloud.<br>
+Go to [Maps Management](https://console.cloud.google.com/google/maps-apis/studio/maps?_gl=1*k98g7u*_ga*MTU5MTEzMTk3LjE3NDc4MjU5NjM.*_ga_NRWSTWS78N*czE3NDc4MzIxODUkbzMkZzEkdDE3NDc4MzM3NTgkajAkbDAkaDA.) page to create a map ID.
+
+Note: Using a Map ID on Maps SDK for Android or Maps SDK for iOS triggers a map load that is charged against the Dynamic Maps SKU. See [Google Maps Billing](https://developers.google.com/maps/billing-and-pricing/pricing#dynamic-maps) for more information.
+
+## Quick links
+
+- [Map component](https://visgl.github.io/react-google-maps/docs/api-reference/components/map)
+- [Advanced markers](https://visgl.github.io/react-google-maps/docs/api-reference/components/advanced-marker-)
+
 # Design handbook
 
 ## Avoid Largest Contentful Paint (LCP)
