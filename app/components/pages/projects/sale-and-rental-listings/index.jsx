@@ -10,6 +10,7 @@ import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import SaleAndRentalListingsContext from '../../../../contexts/sale-and-rental-listings.jsx'
 import PanelBar from './panel-bar.jsx'
+import LeafletMap from '../../../map.jsx'
 
 export function meta() {
   return [
@@ -163,6 +164,7 @@ export default function SaleAndRentalListingsPage({
           </div>
           <div className={'flex flex-col lg:flex-row content-gap'}>
             <div className={'basis-1/2'}>test</div>
+            <LeafletMap className={'basis-1/2'} />
           </div>
         </section>
       </SaleAndRentalListingsContext.Provider>

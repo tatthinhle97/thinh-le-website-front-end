@@ -3,8 +3,8 @@ import 'leaflet/dist/leaflet.css'
 import {useContext, useEffect, useRef} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import SaleAndRentalListingsContext from '../../../../contexts/sale-and-rental-listings.jsx'
-import stringUtility from '../../../../utilities/string.jsx'
+import SaleAndRentalListingsContext from '../contexts/sale-and-rental-listings.jsx'
+import stringUtility from '../utilities/string.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -16,7 +16,7 @@ const themeStates = createStructuredSelector(
 )
 
 // This component is only used in sale and rental listings project
-export default function Map({className}) {
+export default function LeafletMap({className}) {
   const {
     backgroundTheme,
     textTheme
@@ -24,34 +24,18 @@ export default function Map({className}) {
 
   const mapContainerRef = useRef(null)
   const {listings} = useContext(SaleAndRentalListingsContext)
+  console.log('listings', listings)
 
   useEffect(() => {
-    let map = undefined
+    const map = L.map(mapContainerRef.current).setView([51.505, -0.09], 13)
 
-    if (L && mapContainerRef.current) {
-      /* Initialize the map */
-      map = L
-        .map(mapContainerRef.current)
-
-      /* Add tile */
-      const creditLink = 'http://www.openstreetmap.org/copyright'
-
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: `&copy; <a href="${creditLink}">OpenStreetMap</a>`
-      }).addTo(map)
-
-      const bounds = L.latLngBounds() // Create a bounds object to hold all marker positions
-
-      // Adjust the map view to fit the bounds
-      if (bounds.isValid()) {
-        map.fitBounds(bounds, {padding: [20, 20]})
-      }
-    }
-
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map)
     // Cleanup on unmount
     return () => {
-      map?.remove()
+      map.remove()
     }
   }, [
     backgroundTheme.accentColor700,

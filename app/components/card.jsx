@@ -14,7 +14,6 @@ const themeStates = createStructuredSelector(
 
 export default function Card({
   link,
-  isExternalLink = false,
   backgroundImageClass,
   date,
   tags,
