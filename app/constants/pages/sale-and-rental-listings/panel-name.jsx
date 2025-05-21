@@ -1,6 +1,6 @@
-const panelName = {
+const panelNameConstant = {
   search: 1,
   filter: 2
 }
 
-export default panelName
+export default panelNameConstant

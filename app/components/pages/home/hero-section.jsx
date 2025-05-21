@@ -63,14 +63,14 @@ export default function HeroSection() {
             className={'button-link-icon-text min-w-fit justify-center'}
             href={pageMetadataConstant.projects.path}
             isExternalLink={false}>
-            <HugeiconsIcon icon={SourceCodeCircleIcon} />
+            <HugeiconsIcon icon={SourceCodeCircleIcon} className={'wh-normal'} />
             Projects
           </PrimaryLinkButton>
           <SecondaryLinkButton
             ariaLabel={'Download resume'}
             className={'button-link-icon-text min-w-fit justify-center'}
             href={'https://drive.google.com/file/d/1xFrFyALouO559dB6mST_BbmfoqLRRy0-/view?usp=sharing'}>
-            <HugeiconsIcon icon={DownloadCircle01Icon} />
+            <HugeiconsIcon icon={DownloadCircle01Icon} className={'wh-normal'} />
             Resume
           </SecondaryLinkButton>
         </div>

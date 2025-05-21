@@ -72,7 +72,7 @@ View the [TypeScript compilerOptions documentation](https://www.typescriptlang.o
 
 ## Main flow
 
-
+In a React Router v7 app, the main flow begins by wrapping the application with a router component like `<BrowserRouter>`, which enables routing capabilities. Inside this, routes are defined using the `<Routes>` component, with individual `<Route>` elements specifying a path and the component to render. Navigation between routes is handled using `<Link>` or programmatically through the `useNavigate` hook. Route-related data such as URL parameters, query strings, and location info can be accessed using hooks like `useParams`, `useSearchParams`, and `useLocation`. For nested routing, the `<Outlet>` component renders child routes in the parent layout. Additionally, React Router supports advanced features like route loaders, actions, and the useRoutes hook for dynamic route configurations.
 
 ## `sitemap.xml` generator
 
@@ -133,6 +133,20 @@ npm install @headlessui/react
 ```
 npm install typed.js
 ```
+
+# Design handbook
+
+## Avoid Largest Contentful Paint (LCP)
+
+Largest Contentful Paint (LCP) is one of the three Core Web Vitals metrics, and it represents how quickly the main content of a web page is loaded. Click [here](https://web.dev/articles/optimize-lcp#how-to-optimize-each-part) for how to optimize LCP.
+
+Example: Loading images with big size will consume time -> Optimize images with WebP or AVIF formats.
+
+## Cumulative Layout Shift (CLS)
+
+CLS is a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifecycle of a page. Click [here](https://web.dev/articles/optimize-lcp#how-to-optimize-each-part) for how to optimize LCP.
+
+Example: a footer component in a layout component will be shifted down when the page content is loaded.
 
 # Coding handbook
 

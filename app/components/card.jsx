@@ -1,4 +1,5 @@
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
 import dateTimeUtility from '../utilities/datetime.jsx'
 import stringUtility from '../utilities/string.jsx'
@@ -13,6 +14,7 @@ const themeStates = createStructuredSelector(
 
 export default function Card({
   link,
+  isExternalLink = false,
   backgroundImageClass,
   date,
   tags,
@@ -25,14 +27,16 @@ export default function Card({
   } = useSelector(themeStates)
 
   return <article className={'flex flex-col content-gap'}>
-    <a
+    <Link
       aria-label={description}
-      href={link}
       className={stringUtility.merge([
         'block aspect-3/2 bg-contain rounded-big-1',
         backgroundImageClass
-      ])}>
-    </a>
+      ])}
+      to={{
+        pathname: link
+      }}>
+    </Link>
     <div className='flex flex-col'>
       <time
         dateTime={date}

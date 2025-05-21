@@ -1,39 +1,28 @@
-import {MoneyBag02Icon} from '@hugeicons/react'
+import {HugeiconsIcon} from '@hugeicons/react'
+import {MoneyBag02Icon} from '@hugeicons-pro/core-solid-rounded'
 
 const bestDeal = {
   id: 0,
   title: 'Best deal',
-  icon: <MoneyBag02Icon
-    className={'wh-big-4'}
-    size={'100%'}
-    variant={'solid'}
-    type={'rounded'} />
+  icon: <HugeiconsIcon icon={MoneyBag02Icon} className={'wh-big-4'} />
 }
 
 const medianPrice = {
   id: 1,
   title: 'Median price',
-  icon: <MoneyBag02Icon
-    className={'wh-big-4'}
-    size={'100%'}
-    variant={'solid'}
-    type={'rounded'} />
+  icon: <HugeiconsIcon icon={MoneyBag02Icon} className={'wh-big-4'} />
 }
 
 const mostExpensive = {
   id: 2,
   title: 'Most expensive',
-  icon: <MoneyBag02Icon
-    className={'wh-big-4'}
-    size={'100%'}
-    variant={'solid'}
-    type={'rounded'} />
+  icon: <HugeiconsIcon icon={MoneyBag02Icon} className={'wh-big-4'} />
 }
 
 const allValueBoxes = [bestDeal, medianPrice, mostExpensive]
 
-const valueBox = {
+const valueBoxConstant = {
   bestDeal, medianPrice, mostExpensive, allValueBoxes
 }
 
-export default valueBox
+export default valueBoxConstant
