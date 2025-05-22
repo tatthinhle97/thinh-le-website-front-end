@@ -63,7 +63,6 @@ export default function RangeSlider({
       cssClasses: {
         target: stringUtility.merge([
           'noUi-target rounded-full border',
-          backgroundTheme.primaryColor,
           borderTheme.secondaryColor300
         ]),
         base: 'noUi-base w-full h-full relative z-1',
@@ -117,7 +116,6 @@ export default function RangeSlider({
           'noUi-tooltip absolute py-0.5 px-1 border rounded-small-1',
           'text-center whitespace-nowrap -translate-x-1/2 left-1/2',
           'bottom-5 lg:bottom-6.25',
-          backgroundTheme.primaryColor,
           borderTheme.secondaryColor300,
           tooltipClassName
         ])

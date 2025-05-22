@@ -11,9 +11,6 @@ export function meta() {
 
 export default function AboutPage() {
   return <>
-    <main>
-      <HeroSection />
-    </main>
-    <Footer />
+    <HeroSection />
   </>
 }

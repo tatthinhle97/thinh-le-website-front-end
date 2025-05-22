@@ -19,12 +19,15 @@ export default function Body({children}) {
 
   return <body
     className={stringUtility.merge([
-      'min-w-80 relative text-normal',
+      'min-w-80 relative text-normal grid min-h-dvh grid-rows-[auto_auto_1fr_auto]',
       backgroundTheme.primaryColor,
       textTheme.secondaryColor
     ])}>
     <Header />
-    {children}
+    <main>
+      {children}
+    </main>
+    <Footer />
     <ScrollRestoration />
     <Scripts />
   </body>

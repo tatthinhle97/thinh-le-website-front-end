@@ -12,10 +12,7 @@ export function meta() {
 
 export default function ProjectsPage() {
   return <>
-    <main>
-      <HeroSection />
-      <Projects />
-    </main>
-    <Footer />
+    <HeroSection />
+    <Projects />
   </>
 }

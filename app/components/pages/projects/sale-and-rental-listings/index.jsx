@@ -1,7 +1,13 @@
-import {Search01Icon} from '@hugeicons-pro/core-solid-rounded'
+import {
+  Building05Icon,
+  FactoryIcon,
+  Home01Icon,
+  House01Icon,
+  House05Icon, PinLocation03Icon,
+  RealEstate01Icon
+} from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
-import {AdvancedMarker} from '@vis.gl/react-google-maps'
-import {useRef, useState} from 'react'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import saleAndRentalListingsApi from '../../../../apis/sale-and-rental-listings.js'
@@ -9,6 +15,7 @@ import pageMetadataConstant from '../../../../constants/metadata/page.jsx'
 import panelNameConstant from '../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
 import valueBoxConstant from '../../../../constants/pages/sale-and-rental-listings/value-box.jsx'
 import projectConstant from '../../../../constants/project.jsx'
+import rentCastConstant from '../../../../constants/rentcast.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import SaleAndRentalListingsContext from '../../../../contexts/sale-and-rental-listings.jsx'
@@ -22,10 +29,6 @@ export function meta() {
   ]
 }
 
-export async function clientLoader() {
-  return await saleAndRentalListingsApi.getInitialSaleListings()
-}
-
 const themeStates = createStructuredSelector(
   {
     backgroundTheme: (_state) => _state.backgroundTheme,
@@ -35,9 +38,7 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function SaleAndRentalListingsPage({
-  loaderData
-}) {
+export default function SaleAndRentalListingsPage() {
   const {
     backgroundTheme,
     borderTheme,
@@ -47,10 +48,17 @@ export default function SaleAndRentalListingsPage({
   const searchPanelRef = useRef(null)
   const filterPanelRef = useRef(null)
 
-  const [listings, setListings] = useState(loaderData)
+  const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState({
+    locations: [],
+    coordinates: []
+  })
   const [activePanelName, setActivePanelName] = useState(undefined)
   const [isSearchFormValidationEnabled, setIsSearchFormValidationEnabled]
       = useState(false)
+
+  useEffect(() => {
+    saleAndRentalListingsApi.getInitialSaleListings().then(data => setSaleAndRentalListingsDto(data))
+  }, [])
 
   const getPanelByName = (_panelName) => {
     switch (_panelName) {
@@ -109,6 +117,43 @@ export default function SaleAndRentalListingsPage({
       return backgroundTheme.invalid600
     }
   }
+  console.log('saleAndRentalListingsDto.locations', saleAndRentalListingsDto.locations)
+  const locations = useMemo(() =>
+    saleAndRentalListingsDto.locations, [saleAndRentalListingsDto.locations])
+
+  console.log('saleAndRentalListingsDto.coordinates', saleAndRentalListingsDto.coordinates)
+  const coordinates = useMemo(() =>
+    saleAndRentalListingsDto.coordinates, [saleAndRentalListingsDto.coordinates])
+
+  const createMapIcon = useCallback((_icon) => {
+    return <div className={stringUtility.merge([
+      'flex items-center justify-center',
+      backgroundTheme.valid600,
+      'rounded-full p-1.5 text-white'
+    ])}>
+      {_icon}
+    </div>
+  }, [backgroundTheme.valid600])
+
+  const getMapIconByPropertyType = useCallback((_propertyType) => {
+    const iconSize = 18
+    switch (_propertyType) {
+    case rentCastConstant.propertyType.singleFamily:
+      return createMapIcon(<HugeiconsIcon icon={Home01Icon} size={iconSize} />)
+    case rentCastConstant.propertyType.multiFamily:
+      return createMapIcon(<HugeiconsIcon icon={House05Icon} size={iconSize} />)
+    case rentCastConstant.propertyType.condo:
+      return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} size={iconSize} />)
+    case rentCastConstant.propertyType.townhouse:
+      return createMapIcon(<HugeiconsIcon icon={House01Icon} size={iconSize} />)
+    case rentCastConstant.propertyType.manufactured:
+      return createMapIcon(<HugeiconsIcon icon={FactoryIcon} size={iconSize} />)
+    case rentCastConstant.propertyType.apartment:
+      return createMapIcon(<HugeiconsIcon icon={Building05Icon} size={iconSize} />)
+    default: // land
+      return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} size={iconSize} />)
+    }
+  }, [createMapIcon])
 
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
@@ -122,7 +167,7 @@ export default function SaleAndRentalListingsPage({
         'mt-12 relative'
       ])}>
       <SaleAndRentalListingsContext.Provider
-        value={{listings, setListings,
+        value={{saleAndRentalListingsDto, setSaleAndRentalListingsDto,
           searchPanelRef, filterPanelRef,
           isSearchFormValidationEnabled, setIsSearchFormValidationEnabled,
           togglePanel
@@ -167,12 +212,9 @@ export default function SaleAndRentalListingsPage({
           <div className={'flex flex-col lg:flex-row content-gap'}>
             <div className={'basis-1/2'}>test</div>
             <GoogleMap
-              locations={listings}
-              getTitle={(_location) => _location.formattedAddress}
-              getLatitude={(_location) => _location.latitude}
-              getLongitude={(_location) => _location.longitude}
-              // TODO: Use different icons for different listing types
-              icon={<HugeiconsIcon icon={Search01Icon} />}
+              locations={locations}
+              coordinates={coordinates}
+              onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
               className={'basis-1/2'} />
           </div>
         </section>
