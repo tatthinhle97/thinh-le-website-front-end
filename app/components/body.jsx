@@ -19,6 +19,7 @@ export default function Body({children}) {
 
   return <body
     className={stringUtility.merge([
+      // Define grid in body tag to prevent the layout shift issue
       'min-w-80 relative text-normal grid min-h-dvh grid-rows-[auto_auto_1fr_auto]',
       backgroundTheme.primaryColor,
       textTheme.secondaryColor
