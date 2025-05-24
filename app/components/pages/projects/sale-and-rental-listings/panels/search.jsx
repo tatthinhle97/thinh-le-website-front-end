@@ -1,11 +1,10 @@
 import {HugeiconsIcon} from '@hugeicons/react'
 import {Search01Icon} from '@hugeicons-pro/core-solid-rounded'
-import {useContext, useEffect, useMemo, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import locationApi from '../../../../../apis/location.js'
-import panelName from '../../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
-import SaleAndRentalListingsContext from '../../../../../contexts/sale-and-rental-listings.jsx'
+import rentCastConstant from '../../../../../constants/rentcast.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
 import PrimaryButton from '../../../../buttons/primary.jsx'
 import ComboBox from '../../../../combo-box.jsx'
@@ -13,30 +12,26 @@ import NumberInput from '../../../../inputs/number.jsx'
 
 const themeStates = createStructuredSelector(
   {
-    backgroundTheme: (_state) => _state.backgroundTheme
+    backgroundTheme: (_state) => _state.backgroundTheme,
+    borderTheme: (_state) => _state.borderTheme
   },
   createSelector
 )
 
-const propertyTypeOptions = [
-  'Single Family', 'Multi-Family', 'Condo', 'Townhouse', 'Manufactured',
-  'Apartment', 'Land'
-]
+const propertyTypeOptions = Object.values(rentCastConstant.propertyType)
 
-const forOptions = ['Sale', 'Rent']
+const forOptions = ['Rent', 'Sale']
 
 export default function SearchPanel({
+  ref,
+  onFormSubmit,
+  shouldValidateForm = false,
   className
 }) {
   const {
-    backgroundTheme
+    backgroundTheme,
+    borderTheme
   } = useSelector(themeStates)
-
-  const {
-    searchPanelRef,
-    togglePanel,
-    isSearchFormValidationEnabled, setIsSearchFormValidationEnabled
-  } = useContext(SaleAndRentalListingsContext)
 
   const [states, setStates] = useState([])
   const [cityNames, setCityNames] = useState([])
@@ -121,27 +116,11 @@ export default function SearchPanel({
     setNumberOfBathRoomsValue(_event.target.value)
   }
 
-  const onFormSubmit = (_event) => {
-    _event.preventDefault()
-
-    if (!_event.target.checkValidity()) {
-      setIsSearchFormValidationEnabled(true)
-      return
-    }
-
-    setIsSearchFormValidationEnabled(false)
-
-    const formData = new FormData(_event.target)
-    const data = Object.fromEntries(formData.entries())
-
-    // Add additional logic from parent component
-    togglePanel(panelName.search)
-  }
-
   return <section
-    ref={searchPanelRef}
+    ref={ref}
     className={stringUtility.merge([
       'p-4 border border-t-0',
+      borderTheme.secondaryColor300,
       backgroundTheme.primaryColor,
       className
     ])}>
@@ -153,7 +132,7 @@ export default function SearchPanel({
             containerClassName={'basis-1/2'}
             id={'state'}
             isRequired={true}
-            isValidationEnabled={isSearchFormValidationEnabled}
+            shouldValidate={shouldValidateForm}
             label={'State'}
             name={'state'}
             onComboBoxClose={() => setStateNameValue('')}
@@ -167,7 +146,7 @@ export default function SearchPanel({
             containerClassName={'basis-1/2'}
             id={'city'}
             isRequired={true}
-            isValidationEnabled={isSearchFormValidationEnabled}
+            shouldValidate={shouldValidateForm}
             isVirtualScrolling={true}
             label={'City'}
             name={'city'}
@@ -213,7 +192,7 @@ export default function SearchPanel({
           <NumberInput
             containerClassName={'basis-1/2'}
             id={'numberOfBedRooms'}
-            isValidationEnabled={isSearchFormValidationEnabled}
+            shouldValidate={shouldValidateForm}
             label={'Number of bedrooms'}
             min={1}
             name={'numberOfBedRooms'}
@@ -223,7 +202,7 @@ export default function SearchPanel({
           <NumberInput
             containerClassName={'basis-1/2'}
             id={'numberOfBathRooms'}
-            isValidationEnabled={isSearchFormValidationEnabled}
+            shouldValidate={shouldValidateForm}
             label={'Number of bathrooms'}
             min={1}
             name={'numberOfBathRooms'}

@@ -1,4 +1,4 @@
-// Component to add markers and auto-fit bounds
+// Dumb component to add markers and auto-fit bounds
 import {useMap} from '@vis.gl/react-google-maps'
 import {useEffect} from 'react'
 

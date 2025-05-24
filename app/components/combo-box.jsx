@@ -30,7 +30,7 @@ export default function ComboBox({
   isReadonly = false,
   isRequired = false,
   // If true, it will apply default built-in validation, and have :invalid state
-  isValidationEnabled = false,
+  shouldValidate = false,
   // Should enable when having a large options
   isVirtualScrolling = false,
   label,
@@ -138,7 +138,7 @@ export default function ComboBox({
             isReadonly ? 'cursor-default' : '',
             'w-full rounded-normal py-2 pl-4',
             'outline-solid outline-1 focus:outline-2 focus:outline-offset-1',
-            isValidationEnabled
+            shouldValidate
               ? stringUtility.merge([
                 'invalid:outline-2 invalid:outline-offset-1',
                 outlineTheme.invalid600
@@ -157,7 +157,7 @@ export default function ComboBox({
           <HugeiconsIcon icon={ArrowDown01Icon} className={'wh-small-2 ml-auto'} />
         </ComboboxButton>
       </div>
-      {renderUtility.renderIfTrue(isValidationEnabled, <p
+      {renderUtility.renderIfTrue(shouldValidate, <p
         className={stringUtility.merge([
           'mt-2 text-small-1 hidden peer-has-invalid:block',
           textTheme.invalid600

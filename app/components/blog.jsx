@@ -28,7 +28,7 @@ export default function Blog({
         className={textTheme.secondaryColor600}>
         {dateTimeUtility.formatLongDate(dateCreated)}
       </time>
-      <h1 className={'text-big-4 font-bold mt-2'}>
+      <h1 className={'text-big-4 font-bold mt-2 mb-12'}>
         {title}
       </h1>
       {children}

@@ -7,18 +7,16 @@ import {
   RealEstate01Icon
 } from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import saleAndRentalListingsApi from '../../../../apis/sale-and-rental-listings.js'
 import pageMetadataConstant from '../../../../constants/metadata/page.jsx'
-import panelNameConstant from '../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
 import valueBoxConstant from '../../../../constants/pages/sale-and-rental-listings/value-box.jsx'
 import projectConstant from '../../../../constants/project.jsx'
 import rentCastConstant from '../../../../constants/rentcast.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
-import SaleAndRentalListingsContext from '../../../../contexts/sale-and-rental-listings.jsx'
 import GoogleMap from '../../../maps/google/index.jsx'
 import PanelBar from './panel-bar.jsx'
 
@@ -45,66 +43,20 @@ export default function SaleAndRentalListingsPage() {
     textTheme
   } = useSelector(themeStates)
 
-  const searchPanelRef = useRef(null)
-  const filterPanelRef = useRef(null)
-
   const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState({
     locations: [],
     coordinates: []
   })
-  const [activePanelName, setActivePanelName] = useState(undefined)
-  const [isSearchFormValidationEnabled, setIsSearchFormValidationEnabled]
-      = useState(false)
 
   useEffect(() => {
     saleAndRentalListingsApi.getInitialSaleListings().then(data => setSaleAndRentalListingsDto(data))
   }, [])
 
-  const getPanelByName = (_panelName) => {
-    switch (_panelName) {
-    case panelNameConstant.search:
-      return searchPanelRef.current
-    default: // 'filter'
-      return filterPanelRef.current
-    }
-  }
-
-  const showPanelByName = (_panelName) => {
-    const panelElement = getPanelByName(_panelName)
-
-    if (panelElement.classList.contains('hidden')) {
-      panelElement.classList.toggle('hidden')
-      setActivePanelName(_panelName)
-    }
-  }
-
-  const hidePanelByName = (_panelName) => {
-    const panelElement = getPanelByName(_panelName)
-
-    if (!panelElement.classList.contains('hidden')) {
-      panelElement.classList.toggle('hidden')
-      setActivePanelName(undefined)
-    }
-  }
-
-  const togglePanel = (_panelName) => {
-    if (activePanelName) {
-      if (activePanelName === _panelName) {
-        hidePanelByName(activePanelName)
-      } else {
-        hidePanelByName(activePanelName)
-        showPanelByName(_panelName)
-      }
-    } else {
-      showPanelByName(_panelName)
-    }
-  }
-
   const onContentContainerClick = () => {
-    Object.values(panelNameConstant).forEach((_panelName) => {
-      hidePanelByName(_panelName)
-    })
-    setIsSearchFormValidationEnabled(false)
+    // Object.values(panelNameConstant).forEach((_panelName) => {
+    //   hidePanelByName(_panelName)
+    // })
+    // setIsSearchFormValidationEnabled(false)
   }
 
   const renderValueBoxBackgroundColorById = (_id) => {
@@ -117,11 +69,10 @@ export default function SaleAndRentalListingsPage() {
       return backgroundTheme.invalid600
     }
   }
-  console.log('saleAndRentalListingsDto.locations', saleAndRentalListingsDto.locations)
+
   const locations = useMemo(() =>
     saleAndRentalListingsDto.locations, [saleAndRentalListingsDto.locations])
 
-  console.log('saleAndRentalListingsDto.coordinates', saleAndRentalListingsDto.coordinates)
   const coordinates = useMemo(() =>
     saleAndRentalListingsDto.coordinates, [saleAndRentalListingsDto.coordinates])
 
@@ -162,63 +113,53 @@ export default function SaleAndRentalListingsPage() {
       'relative',
       borderTheme.secondaryColor300
     ])}>
-    <section
-      className={stringUtility.merge([
-        'mt-12 relative'
-      ])}>
-      <SaleAndRentalListingsContext.Provider
-        value={{saleAndRentalListingsDto, setSaleAndRentalListingsDto,
-          searchPanelRef, filterPanelRef,
-          isSearchFormValidationEnabled, setIsSearchFormValidationEnabled,
-          togglePanel
-        }}>
-        <PanelBar />
-        <section
-          className={stringUtility.merge([
-            'p-4 border border-t-0 flex flex-col gap-4',
-            backgroundTheme.primaryColor
-          ])}
-          onClick={onContentContainerClick}>
-          {/* Value boxes */}
-          <div className={'flex flex-col md:flex-row gap-4'}>
-            {valueBoxConstant.allValueBoxes.map(
-              (_valueBox, _index) => {
-                return <section
-                  key={_index}
+    <section>
+      <PanelBar />
+      <section
+        className={stringUtility.merge([
+          'p-4 border border-t-0 flex flex-col gap-4',
+          backgroundTheme.primaryColor
+        ])}
+        onClick={onContentContainerClick}>
+        {/* Value boxes */}
+        <div className={'flex flex-col md:flex-row gap-4'}>
+          {valueBoxConstant.allValueBoxes.map(
+            (_valueBox, _index) => {
+              return <section
+                key={_index}
+                className={stringUtility.merge([
+                  'basis-1/3 p-4 border rounded-big-1',
+                  'flex content-gap items-center',
+                  borderTheme.secondaryColor300
+                ])}>
+                <div
                   className={stringUtility.merge([
-                    'basis-1/3 p-4 border rounded-big-1',
-                    'flex content-gap items-center',
-                    borderTheme.secondaryColor300
+                    renderValueBoxBackgroundColorById(_valueBox.id),
+                    'p-2 w-fit rounded-normal h-fit',
+                    textTheme.primaryColor
                   ])}>
-                  <div
-                    className={stringUtility.merge([
-                      renderValueBoxBackgroundColorById(_valueBox.id),
-                      'p-2 w-fit rounded-normal h-fit',
-                      textTheme.primaryColor
-                    ])}>
-                    {_valueBox.icon}
-                  </div>
-                  <div className={stringUtility.merge([
-                    'flex flex-col'
-                  ])}>
-                    <p className={stringUtility.merge([
-                      textTheme.secondaryColor600
-                    ])}>{_valueBox.title}</p>
-                    <p className={'mt-1 text-big-2 font-bold'}>$ 4,000,000</p>
-                  </div>
-                </section>
-              })}
-          </div>
-          <div className={'flex flex-col lg:flex-row content-gap'}>
-            <div className={'basis-1/2'}>test</div>
-            <GoogleMap
-              locations={locations}
-              coordinates={coordinates}
-              onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
-              className={'basis-1/2'} />
-          </div>
-        </section>
-      </SaleAndRentalListingsContext.Provider>
+                  {_valueBox.icon}
+                </div>
+                <div className={stringUtility.merge([
+                  'flex flex-col'
+                ])}>
+                  <p className={stringUtility.merge([
+                    textTheme.secondaryColor600
+                  ])}>{_valueBox.title}</p>
+                  <p className={'mt-1 text-big-2 font-bold'}>$ 4,000,000</p>
+                </div>
+              </section>
+            })}
+        </div>
+        <div className={'flex flex-col lg:flex-row content-gap'}>
+          <div className={'basis-1/2'}>test</div>
+          <GoogleMap
+            locations={locations}
+            coordinates={coordinates}
+            onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
+            className={'basis-1/2'} />
+        </div>
+      </section>
     </section>
   </Blog>
 }

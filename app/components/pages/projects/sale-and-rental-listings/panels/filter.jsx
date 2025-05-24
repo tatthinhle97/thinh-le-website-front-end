@@ -1,27 +1,24 @@
-import {useContext} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import SaleAndRentalListingsContext from '../../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
 import RangeSlider from '../../../../range-slider/index.jsx'
 
 const themeStates = createStructuredSelector(
   {
-    backgroundTheme: (_state) => _state.backgroundTheme
+    backgroundTheme: (_state) => _state.backgroundTheme,
+    borderTheme: (_state) => _state.borderTheme
   },
   createSelector
 )
 
 export default function FilterPanel({
+  ref,
   className
 }) {
   const {
-    backgroundTheme
+    backgroundTheme,
+    borderTheme
   } = useSelector(themeStates)
-
-  const {
-    filterPanelRef
-  } = useContext(SaleAndRentalListingsContext)
 
   const onPriceRangeChange = (handleValues) => {
   }
@@ -42,9 +39,10 @@ export default function FilterPanel({
   }
 
   return <section
-    ref={filterPanelRef}
+    ref={ref}
     className={stringUtility.merge([
       'p-4 border border-t-0',
+      borderTheme.secondaryColor300,
       backgroundTheme.primaryColor,
       className
     ])}>

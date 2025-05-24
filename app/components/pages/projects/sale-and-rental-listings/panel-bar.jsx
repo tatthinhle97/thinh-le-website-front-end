@@ -1,10 +1,9 @@
 import {HugeiconsIcon} from '@hugeicons/react'
 import {PreferenceHorizontalIcon, Search01Icon} from '@hugeicons-pro/core-solid-rounded'
-import {useContext} from 'react'
+import {useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import panelNameConstant from '../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
-import SaleAndRentalListingsContext from '../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import IconButton from '../../../buttons/icon.jsx'
 import FilterPanel from './panels/filter.jsx'
@@ -24,21 +23,80 @@ export default function PanelBar() {
     borderTheme
   } = useSelector(themeStates)
 
-  const {
-    togglePanel,
-    setIsSearchFormValidationEnabled
-  } = useContext(SaleAndRentalListingsContext)
+  const searchPanelRef = useRef(null)
+  const filterPanelRef = useRef(null)
+
+  const [activePanelName, setActivePanelName] = useState(undefined)
+  const [shouldValidateSearchPanel, setShouldValidateSearchPanel] = useState(false)
+
+  const getPanelByName = (_panelName) => {
+    switch (_panelName) {
+    case panelNameConstant.search:
+      return searchPanelRef.current
+    default: // 'filter'
+      return filterPanelRef.current
+    }
+  }
+
+  const showPanelByName = (_panelName) => {
+    const panelElement = getPanelByName(_panelName)
+
+    if (panelElement.classList.contains('hidden')) {
+      panelElement.classList.toggle('hidden')
+      setActivePanelName(_panelName)
+    }
+  }
+
+  const hidePanelByName = (_panelName) => {
+    const panelElement = getPanelByName(_panelName)
+
+    if (!panelElement.classList.contains('hidden')) {
+      panelElement.classList.toggle('hidden')
+      setActivePanelName(undefined)
+    }
+  }
+
+  const togglePanel = (_panelName) => {
+    if (activePanelName) {
+      if (activePanelName === _panelName) {
+        hidePanelByName(activePanelName)
+      } else {
+        hidePanelByName(activePanelName)
+        showPanelByName(_panelName)
+      }
+    } else {
+      showPanelByName(_panelName)
+    }
+  }
 
   const onSearchIconButtonClick = (_event) => {
     _event.preventDefault()
-    setIsSearchFormValidationEnabled(false)
+    setShouldValidateSearchPanel(false)
     togglePanel(panelNameConstant.search)
   }
 
   const onFilterIconButtonClick = (_event) => {
     _event.preventDefault()
-    setIsSearchFormValidationEnabled(false)
+    setShouldValidateSearchPanel(false)
     togglePanel(panelNameConstant.filter)
+  }
+
+  const onSearchPanelFormSubmit = (_event) => {
+    _event.preventDefault()
+
+    if (!_event.target.checkValidity()) {
+      setShouldValidateSearchPanel(true)
+      return
+    }
+
+    setShouldValidateSearchPanel(false)
+
+    const formData = new FormData(_event.target)
+    const data = Object.fromEntries(formData.entries())
+    console.log('TODO:', data)
+
+    // Hide the search panel by toggling the class name
+    togglePanel(panelNameConstant.search)
   }
 
   return <section className={stringUtility.merge([
@@ -64,10 +122,14 @@ export default function PanelBar() {
       </IconButton>
     </div>
     <SearchPanel
+      ref={searchPanelRef}
+      shouldValidateForm={shouldValidateSearchPanel}
+      onFormSubmit={onSearchPanelFormSubmit}
       className={stringUtility.merge([
         'hidden absolute inset-x-0'
       ])} />
     <FilterPanel
+      ref={filterPanelRef}
       className={'hidden absolute inset-x-0'} />
   </section>
 }

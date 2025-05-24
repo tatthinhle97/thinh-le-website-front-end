@@ -1,9 +1,9 @@
 const propertyType = {
   singleFamily: 'Single Family',
+  multiFamily: 'Multi-Family',
   condo: 'Condo',
   townhouse: 'Townhouse',
   manufactured: 'Manufactured',
-  multiFamily: 'Multi-Family',
   apartment: 'Apartment',
   land: 'Land'
 }
