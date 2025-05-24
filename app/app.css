@@ -28,8 +28,8 @@
   --flex-basis-3\/10: 30%;
   --flex-basis-7\/10: 70%;
 
-  --breakpoint-xxs: 320px;
-  --breakpoint-xs: 480px;
+  --breakpoint-xxs: 20rem;
+  --breakpoint-xs: 30rem;
 
   --spacing-19_75: 4.875rem;
 
