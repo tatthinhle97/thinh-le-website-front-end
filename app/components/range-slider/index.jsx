@@ -2,7 +2,6 @@ import noUiSlider from 'nouislider'
 import {useEffect, useRef} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import './style.css'
 import renderUtility from '../../utilities/render.jsx'
 import stringUtility from '../../utilities/string.jsx'
 
