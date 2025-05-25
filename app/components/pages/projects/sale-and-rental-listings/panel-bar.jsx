@@ -1,6 +1,6 @@
 import {HugeiconsIcon} from '@hugeicons/react'
 import {PreferenceHorizontalIcon, Search01Icon} from '@hugeicons-pro/core-solid-rounded'
-import {useRef, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import panelNameConstant from '../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
@@ -23,7 +23,10 @@ export default function PanelBar() {
     borderTheme
   } = useSelector(themeStates)
 
+  const panelRef = useRef(null)
+  const searchButtonRef = useRef(null)
   const searchPanelRef = useRef(null)
+  const filterButtonRef = useRef(null)
   const filterPanelRef = useRef(null)
 
   const [activePanelName, setActivePanelName] = useState(undefined)
@@ -47,14 +50,14 @@ export default function PanelBar() {
     }
   }
 
-  const hidePanelByName = (_panelName) => {
+  const hidePanelByName = useCallback((_panelName) => {
     const panelElement = getPanelByName(_panelName)
 
     if (!panelElement.classList.contains('hidden')) {
       panelElement.classList.toggle('hidden')
       setActivePanelName(undefined)
     }
-  }
+  }, [])
 
   const togglePanel = (_panelName) => {
     if (activePanelName) {
@@ -68,6 +71,35 @@ export default function PanelBar() {
       showPanelByName(_panelName)
     }
   }
+
+  useEffect(() => {
+    const hidePanelWhenClickOutside = (event) => {
+      let clickedOutside = true;
+
+      [
+        searchButtonRef,
+        searchPanelRef,
+        filterButtonRef,
+        filterPanelRef
+      ].forEach((_elementRef) => {
+        if (_elementRef.current && _elementRef.current.contains(event.target)) {
+          clickedOutside = false
+        }
+      })
+
+      if (clickedOutside) {
+        hidePanelByName(activePanelName)
+      }
+    }
+
+    // Add listener when component mounts
+    document.addEventListener('click', hidePanelWhenClickOutside)
+
+    // Cleanup the listener when component unmounts
+    return () => {
+      document.removeEventListener('click', hidePanelWhenClickOutside)
+    }
+  }, [activePanelName, hidePanelByName])
 
   const onSearchIconButtonClick = (_event) => {
     _event.preventDefault()
@@ -99,22 +131,26 @@ export default function PanelBar() {
     togglePanel(panelNameConstant.search)
   }
 
-  return <section className={stringUtility.merge([
-    'sticky top-19 lg:top-20 z-40',
-    backgroundTheme.primaryColor
-  ])}>
+  return <section
+    ref={panelRef}
+    className={stringUtility.merge([
+      'sticky top-19 lg:top-20 z-40',
+      backgroundTheme.primaryColor
+    ])}>
     <div className={stringUtility.merge([
       'border p-4 rounded-t-big-1',
       'flex justify-end gap-4 items-center',
       borderTheme.secondaryColor300
     ])}>
       <IconButton
+        ref={searchButtonRef}
         ariaLabel={'Search icon button'}
         onClick={onSearchIconButtonClick}
         className={'wh-normal'}>
         <HugeiconsIcon icon={Search01Icon} />
       </IconButton>
       <IconButton
+        ref={filterButtonRef}
         ariaLabel={'Filter icon button'}
         onClick={onFilterIconButtonClick}
         className={'wh-normal'}>

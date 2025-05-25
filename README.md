@@ -136,7 +136,7 @@ npm install typed.js
 
 # Map with Google
 
-Follow the instructions on [Add a Google map to a React app](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js)page.
+Follow the instructions on [Add a Google map to a React app](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js) page.
 
 Install these packages:
 
@@ -167,9 +167,9 @@ Largest Contentful Paint (LCP) is one of the three Core Web Vitals metrics, and 
 
 Example: Loading images with big size will consume time -> Optimize images with WebP or AVIF formats.
 
-## Cumulative Layout Shift (CLS)
+## Avoid Cumulative Layout Shift (CLS)
 
-CLS is a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifecycle of a page. Click [here](https://web.dev/articles/optimize-lcp#how-to-optimize-each-part) for how to optimize LCP.
+CLS is a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifecycle of a page. Click [here](https://web.dev/articles/optimize-lcp#how-to-optimize-each-part) for how to optimize CLS.
 
 Example: a footer component in a layout component will be shifted down when the page content is loaded.
 

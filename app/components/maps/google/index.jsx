@@ -19,8 +19,9 @@ export default function GoogleMap({
     ])}>
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
       <Map
-        defaultZoom={13}
-        defaultCenter={{lat: 12.527224, lng: 108.776156}}
+        // onCameraChanged={(e) => console.log(e.detail.zoom)}
+        defaultZoom={4}
+        defaultCenter={{lat: 39.8283, lng: 98.5795}}
         // Required for AdvancedMarker
         mapId={import.meta.env.VITE_GOOGLE_MAP_ID}>
         {/* Render markers */}

@@ -52,13 +52,6 @@ export default function SaleAndRentalListingsPage() {
     saleAndRentalListingsApi.getInitialSaleListings().then(data => setSaleAndRentalListingsDto(data))
   }, [])
 
-  const onContentContainerClick = () => {
-    // Object.values(panelNameConstant).forEach((_panelName) => {
-    //   hidePanelByName(_panelName)
-    // })
-    // setIsSearchFormValidationEnabled(false)
-  }
-
   const renderValueBoxBackgroundColorById = (_id) => {
     switch (_id) {
     case valueBoxConstant.bestDeal.id:
@@ -119,8 +112,7 @@ export default function SaleAndRentalListingsPage() {
         className={stringUtility.merge([
           'p-4 border border-t-0 flex flex-col gap-4',
           backgroundTheme.primaryColor
-        ])}
-        onClick={onContentContainerClick}>
+        ])}>
         {/* Value boxes */}
         <div className={'flex flex-col md:flex-row gap-4'}>
           {valueBoxConstant.allValueBoxes.map(
