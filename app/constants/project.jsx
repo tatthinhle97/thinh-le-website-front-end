@@ -4,7 +4,7 @@ const saleAndRentalListings = {
   path: pageMetadataConstant.saleAndRentalListingsProject.path,
   backgroundImageClass: 'bg-sale-and-rental-listings',
   dateCreated: '2024-12-17',
-  tags: ['Data visualization'],
+  tags: ['Data visualization', 'Google maps'],
   title: pageMetadataConstant.saleAndRentalListingsProject.title,
   description: pageMetadataConstant.saleAndRentalListingsProject.description,
   author: 'Thinh Le'

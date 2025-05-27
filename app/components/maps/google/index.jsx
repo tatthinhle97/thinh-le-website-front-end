@@ -4,13 +4,13 @@ import BoundaryFit from './boundary-fit.jsx'
 
 export default function GoogleMap({
   className = '',
-  locations = [],
-  coordinates = [],
+  locations,
+  coordinates,
   onIconRender,
   isClickable = true,
   markerClassName = ''
 }) {
-  console.log('re-rendered 1')
+  console.log('GOOGLE MAP rerendered')
 
   return <div
     className={stringUtility.merge([
@@ -20,12 +20,12 @@ export default function GoogleMap({
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
       <Map
         // onCameraChanged={(e) => console.log(e.detail.zoom)}
-        defaultZoom={4}
-        defaultCenter={{lat: 39.8283, lng: 98.5795}}
+        defaultZoom={8}
+        defaultCenter={{lat: 40.143, lng: -74.726}}
         // Required for AdvancedMarker
         mapId={import.meta.env.VITE_GOOGLE_MAP_ID}>
         {/* Render markers */}
-        {locations?.map((_location, _index) => <AdvancedMarker
+        {locations.map((_location, _index) => <AdvancedMarker
           key={_index}
           title={_location.title}
           // Format: {lat: number, lng: number}

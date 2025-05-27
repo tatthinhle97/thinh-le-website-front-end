@@ -1,3 +1,4 @@
+import MessengerChatbot from './components/widgets/chat.jsx'
 import store from './redux/store.jsx'
 import {Provider} from 'react-redux'
 import {
@@ -22,6 +23,7 @@ export function Layout({children}) {
       <Provider store={store}>
         <Body>
           {children}
+          <MessengerChatbot />
         </Body>
       </Provider>
     </html>
