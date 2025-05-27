@@ -43,16 +43,13 @@ export default function SaleAndRentalListingsPage() {
     textTheme
   } = useSelector(themeStates)
 
-  const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState({
-    locations: [],
-    coordinates: []
-  })
+  const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState()
 
   useEffect(() => {
     saleAndRentalListingsApi.getInitialSaleListings().then(data => setSaleAndRentalListingsDto(data))
   }, [])
 
-  const renderValueBoxBackgroundColorById = (_id) => {
+  const renderValueBoxBackgroundColorById = useCallback((_id) => {
     switch (_id) {
     case valueBoxConstant.bestDeal.id:
       return backgroundTheme.valid600
@@ -61,13 +58,49 @@ export default function SaleAndRentalListingsPage() {
     default: // 'mostExpensive'
       return backgroundTheme.invalid600
     }
-  }
+  }, [backgroundTheme.invalid600, backgroundTheme.valid600, backgroundTheme.warning400])
 
-  const locations = useMemo(() =>
-    saleAndRentalListingsDto.locations, [saleAndRentalListingsDto.locations])
+  const valueBoxes = useMemo(() => {
+    console.log('VALUE BOXES rerendered')
+    return valueBoxConstant.allValueBoxes.map(
+      (_valueBox, _index) => {
+        return <section
+          key={_index}
+          className={stringUtility.merge([
+            'basis-1/3 p-4 border rounded-big-1',
+            'flex content-gap items-center',
+            borderTheme.secondaryColor300
+          ])}>
+          <div
+            className={stringUtility.merge([
+              renderValueBoxBackgroundColorById(_valueBox.id),
+              'p-2 w-fit rounded-normal h-fit',
+              textTheme.primaryColor
+            ])}>
+            {_valueBox.icon}
+          </div>
+          <div className={stringUtility.merge([
+            'flex flex-col'
+          ])}>
+            <p className={stringUtility.merge([
+              textTheme.secondaryColor600
+            ])}>{_valueBox.title}</p>
+            <p className={'mt-1 text-big-2 font-bold'}>$ 4,000,000</p>
+          </div>
+        </section>
+      })
+  }, [
+    borderTheme.secondaryColor300,
+    renderValueBoxBackgroundColorById,
+    textTheme.primaryColor,
+    textTheme.secondaryColor600
+  ])
 
-  const coordinates = useMemo(() =>
-    saleAndRentalListingsDto.coordinates, [saleAndRentalListingsDto.coordinates])
+  const [locations, coordinates] = useMemo(() => {
+    return saleAndRentalListingsDto
+      ? [saleAndRentalListingsDto.locations, saleAndRentalListingsDto.coordinates]
+      : [[], []]
+  }, [saleAndRentalListingsDto])
 
   const createMapIcon = useCallback((_icon) => {
     return <div className={stringUtility.merge([
@@ -115,33 +148,7 @@ export default function SaleAndRentalListingsPage() {
         ])}>
         {/* Value boxes */}
         <div className={'flex flex-col md:flex-row gap-4'}>
-          {valueBoxConstant.allValueBoxes.map(
-            (_valueBox, _index) => {
-              return <section
-                key={_index}
-                className={stringUtility.merge([
-                  'basis-1/3 p-4 border rounded-big-1',
-                  'flex content-gap items-center',
-                  borderTheme.secondaryColor300
-                ])}>
-                <div
-                  className={stringUtility.merge([
-                    renderValueBoxBackgroundColorById(_valueBox.id),
-                    'p-2 w-fit rounded-normal h-fit',
-                    textTheme.primaryColor
-                  ])}>
-                  {_valueBox.icon}
-                </div>
-                <div className={stringUtility.merge([
-                  'flex flex-col'
-                ])}>
-                  <p className={stringUtility.merge([
-                    textTheme.secondaryColor600
-                  ])}>{_valueBox.title}</p>
-                  <p className={'mt-1 text-big-2 font-bold'}>$ 4,000,000</p>
-                </div>
-              </section>
-            })}
+          {valueBoxes}
         </div>
         <div className={'flex flex-col lg:flex-row content-gap'}>
           <div className={'basis-1/2'}>test</div>

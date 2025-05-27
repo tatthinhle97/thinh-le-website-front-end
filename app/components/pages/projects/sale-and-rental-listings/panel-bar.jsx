@@ -134,7 +134,7 @@ export default function PanelBar() {
   return <section
     ref={panelRef}
     className={stringUtility.merge([
-      'sticky top-19 lg:top-20 z-40',
+      'sticky top-19 lg:top-20 z-1',
       backgroundTheme.primaryColor
     ])}>
     <div className={stringUtility.merge([
