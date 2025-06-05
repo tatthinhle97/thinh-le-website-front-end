@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 
-export default function MessengerChatbot() {
+export default function ChatBotWidget() {
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -32,7 +32,7 @@ export default function MessengerChatbot() {
   }
 
   const handleSend = () => {
-    if (!input.trim()) return
+    if (!input.trim() || isTyping) return
 
     const userMsg = {
       id: messages.length + 1,
@@ -114,14 +114,16 @@ export default function MessengerChatbot() {
       <div className='flex items-center border-t p-2 bg-white'>
         <input
           type='text'
-          className='flex-1 px-3 py-2 border rounded-full text-sm focus:outline-none focus:ring'
+          className='flex-1 px-3 py-2 border rounded-full text-sm focus:outline-none focus:ring disabled:opacity-50'
           placeholder='Type a message...'
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSend()} />
+          onKeyDown={(e) => e.key === 'Enter' && !isTyping && handleSend()}
+          disabled={isTyping} />
         <button
           onClick={handleSend}
-          className='ml-2 text-blue-600 font-semibold'>
+          disabled={isTyping}
+          className='ml-2 text-blue-600 font-semibold disabled:opacity-50'>
           Send
         </button>
       </div>
@@ -147,3 +149,6 @@ export default function MessengerChatbot() {
     </div>
   )
 }
+
+// --------------------------------------------------------------------------------------------------
+

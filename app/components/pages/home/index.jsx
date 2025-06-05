@@ -1,5 +1,4 @@
 import pageMetadataConstant from '../../../constants/metadata/page.jsx'
-import Footer from '../../footer.jsx'
 import HeroSection from './hero-section.jsx'
 
 export function meta() {

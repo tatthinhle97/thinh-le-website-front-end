@@ -1,5 +1,4 @@
 import pageMetadataConstant from '../../../constants/metadata/page.jsx'
-import HeroSection from './hero-section.jsx'
 
 export function meta() {
   return [
@@ -8,8 +7,8 @@ export function meta() {
   ]
 }
 
-export default function AboutPage() {
+export default function ContactMePage() {
   return <>
-    <HeroSection />
+    <p className={'container-layout section-px'}>Not implemented yet 😩</p>
   </>
 }

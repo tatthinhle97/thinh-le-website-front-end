@@ -5,6 +5,7 @@ import {createSelector, createStructuredSelector} from 'reselect'
 import stringUtility from '../utilities/string.jsx'
 import Footer from './footer.jsx'
 import Header from './header.jsx'
+import ChatBotWidget from './widgets/chat-bot/index.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -29,6 +30,7 @@ export default function Body({children}) {
       {children}
     </main>
     <Footer />
+    <ChatBotWidget />
     <ScrollRestoration />
     <Scripts />
   </body>

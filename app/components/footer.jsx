@@ -31,7 +31,7 @@ export default function Footer({className}) {
         </p>
         <FooterNavigationBar />
       </div>
-      <hr className={`content-mt ${borderTheme.opacity.ten.primaryColor}`} />
+      <hr className={`content-mt ${borderTheme.secondaryColor300}`} />
       <div className={stringUtility.merge([
         'flex flex-col content-gap md:flex-row md:gap-0',
         'md:justify-between content-mt'
