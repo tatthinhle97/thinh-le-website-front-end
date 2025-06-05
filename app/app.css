@@ -7,6 +7,9 @@
   --aspect-3\/2: 3 / 2;
   --aspect-4\/3: 4 / 3;
 
+  --breakpoint-xxs: 20rem;
+  --breakpoint-xs: 30rem;
+
   --background-image-stockton-desktop: url('/background/stockton-background-desktop.avif');
   --background-image-stockton-mobile: url('/background/stockton-background-mobile.avif');
   --background-image-profile: url('/profile.webp');
@@ -25,11 +28,10 @@
   --color-black-valid-600: #0369a1;
   --color-black-warning-400: #0369a1;
 
+  --font-sans: InterVariable, sans-serif;
+
   --flex-basis-3\/10: 30%;
   --flex-basis-7\/10: 70%;
-
-  --breakpoint-xxs: 20rem;
-  --breakpoint-xs: 30rem;
 
   --spacing-19_75: 4.875rem;
 

@@ -144,6 +144,7 @@ export default function SaleAndRentalListingsPage() {
       <section
         className={stringUtility.merge([
           'p-4 border border-t-0 flex flex-col gap-4',
+          borderTheme.secondaryColor300,
           backgroundTheme.primaryColor
         ])}>
         {/* Value boxes */}

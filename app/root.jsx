@@ -1,4 +1,3 @@
-import MessengerChatbot from './components/widgets/chat.jsx'
 import store from './redux/store.jsx'
 import {Provider} from 'react-redux'
 import {
@@ -17,13 +16,13 @@ export function Layout({children}) {
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='stylesheet' href='https://rsms.me/inter/inter.css' />
         <Meta />
         <Links />
       </head>
       <Provider store={store}>
         <Body>
           {children}
-          <MessengerChatbot />
         </Body>
       </Provider>
     </html>
@@ -50,15 +49,13 @@ export function ErrorBoundary({error}) {
     stack = error.stack
   }
 
-  return (
-    <main className='pt-16 p-4 container mx-auto'>
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className='w-full p-4 overflow-x-auto'>
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
-  )
+  return <>
+    <h1>{message}</h1>
+    <p>{details}</p>
+    {stack && (
+      <pre className='w-full p-4 overflow-x-auto'>
+        <code>{stack}</code>
+      </pre>
+    )}
+  </>
 }
