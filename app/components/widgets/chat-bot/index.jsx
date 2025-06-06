@@ -1,13 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {
   Cancel01Icon,
-  ChatBotIcon,
+  ChatBotIcon, Hamburger01Icon,
   MessageMultiple02Icon,
   SentIcon
 } from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
+import renderUtility from '../../../utilities/render.jsx'
 import stringUtility from '../../../utilities/string.jsx'
 import IconButton from '../../buttons/icon.jsx'
 import TextAreaInput from '../../inputs/textarea.jsx'
@@ -58,20 +59,18 @@ export default function ChatBotWidget() {
   const simulateBotReply = () => {
     setIsBotTyping(true)
 
-    setTimeout(() => {
-      const newBotMessage = {
-        id: messages.length + 2,
-        sender: 'bot',
-        text: 'I\'m just a bot, but I\'m learning!',
-        delivered: true,
-        timestamp: new Date()
-      }
+    const newBotMessage = {
+      id: messages.length + 2,
+      sender: 'bot',
+      text: 'I\'m just a bot, but I\'m learning!',
+      delivered: true,
+      timestamp: new Date()
+    }
 
-      setMessages((previousMessages) =>
-        [...previousMessages, newBotMessage]
-      )
-      setIsBotTyping(false)
-    }, 250)
+    setMessages((previousMessages) =>
+      [...previousMessages, newBotMessage]
+    )
+    setIsBotTyping(false)
   }
 
   const sendUserMessage = () => {
@@ -91,16 +90,15 @@ export default function ChatBotWidget() {
       [...previousMessages, newUserMessage]
     )
     simulateBotReply()
+    setUserMessage('')
   }
 
   const onEnterKeyDown = (_event) => {
     if (_event.key === 'Enter') {
       if (!isBotTyping) {
         if (!_event.shiftKey) {
-          sendUserMessage()
-          // Clear input value
           _event.preventDefault()
-          setUserMessage('')
+          sendUserMessage()
         }
       } else {
         // Prevent user from sending message
@@ -109,12 +107,19 @@ export default function ChatBotWidget() {
     }
   }
 
-  return <div>
+  const renderChatProfileImage = (_imageSource, _imageAlt) => {
+    return <img
+      src={_imageSource}
+      alt={_imageAlt}
+      className='w-8 h-8 rounded-full object-cover' />
+  }
+
+  return <div className={'relative w-full'}>
     {/* Floating Button */}
     <button
       onClick={toggleChatWindow}
       className={stringUtility.merge([
-        'fixed bottom-6 right-4 p-2 lg:p-4 rounded-full cursor-pointer z-50',
+        'fixed bottom-6 right-4 p-2 lg:p-4 rounded-full cursor-pointer z-40',
         backgroundTheme.hover.accentColor700,
         backgroundTheme.secondaryColor,
         textTheme.primaryColor
@@ -127,8 +132,9 @@ export default function ChatBotWidget() {
     <div
       ref={chatWindowRef}
       className={stringUtility.merge([
-        'fixed bottom-18 lg:bottom-22 right-4 z-50 flex flex-col hidden',
-        'w-[90%] max-w-md h-96 h-[60vh] shadow-xl/50 rounded-big-1'
+        'fixed bottom-18 lg:bottom-22 left-4 right-4 lg:left-auto lg:right-4 z-40',
+        'flex flex-col hidden',
+        'lg:max-w-lg h-96 h-[70vh] shadow-xl/40 rounded-big-1' //
       ])}>
       {/* Header */}
       <div className={stringUtility.merge([
@@ -152,53 +158,45 @@ export default function ChatBotWidget() {
       {/* Message Area */}
       <div
         className={stringUtility.merge([
-          'flex-1 gap-y-2 overflow-y-auto',
-          'flex flex-col justify-end',
-          'px-4 py-2',
+          'flex-1 overflow-auto',
+          'px-4 py-2 flex flex-col-reverse',
           backgroundTheme.primaryColor
         ])}>
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`flex my-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className='flex items-end gap-2 max-w-[80%]'>
-              {msg.sender === 'bot' && (
-                <img
-                  src='/bot-avatar.png'
-                  alt='Bot'
-                  className='w-8 h-8 rounded-full object-cover' />
-              )}
-              <div className='relative'>
-                <div
-                  className={`px-4 py-2 rounded-2xl text-sm ${
-                    msg.sender === 'user'
-                      ? 'bg-blue-500 text-white rounded-br-none'
-                      : 'bg-gray-200 text-black rounded-bl-none'
-                  }`}>
-                  {msg.text}
-                </div>
-                <div className='text-[11px] text-gray-400 mt-1 text-right'>
-                  {'time'}
-                </div>
-              </div>
-              {msg.sender === 'user' && (
-                <img
-                  src='/user-avatar.jpg'
-                  alt='You'
-                  className='w-8 h-8 rounded-full object-cover' />
-              )}
+        <div className={'flex flex-col gap-y-2 mt-auto'}>
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex gap-2 items-end ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+              {renderUtility.renderIfTrue(
+                message.sender === 'bot',
+                renderChatProfileImage('/bot-avatar.png', 'Bot'))}
+
+              <p
+                className={stringUtility.merge([
+                  'px-4 py-2 w-fit max-w-[70%] rounded-normal mb-4',
+                  'whitespace-pre-wrap wrap-break-word',
+                  message.sender === 'user'
+                    ? 'bg-blue-500 text-white rounded-br-none'
+                    : 'bg-gray-200 rounded-bl-none'
+                ])}>
+                {message.text}
+              </p>
+
+              {renderUtility.renderIfTrue(
+                message.sender === 'user',
+                renderChatProfileImage('/user-avatar.png', 'User'))}
             </div>
-          </div>
-        ))}
+          ))}
 
-        {isBotTyping && (
-          <div className='flex justify-start items-center gap-2 pl-10 text-sm text-gray-500 italic'>
-            <div className='dot-flashing'></div>
-            ThinhBot is typing...
-          </div>
-        )}
+          {isBotTyping && (
+            <div className='flex justify-start items-center gap-2 pl-10 text-small-1 text-gray-500 italic'>
+              <div className='dot-flashing'></div>
+              ThinhBot is typing...
+            </div>
+          )}
 
-        <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} />
+        </div>
       </div>
 
       {/* Input Area */}
@@ -218,7 +216,12 @@ export default function ChatBotWidget() {
           value={userMessage}
           onValueChange={onUserMessageValueChange}
           onKeyDown={onEnterKeyDown} />
-        <HugeiconsIcon icon={SentIcon} className={'wh-normal'} />
+        <IconButton
+          ariaLabel={'Send message button'}
+          onClick={sendUserMessage}
+          className={textTheme.hover.accentColor700}>
+          <HugeiconsIcon icon={SentIcon} className={'wh-normal'} />
+        </IconButton>
       </div>
     </div>
   </div>

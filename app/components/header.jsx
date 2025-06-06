@@ -190,8 +190,8 @@ export default function Header({className}) {
           ariaLabel={'Hamburger button'}
           ref={hamburgerButtonRef}
           onClick={onHamburgerButtonClick}
-          className={`wh-big-1 lg:hidden ${textTheme.hover.accentColor700}`}>
-          <HugeiconsIcon icon={Hamburger01Icon} className={'wh-normal'} />
+          className={`lg:hidden ${textTheme.hover.accentColor700}`}>
+          <HugeiconsIcon icon={Hamburger01Icon} className={'wh-big-1'} />
         </IconButton>
       </section>
       <NavigationBarContext.Provider value={onNavigationItemClick}>
