@@ -13,7 +13,8 @@ import VerticalNavigationBar from './navigation-bars/vertical.jsx'
 const themeStates = createStructuredSelector(
   {
     backgroundTheme: (_state) => _state.backgroundTheme,
-    shadowTheme: (_state) => _state.shadowTheme
+    shadowTheme: (_state) => _state.shadowTheme,
+    textTheme: (_state) => _state.textTheme
   },
   createSelector
 )
@@ -21,7 +22,8 @@ const themeStates = createStructuredSelector(
 export default function Header({className}) {
   const {
     backgroundTheme,
-    shadowTheme
+    shadowTheme,
+    textTheme
   } = useSelector(themeStates)
   const [viewportHeight, setViewportHeight] = useState(() => {
     return typeof window !== 'undefined'
@@ -188,8 +190,8 @@ export default function Header({className}) {
           ariaLabel={'Hamburger button'}
           ref={hamburgerButtonRef}
           onClick={onHamburgerButtonClick}
-          className={'wh-big-1 lg:hidden'}>
-          <HugeiconsIcon icon={Hamburger01Icon} />
+          className={`wh-big-1 lg:hidden ${textTheme.hover.accentColor700}`}>
+          <HugeiconsIcon icon={Hamburger01Icon} className={'wh-normal'} />
         </IconButton>
       </section>
       <NavigationBarContext.Provider value={onNavigationItemClick}>

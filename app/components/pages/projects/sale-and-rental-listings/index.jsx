@@ -113,22 +113,23 @@ export default function SaleAndRentalListingsPage() {
   }, [backgroundTheme.valid600])
 
   const getMapIconByPropertyType = useCallback((_propertyType) => {
-    const iconSize = 18
+    const iconSizeClassName = 'wh-normal'
+
     switch (_propertyType) {
     case rentCastConstant.propertyType.singleFamily:
-      return createMapIcon(<HugeiconsIcon icon={Home01Icon} size={iconSize} />)
+      return createMapIcon(<HugeiconsIcon icon={Home01Icon} className={iconSizeClassName} />)
     case rentCastConstant.propertyType.multiFamily:
-      return createMapIcon(<HugeiconsIcon icon={House05Icon} size={iconSize} />)
+      return createMapIcon(<HugeiconsIcon icon={House05Icon} className={iconSizeClassName} />)
     case rentCastConstant.propertyType.condo:
-      return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} size={iconSize} />)
+      return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} className={iconSizeClassName} />)
     case rentCastConstant.propertyType.townhouse:
-      return createMapIcon(<HugeiconsIcon icon={House01Icon} size={iconSize} />)
+      return createMapIcon(<HugeiconsIcon icon={House01Icon} className={iconSizeClassName} />)
     case rentCastConstant.propertyType.manufactured:
-      return createMapIcon(<HugeiconsIcon icon={FactoryIcon} size={iconSize} />)
+      return createMapIcon(<HugeiconsIcon icon={FactoryIcon} className={iconSizeClassName} />)
     case rentCastConstant.propertyType.apartment:
-      return createMapIcon(<HugeiconsIcon icon={Building05Icon} size={iconSize} />)
+      return createMapIcon(<HugeiconsIcon icon={Building05Icon} className={iconSizeClassName} />)
     default: // land
-      return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} size={iconSize} />)
+      return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} className={iconSizeClassName} />)
     }
   }, [createMapIcon])
 

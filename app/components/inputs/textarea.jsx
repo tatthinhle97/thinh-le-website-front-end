@@ -11,7 +11,7 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function NumberInput({
+export default function TextAreaInput({
   containerClassName,
   id,
   inputClassName,
@@ -19,18 +19,18 @@ export default function NumberInput({
   shouldValidate = false,
   label,
   shouldDisplayLabel = true,
-  max,
-  min,
   name,
+  value,
+  rows = 4,
+  onKeyDown,
   onValueChange,
   placeholder = 'Please input',
   prefix, // a jsx element
-  validationMessage = 'This is a required field',
-  value
+  canResize = false,
+  inputRef
 }) {
   const {
-    outlineTheme,
-    textTheme
+    outlineTheme
   } = useSelector(themeStates)
 
   return <div className={containerClassName}>
@@ -54,27 +54,22 @@ export default function NumberInput({
       outlineTheme.has.input.focusWithin.accentColor700
     ])}>
       {prefix}
-      <input
+      <textarea
+        ref={inputRef}
         aria-label={label}
-        type={'number'}
-        value={value}
         id={id}
+        value={value}
+        rows={rows}
         name={name}
-        min={min}
-        max={max}
         placeholder={placeholder}
         className={stringUtility.merge([
+          canResize ? 'resize' : 'resize-none',
           'w-full focus:outline-0',
           inputClassName
         ])}
-        onChange={onValueChange} />
+        onKeyDown={onKeyDown}
+        onChange={onValueChange}>
+      </textarea>
     </div>
-    {renderUtility.renderIfTrue(shouldValidate, <p
-      className={stringUtility.merge([
-        'mt-2 text-small-1 hidden peer-has-[input:invalid]:block',
-        textTheme.invalid600
-      ])}>
-      {validationMessage}
-    </p>)}
   </div>
 }

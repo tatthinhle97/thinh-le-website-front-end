@@ -164,6 +164,10 @@
   @apply rounded-t-2xl;
 }
 
+@utility rounded-b-big-1 {
+  @apply rounded-b-2xl;
+}
+
 @utility text-small-2 {
   @apply text-xs lg:text-sm transition-font-size;
 }
