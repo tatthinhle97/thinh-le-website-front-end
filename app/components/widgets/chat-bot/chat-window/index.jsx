@@ -134,7 +134,7 @@ export default function ChatWindow({
     className={stringUtility.merge([
       'fixed bottom-18 lg:bottom-22 left-4 lg:left-auto right-4 z-40',
       'flex-col hidden',
-      'w-auto lg:w-xl h-96 h-[70vh] rounded-big-1 shadow-lg',
+      'w-auto lg:w-144 h-144 rounded-big-1 shadow-lg',
       shadowTheme.opacity.fourty.accentColor700
     ])}>
     {/* Header */}
@@ -160,7 +160,7 @@ export default function ChatWindow({
     <div
       ref={messagesContainerRef}
       className={stringUtility.merge([
-        'flex-1 overflow-auto px-4 py-2 flex flex-col',
+        'flex-1 overflow-auto px-4 py-4 flex flex-col',
         backgroundTheme.primaryColor
       ])}>
       <div className={'flex-1 flex flex-col gap-y-2 justify-end\n'}>
