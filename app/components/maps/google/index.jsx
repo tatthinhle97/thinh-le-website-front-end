@@ -1,17 +1,16 @@
 import {AdvancedMarker, APIProvider, Map} from '@vis.gl/react-google-maps'
+import {memo} from 'react'
 import stringUtility from '../../../utilities/string.jsx'
 import BoundaryFit from './boundary-fit.jsx'
 
-export default function GoogleMap({
+const GoogleMap = memo(({
   className = '',
   locations,
   coordinates,
   onIconRender,
   isClickable = true,
   markerClassName = ''
-}) {
-  console.log('GOOGLE MAP rerendered')
-
+}) => {
   return <div
     className={stringUtility.merge([
       'min-h-120',
@@ -38,4 +37,6 @@ export default function GoogleMap({
       </Map>
     </APIProvider>
   </div>
-}
+})
+
+export default GoogleMap

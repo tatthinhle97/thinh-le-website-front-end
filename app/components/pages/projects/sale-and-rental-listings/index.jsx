@@ -61,7 +61,6 @@ export default function SaleAndRentalListingsPage() {
   }, [backgroundTheme.invalid600, backgroundTheme.valid600, backgroundTheme.warning400])
 
   const valueBoxes = useMemo(() => {
-    console.log('VALUE BOXES rerendered')
     return valueBoxConstant.allValueBoxes.map(
       (_valueBox, _index) => {
         return <section
@@ -113,23 +112,21 @@ export default function SaleAndRentalListingsPage() {
   }, [backgroundTheme.valid600])
 
   const getMapIconByPropertyType = useCallback((_propertyType) => {
-    const iconSizeClassName = 'wh-normal'
-
     switch (_propertyType) {
     case rentCastConstant.propertyType.singleFamily:
-      return createMapIcon(<HugeiconsIcon icon={Home01Icon} className={iconSizeClassName} />)
+      return createMapIcon(<HugeiconsIcon icon={Home01Icon} className={'wh-normal'} />)
     case rentCastConstant.propertyType.multiFamily:
-      return createMapIcon(<HugeiconsIcon icon={House05Icon} className={iconSizeClassName} />)
+      return createMapIcon(<HugeiconsIcon icon={House05Icon} className={'wh-normal'} />)
     case rentCastConstant.propertyType.condo:
-      return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} className={iconSizeClassName} />)
+      return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} className={'wh-normal'} />)
     case rentCastConstant.propertyType.townhouse:
-      return createMapIcon(<HugeiconsIcon icon={House01Icon} className={iconSizeClassName} />)
+      return createMapIcon(<HugeiconsIcon icon={House01Icon} className={'wh-normal'} />)
     case rentCastConstant.propertyType.manufactured:
-      return createMapIcon(<HugeiconsIcon icon={FactoryIcon} className={iconSizeClassName} />)
+      return createMapIcon(<HugeiconsIcon icon={FactoryIcon} className={'wh-normal'} />)
     case rentCastConstant.propertyType.apartment:
-      return createMapIcon(<HugeiconsIcon icon={Building05Icon} className={iconSizeClassName} />)
+      return createMapIcon(<HugeiconsIcon icon={Building05Icon} className={'wh-normal'} />)
     default: // land
-      return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} className={iconSizeClassName} />)
+      return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} className={'wh-normal'} />)
     }
   }, [createMapIcon])
 

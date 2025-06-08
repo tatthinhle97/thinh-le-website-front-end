@@ -39,7 +39,7 @@ export default function Header({className}) {
   /* Set shadow for header when scrolling */
   useEffect(() => {
     const observeSentinel = ([entry]) => {
-      const shadowSizeClassName = 'shadow-lg'
+      const shadowSizeClassName = 'shadow-xl'
 
       if (!entry.isIntersecting) {
         headerRef.current.classList.add(

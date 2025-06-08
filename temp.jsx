@@ -151,4 +151,67 @@ export default function ChatBotWidget() {
 }
 
 // --------------------------------------------------------------------------------------------------
+const MessageItem = React.memo(({ message }) => {
+  return <div>{message.text}</div>;
+});
 
+import { FixedSizeList as List } from 'react-window';
+
+const MessageList = ({ messages }) => {
+  return (
+      <List
+          height={600}
+          itemCount={messages.length}
+          itemSize={40}
+          width="100%"
+          itemKey={index => messages[index].id} // important for identity
+      >
+        {({ index, style }) => (
+            <div style={style}>
+              <MessageItem message={messages[index]} />
+            </div>
+        )}
+      </List>
+  );
+};
+
+import React, { useState, useCallback } from 'react';
+import { FixedSizeList as List } from 'react-window';
+
+// Memoized message item
+const MessageItem = React.memo(({ message }) => {
+  return <div>{message.text}</div>;
+});
+
+const MessageList = ({ messages }) => (
+    <List
+        height={600}
+        itemCount={messages.length}
+        itemSize={40}
+        width="100%"
+        itemKey={index => messages[index].id}
+    >
+      {({ index, style }) => (
+          <div style={style}>
+            <MessageItem message={messages[index]} />
+          </div>
+      )}
+    </List>
+);
+
+export default function ChatApp() {
+  const [messages, setMessages] = useState(() =>
+      Array.from({ length: 1000 }, (_, i) => ({ id: i, text: `Message ${i}` }))
+  );
+
+  const addMessage = useCallback(() => {
+    const newId = messages.length;
+    setMessages(prev => [...prev, { id: newId, text: `Message ${newId}` }]);
+  }, [messages.length]);
+
+  return (
+      <div>
+        <button onClick={addMessage}>Add Message</button>
+        <MessageList messages={messages} />
+      </div>
+  );

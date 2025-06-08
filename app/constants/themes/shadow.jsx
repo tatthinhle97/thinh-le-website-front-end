@@ -1,19 +1,17 @@
-const shared = {
+const white = {
+  id: 0,
   opacity: {
     twenty: {
       accentColor700: 'shadow-white-accent-color-700/20'
+    },
+    fourty: {
+      accentColor700: 'shadow-white-accent-color-700/40'
     }
   }
 }
 
-const white = {
-  id: 0,
-  ...shared
-}
-
 const black = {
-  id: 1,
-  ...shared
+  id: 1
 }
 
 const shadowThemeConstant = {
