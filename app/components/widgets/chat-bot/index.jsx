@@ -43,6 +43,8 @@ export default function ChatBotWidget() {
       aria-label='Chat bot icon'>
       <HugeiconsIcon icon={MessageMultiple02Icon} className={'wh-normal'} />
     </button>
-    <ChatWindow ref={chatWindowRef} />
+    <ChatWindow
+      ref={chatWindowRef}
+      onCloseButtonClick={toggleChatWindow} />
   </div>
 }

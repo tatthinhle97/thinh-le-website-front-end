@@ -214,7 +214,7 @@ export default function SearchPanel({
       <PrimaryButton
         ariaLabel={'Search'}
         type={'submit'}
-        className={'button-link-icon-text min-w-fit content-mt mx-auto'}>
+        className={'button-link-leading-icon min-w-fit content-mt mx-auto'}>
         <HugeiconsIcon icon={Search01Icon} className={'wh-normal'} />
         Search
       </PrimaryButton>

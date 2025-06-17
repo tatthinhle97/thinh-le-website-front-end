@@ -112,7 +112,7 @@ export default function RangeSlider({
         valueVertical: 'noUi-value-vertical',
         markerVertical: 'noUi-marker-vertical',
         tooltip: stringUtility.merge([
-          'noUi-tooltip absolute py-0.5 px-1 border rounded-small-1',
+          'noUi-tooltip absolute py-0.5 px-1 border rounded-normal',
           'text-center whitespace-nowrap -translate-x-1/2 left-1/2',
           'bottom-5 lg:bottom-6.25',
           borderTheme.secondaryColor300,

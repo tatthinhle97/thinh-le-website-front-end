@@ -36,11 +36,8 @@
   --spacing-19_75: 4.875rem;
 
   --transition-property-box-shadow: box-shadow;
-  --transition-property-font-size: font-size;
   --transition-property-max-width: max-width;
   --transition-property-padding: padding;
-  --transition-property-width: width;
-  --transition-property-height: height;
   --transition-property-range-slider-handle: width height border-width;
 
   @keyframes hamburger {
@@ -79,13 +76,26 @@
 @utility feature-py {
   @apply feature-pt feature-pb transition-padding;
 }
+/* Sections */
+
+@utility hero-section-py {
+  @apply py-32 sm:py-48 lg:py-56;
+}
+
+@utility hero-section-heading-text {
+  @apply text-6xl sm:text-8xl font-semibold tracking-tight text-balance;
+}
+
+@utility hero-section-description-text {
+  @apply text-xl sm:text-2xl font-medium text-pretty;
+}
 
 @utility section-gap {
   @apply gap-18 lg:gap-24;
 }
 
 @utility section-px {
-  @apply px-4 lg:px-0 transition-padding;
+  @apply px-4 lg:px-6;
 }
 
 @utility section-pt {
@@ -125,139 +135,127 @@
 }
 
 @utility button-link-text {
-  @apply py-2 px-4 border-2 rounded-normal font-semibold hover:cursor-pointer;
+  @apply px-3.5 py-2.5 border-2 text-lg rounded-md font-semibold hover:cursor-pointer;
 }
 
-@utility button-link-icon-text {
-  @apply button-link-text flex gap-2 items-center;
-}
-
-@utility rounded-small-1 {
-  @apply rounded-lg;
-}
-
-@utility rounded-r-small-1 {
-  @apply rounded-r-lg;
-}
-
-@utility rounded-tl-small-1 {
-  @apply rounded-tl-lg;
+@utility button-link-leading-icon {
+  @apply button-link-text inline-flex gap-x-2 items-center;
 }
 
 @utility rounded-normal {
-  @apply rounded-xl;
+  @apply rounded-md lg:rounded-lg;
 }
 
-@utility rounded-r-normal {
-  @apply rounded-r-xl;
+@utility rounded-bl-normal {
+  @apply rounded-bl-lg;
 }
 
-@utility rounded-tl-normal {
-  @apply rounded-tl-xl;
+@utility rounded-tr-normal {
+  @apply rounded-tr-lg;
 }
 
 @utility rounded-big-1 {
-  @apply rounded-2xl;
+  @apply rounded-xl;
 }
 
 @utility rounded-t-big-1 {
-  @apply rounded-t-2xl;
+  @apply rounded-t-xl;
 }
 
 @utility rounded-b-big-1 {
-  @apply rounded-b-2xl;
+  @apply rounded-b-xl;
 }
 
 @utility text-small-2 {
-  @apply text-xs lg:text-sm transition-font-size;
+  @apply text-sm
 }
 
 @utility text-small-1 {
-  @apply text-sm lg:text-base transition-font-size;
+  @apply text-base;
 }
 
 @utility text-normal {
-  @apply text-base lg:text-lg transition-font-size;
+  @apply text-lg;
 }
 
 @utility text-big-1 {
-  @apply text-lg lg:text-xl transition-font-size;
+  @apply text-xl;
 }
 
 @utility text-big-2 {
-  @apply text-xl lg:text-2xl transition-font-size;
+  @apply text-2xl;
 }
 
 @utility text-big-3 {
-  @apply text-2xl lg:text-3xl transition-font-size;
+  @apply text-3xl;
 }
 
 @utility text-big-4 {
-  @apply text-3xl lg:text-4xl transition-font-size;
+  @apply text-4xl;
 }
 
 @utility text-big-5 {
-  @apply text-4xl lg:text-5xl transition-font-size;
+  @apply text-5xl;
 }
 
 @utility text-big-6 {
-  @apply text-5xl lg:text-6xl transition-font-size;
+  @apply text-6xl;
 }
 
 @utility w-small-2 {
-  @apply w-4 lg:w-4.5 transition-width;
+  @apply w-4 lg:w-4.5;
 }
 
 @utility w-small-1 {
-  @apply w-4.5 lg:w-5.25 transition-width;
+  @apply w-4.5 lg:w-5.25;
 }
 
 @utility w-normal {
-  @apply w-5.25 lg:w-5.75 transition-width;
+  @apply w-5.25 lg:w-5.75;
 }
 
 @utility w-big-1 {
-  @apply w-5.75 lg:w-6.5 transition-width;
+  @apply w-5.75 lg:w-6.5;
 }
 
 @utility w-big-2 {
-  @apply w-6.5 lg:w-7.75 transition-width;
+  @apply w-6.5 lg:w-7.75;
 }
 
 @utility w-big-3 {
-  @apply w-7.75 lg:w-9.75 transition-width;
+  @apply w-7.75 lg:w-9.75;
 }
 
 @utility w-big-4 {
-  @apply w-9.75 lg:w-11.75 transition-width;
+  @apply w-9.75 lg:w-11.75;
 }
 
 @utility h-small-2 {
-  @apply h-4 lg:h-4.5 transition-height;
+  @apply h-4 lg:h-4.5;
 }
 
 @utility h-small-1 {
-  @apply h-4.5 lg:h-5.25 transition-height;
+  @apply h-4.5 lg:h-5.25;
 }
 
 @utility h-normal {
-  @apply h-5.25 lg:h-5.75 transition-height;
+  @apply h-5.25 lg:h-5.75;
 }
 
 @utility h-big-1 {
-  @apply h-5.75 lg:h-6.5 transition-width;
+  @apply h-5.75 lg:h-6.5;
 }
 
 @utility h-big-2 {
-  @apply h-6.5 lg:h-7.75 transition-width;
+  @apply h-6.5 lg:h-7.75;
 }
 
 @utility h-big-3 {
-  @apply h-7.75 lg:h-9.75 transition-width;
+  @apply h-7.75 lg:h-9.75;
 }
 
 @utility h-big-4 {
-  @apply h-9.75 lg:h-11.75 transition-width;
+  @apply h-9.75 lg:h-11.75;
 }
 
 @utility wh-small-2 {

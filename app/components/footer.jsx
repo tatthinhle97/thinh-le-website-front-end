@@ -23,14 +23,18 @@ export default function Footer({className}) {
     ])}>
     <div
       className={stringUtility.merge([
-        'container-layout section-pt pb-6 section-px'
+        'container-layout pb-6 pt-20 sm:pt-24 lg:pt-32 section-px'
       ])}>
-      <div className={'flex flex-col lg:flex-row lg:gap-10'}>
-        <p className={'basis-full lg:basis-2/6 text-big-2'}>
-          Tat Thinh Le
-        </p>
+      <div className={stringUtility.merge([
+        'lg:grid lg:grid-cols-3 lg:gap-8'
+      ])}>
+        <img
+          alt='https://www.flaticon.com/free-icons/basketball'
+          src='/logo.png'
+          className='h-9' />
         <FooterNavigationBar />
       </div>
+
       <hr className={`content-mt ${borderTheme.secondaryColor300}`} />
       <div className={stringUtility.merge([
         'flex flex-col content-gap md:flex-row md:gap-0',

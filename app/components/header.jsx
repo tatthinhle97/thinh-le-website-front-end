@@ -174,15 +174,15 @@ export default function Header({className}) {
       className={stringUtility.merge([
         'sticky top-0 z-50',
         'transition-box-shadow duration-300',
+        backgroundTheme.primaryColor,
         className
       ])}>
       <section
         className={stringUtility.merge([
-          'container-layout content-py section-px lg:pl-0 lg:pr-2',
-          'flex justify-between items-center',
-          backgroundTheme.primaryColor
+          'container-layout py-6 section-px',
+          'flex justify-between items-center'
         ])}>
-        <p className={'text-big-2'}>
+        <p className={'text-xl'}>
           Tat Thinh Le
         </p>
         <HeaderNavigationBar />
@@ -191,7 +191,7 @@ export default function Header({className}) {
           ref={hamburgerButtonRef}
           onClick={onHamburgerButtonClick}
           className={`lg:hidden ${textTheme.hover.accentColor700}`}>
-          <HugeiconsIcon icon={Hamburger01Icon} className={'wh-big-1'} />
+          <HugeiconsIcon icon={Hamburger01Icon} size={28} />
         </IconButton>
       </section>
       <NavigationBarContext.Provider value={onNavigationItemClick}>
