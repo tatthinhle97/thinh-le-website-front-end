@@ -2,12 +2,12 @@ import React, {useEffect, useRef, useState} from 'react'
 import {
   Cancel01Icon,
   ChatBotIcon,
+  HourglassIcon, Loading02Icon, PauseCircleIcon, PauseIcon,
   SentIcon
 } from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
-import shadowThemeSlice from '../../../../redux/slices/theme/shadow.jsx'
 import renderUtility from '../../../../utilities/render.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import IconButton from '../../../buttons/icon.jsx'
@@ -24,7 +24,8 @@ const themeStates = createStructuredSelector(
 )
 
 export default function ChatWindow({
-  ref
+  ref,
+  onCloseButtonClick
 }) {
   const {
     backgroundTheme,
@@ -35,7 +36,6 @@ export default function ChatWindow({
 
   const messagesContainerRef = useRef(null)
   const messagesContainerEndRef = useRef(null)
-  const chatWindowRef = useRef(null)
 
   const [messagesContainerHeight, setMessagesContainerHeight] = useState(0)
   console.log(messagesContainerHeight)
@@ -64,10 +64,6 @@ export default function ChatWindow({
 
     updateHeight()
   }, [])
-
-  const toggleChatWindow = () => {
-    chatWindowRef.current.classList.toggle('hidden')
-  }
 
   const onUserMessageValueChange = (_event) => {
     setUserMessage(_event.target.value)
@@ -150,7 +146,7 @@ export default function ChatWindow({
         </p>
         <IconButton
           ariaLabel={'Close chat window icon button'}
-          onClick={toggleChatWindow}>
+          onClick={onCloseButtonClick}>
           <HugeiconsIcon icon={Cancel01Icon} className={'wh-normal'} />
         </IconButton>
       </div>
@@ -224,7 +220,9 @@ export default function ChatWindow({
         ariaLabel={'Send message button'}
         onClick={sendUserMessage}
         className={textTheme.hover.accentColor700}>
-        <HugeiconsIcon icon={SentIcon} className={'wh-normal'} />
+        {isBotTyping
+          ? <HugeiconsIcon icon={PauseIcon} className={'wh-normal animate-pulse'} />
+          : <HugeiconsIcon icon={SentIcon} className={'wh-normal'} />}
       </IconButton>
     </div>
   </div>

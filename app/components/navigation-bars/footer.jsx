@@ -27,13 +27,12 @@ export default function FooterNavigationBar() {
 
   return <nav
     className={stringUtility.merge([
-      'content-mt lg:mt-0 lg:basis-8/12',
-      'grid grid-cols-2 lg:grid-cols-4 lg:justify-items-end',
-      'content-gap-y lg:gap-y-0'
+      'mt-16 lg:mt-0 lg:col-span-2',
+      'grid grid-cols-2 lg:grid-cols-4 gap-8 lg:justify-items-end'
     ])}>
     {renderNavigationItems(
       navigationItemConstant.allNavigationItems,
-      '',
+      'font-medium',
       activeNavigationItemClassName,
       nonActiveNavigationItemClassName,
       false

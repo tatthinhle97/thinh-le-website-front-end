@@ -17,7 +17,7 @@ export default function VerticalNavigationBar() {
   const activeNavigationItemClassName = useMemo(() => {
     return stringUtility.merge([
       backgroundTheme.accentColor700,
-      `font-bold ${textTheme.primaryColor}`
+      textTheme.primaryColor
     ])
   }, [
     backgroundTheme.accentColor700,
@@ -41,11 +41,11 @@ export default function VerticalNavigationBar() {
   return <nav
     onClick={onVerticalNavigationBarClick}
     className={stringUtility.merge([
-      'flex flex-col gap-2'
+      'flex flex-col space-y-1'
     ])}>
     {renderNavigationItems(
       navigationItemConstant.allNavigationItems,
-      'section-px py-2',
+      'section-px py-2 font-medium',
       activeNavigationItemClassName,
       nonActiveNavigationItemClassName
     )}
