@@ -1,6 +1,7 @@
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
 import widthConstant from '../constants/width.jsx'
 import NavigationBarContext from '../contexts/navigation-bar.jsx'
@@ -182,9 +183,14 @@ export default function Header({className}) {
           'container-layout py-6 section-px',
           'flex justify-between items-center'
         ])}>
-        <p className={'text-xl'}>
+        <Link
+          aria-label={'Author name'}
+          className={'text-xl'}
+          to={{
+            pathname: '/'
+          }}>
           Tat Thinh Le
-        </p>
+        </Link>
         <HeaderNavigationBar />
         <IconButton
           ariaLabel={'Hamburger button'}

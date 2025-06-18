@@ -1,4 +1,5 @@
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
 import socialMediaConstant from '../constants/social-media.jsx'
 import stringUtility from '../utilities/string.jsx'
@@ -28,10 +29,17 @@ export default function Footer({className}) {
       <div className={stringUtility.merge([
         'lg:grid lg:grid-cols-3 lg:gap-8'
       ])}>
-        <img
-          alt='https://www.flaticon.com/free-icons/basketball'
-          src='/logo.png'
-          className='h-9' />
+        <Link
+          aria-label={'Logo'}
+          to={{
+            pathname: '/'
+          }}>
+          <img
+            alt='https://www.flaticon.com/free-icons/basketball'
+            src='/logo.png'
+            className='h-9' />
+        </Link>
+
         <FooterNavigationBar />
       </div>
 
