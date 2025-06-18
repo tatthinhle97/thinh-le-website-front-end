@@ -19,7 +19,7 @@ const brandStatements = [
   'data analyst, turning data into actionable insights.'
 ]
 
-export default function HeroSection() {
+export default function FeatureSection() {
   const {
     backgroundTheme,
     textTheme
@@ -46,29 +46,29 @@ export default function HeroSection() {
 
   return <section>
     <div className={stringUtility.merge([
-      'container-layout feature-pt section-px',
-      'flex flex-col-reverse lg:flex-row section-gap justify-between',
+      'container-layout py-24 lg:py-32 section-px',
+      'flex flex-col-reverse lg:flex-row gap-x-8 justify-between',
       'items-center'
     ])}>
       <div className={'basis-2/5'}>
         <div className={stringUtility.merge([
-          'w-96 h-96 mx-auto profile-container-border',
+          'w-96 h-96 mx-auto profile-image-border-radius',
           backgroundTheme.secondaryColor200,
           'relative overflow-hidden bg-profile bg-cover'
         ])}>
         </div>
       </div>
       <section className={'basis-3/5'}>
-        <h1 className={'text-big-4 font-bold'}>
+        <h1 className={'feature-section-heading-text'}>
           Tat Thinh Le (Terry)
         </h1>
-        <p className={'text-big-2 content-mt'}>
+        <p className={`feature-section-description-text mt-6 ${textTheme.secondaryColor600}`}>
           I’m a <span
             ref={personalStatementRef}>
           </span>
         </p>
         <p
-          className={`content-mt ${textTheme.secondaryColor600}`}>
+          className={`mt-10 text-lg/7 ${textTheme.secondaryColor600}`}>
           I have 2 years of experience in software development,
           with a strong focus on quality, meeting deadlines,
           and ensuring client satisfaction. With a major in
