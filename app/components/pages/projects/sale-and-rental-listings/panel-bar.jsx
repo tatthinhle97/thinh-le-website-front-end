@@ -146,14 +146,14 @@ export default function PanelBar() {
         ref={searchButtonRef}
         ariaLabel={'Search icon button'}
         onClick={onSearchIconButtonClick}
-        className={'wh-normal'}>
+        className={'wh-normal cursor-pointer'}>
         <HugeiconsIcon icon={Search01Icon} />
       </IconButton>
       <IconButton
         ref={filterButtonRef}
         ariaLabel={'Filter icon button'}
         onClick={onFilterIconButtonClick}
-        className={'wh-normal'}>
+        className={'wh-normal cursor-pointer'}>
         <HugeiconsIcon icon={PreferenceHorizontalIcon} />
       </IconButton>
     </div>

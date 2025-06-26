@@ -19,10 +19,9 @@ export default function HeroSection() {
       'container-layout section-py section-px text-center'
     ])}>
       <p className={`content-mt ${textTheme.secondaryColor600}`}>
-        A collection of personal and academic projects showcasing my skills in
-        software development, data analysis, and problem-solving. Each project
-        reflects my dedication to learning, creativity, and applying technical
-        knowledge to real-world scenarios.
+        A collection of personal and academic projects showcasing my skills in software development, data analysis, and
+        problem-solving. Each project reflects my dedication to learning, creativity, and applying technical knowledge
+        to real-world scenarios.
       </p>
     </div>
   </section>
