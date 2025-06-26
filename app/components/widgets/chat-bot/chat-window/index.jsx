@@ -2,12 +2,13 @@ import React, {useEffect, useRef, useState} from 'react'
 import {
   Cancel01Icon,
   ChatBotIcon,
-  HourglassIcon, Loading02Icon, PauseCircleIcon, PauseIcon,
+  PauseIcon,
   SentIcon
 } from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
+import locationApi from '../../../../apis/location.js'
 import renderUtility from '../../../../utilities/render.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import IconButton from '../../../buttons/icon.jsx'
@@ -37,16 +38,13 @@ export default function ChatWindow({
   const messagesContainerRef = useRef(null)
   const messagesContainerEndRef = useRef(null)
 
-  const [messagesContainerHeight, setMessagesContainerHeight] = useState(0)
-  console.log(messagesContainerHeight)
   const [userMessage, setUserMessage] = useState('')
   const [isBotTyping, setIsBotTyping] = useState(false)
   const [messages, setMessages] = useState([
     {
       id: 1,
       sender: 'bot',
-      text: 'Hi there! How can I help you today?',
-      timestamp: new Date()
+      content: 'Hi there! How can I help you today?'
     }
   ])
 
@@ -55,33 +53,26 @@ export default function ChatWindow({
     messagesContainerEndRef.current?.scrollIntoView({behavior: 'smooth'})
   }, [messages, isBotTyping])
 
-  useEffect(() => {
-    const updateHeight = () => {
-      if (messagesContainerRef.current) {
-        setMessagesContainerHeight(messagesContainerRef.current.offsetHeight)
-      }
-    }
-
-    updateHeight()
-  }, [])
-
   const onUserMessageValueChange = (_event) => {
     setUserMessage(_event.target.value)
   }
 
-  const simulateBotReply = () => {
+  const sendBotMessage = () => {
     setIsBotTyping(true)
+    const userMessage = messages.at(-1).content
+    console.log('userMessage', messages)
+    // locationApi.getStates().then(data => setStates(data))
 
     const newBotMessage = {
       id: messages.length + 2,
       sender: 'bot',
-      text: 'I\'m just a bot, but I\'m learning!',
-      timestamp: new Date()
+      content: userMessage
     }
 
     setMessages((previousMessages) =>
       [...previousMessages, newBotMessage]
     )
+
     setIsBotTyping(false)
   }
 
@@ -93,15 +84,12 @@ export default function ChatWindow({
     const newUserMessage = {
       id: messages.length + 1,
       sender: 'user',
-      text: userMessage,
-      timestamp: new Date()
+      content: userMessage
     }
 
     setMessages((previousMessages) =>
       [...previousMessages, newUserMessage]
     )
-    simulateBotReply()
-    setUserMessage('')
   }
 
   const onEnterKeyDown = (_event) => {
@@ -110,6 +98,7 @@ export default function ChatWindow({
         if (!_event.shiftKey) {
           _event.preventDefault()
           sendUserMessage()
+          setUserMessage('')
         }
       } else {
         // Prevent user from sending message
@@ -170,7 +159,7 @@ export default function ChatWindow({
 
             <p
               className={stringUtility.merge([
-                'px-4 py-2 w-fit max-w-[70%] rounded-normal',
+                'px-3 py-2 w-fit max-w-[70%] rounded-md',
                 'whitespace-pre-wrap wrap-break-word',
                 message.sender === 'user'
                   ? stringUtility.merge([
@@ -180,7 +169,7 @@ export default function ChatWindow({
                   ])
                   : `${backgroundTheme.secondaryColor100} rounded-bl-none`
               ])}>
-              {message.text}
+              {message.content}
             </p>
 
             {renderUtility.renderIfTrue(
@@ -219,10 +208,13 @@ export default function ChatWindow({
       <IconButton
         ariaLabel={'Send message button'}
         onClick={sendUserMessage}
-        className={textTheme.hover.accentColor700}>
+        className={stringUtility.merge([
+          textTheme.hover.accentColor700,
+          isBotTyping ? 'cursor-default' : 'cursor-pointer'
+        ])}>
         {isBotTyping
-          ? <HugeiconsIcon icon={PauseIcon} className={'wh-normal animate-pulse'} />
-          : <HugeiconsIcon icon={SentIcon} className={'wh-normal'} />}
+          ? <HugeiconsIcon icon={PauseIcon} size={24} />
+          : <HugeiconsIcon icon={SentIcon} size={24} />}
       </IconButton>
     </div>
   </div>

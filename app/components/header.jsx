@@ -196,7 +196,7 @@ export default function Header({className}) {
           ariaLabel={'Hamburger button'}
           ref={hamburgerButtonRef}
           onClick={onHamburgerButtonClick}
-          className={`lg:hidden ${textTheme.hover.accentColor700}`}>
+          className={`lg:hidden cursor-pointer ${textTheme.hover.accentColor700}`}>
           <HugeiconsIcon icon={Hamburger01Icon} size={28} />
         </IconButton>
       </section>

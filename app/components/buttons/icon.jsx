@@ -9,7 +9,6 @@ export default function IconButton({
     type={type}
     onClick={onClick}
     className={stringUtility.merge([
-      'cursor-pointer',
       className
     ])}>
     {children}
