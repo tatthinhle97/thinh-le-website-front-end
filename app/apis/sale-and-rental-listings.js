@@ -1,7 +1,7 @@
 import apiUtility from '../utilities/api.jsx'
 
 const getInitialSaleListings = async() => {
-  return apiUtility.getSingleResponse(
+  return apiUtility.get(
     `${import.meta.env.VITE_BACKEND_ORIGIN}/projects/sale-and-rental-listings/initial-sale-listings`)
 }
 

@@ -1,26 +1,39 @@
-const getSingleResponse = async(url, headers = {}, method = 'GET') => {
+const get = async(_url, _headers = {}) => {
   try {
-    const response = await fetch(url, {
-      method,
-      headers
+    const response = await fetch(_url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ..._headers
+      }
     })
+
     return response.json()
   } catch (error) {
     console.error(error)
   }
 }
 
-const getMultipleResponses = async(urls, headers = {}, method = 'GET') => {
-  return Promise.all(
-    urls.map(async(_url) => {
-      return getSingleResponse(_url, headers, method)
+const post = async(_url, _body = {}, _headers = {}) => {
+  try {
+    const response = await fetch(_url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ..._headers
+      },
+      body: JSON.stringify(_body)
     })
-  )
+
+    return response.json()
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const apiUtility = {
-  getSingleResponse,
-  getMultipleResponses
+  get,
+  post
 }
 
 export default apiUtility

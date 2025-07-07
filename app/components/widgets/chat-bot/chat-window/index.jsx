@@ -7,8 +7,10 @@ import {
 } from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
-import locationApi from '../../../../apis/location.js'
+import chatApi from '../../../../apis/chat.js'
+import chatbotAnswerTemplateConstant from '../../../../constants/templates/chatbot-answer.jsx'
 import renderUtility from '../../../../utilities/render.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import IconButton from '../../../buttons/icon.jsx'
@@ -42,9 +44,9 @@ export default function ChatWindow({
   const [isBotTyping, setIsBotTyping] = useState(false)
   const [messages, setMessages] = useState([
     {
-      id: 1,
       sender: 'bot',
-      content: 'Hi there! How can I help you today?'
+      content: 'Hi there! How can I help you today?',
+      payload: {}
     }
   ])
 
@@ -57,34 +59,45 @@ export default function ChatWindow({
     setUserMessage(_event.target.value)
   }
 
-  const sendBotMessage = () => {
+  const addBotMessageToChatWindow = () => {
     setIsBotTyping(true)
-    const userMessage = messages.at(-1).content
-    console.log('userMessage', messages)
-    // locationApi.getStates().then(data => setStates(data))
 
-    const newBotMessage = {
-      id: messages.length + 2,
-      sender: 'bot',
-      content: userMessage
-    }
+    chatApi.sendMessage(userMessage)
+      .then(data => {
+        const newBotMessage = {
+          sender: 'bot',
+          content: '',
+          payload: undefined
+        }
 
-    setMessages((previousMessages) =>
-      [...previousMessages, newBotMessage]
-    )
+        if (data.payload) {
+          newBotMessage.payload = data.payload
+
+          // Page navigation: add a template answer
+          if (data.payload.type === 1) {
+            const pageNavigationAnswerTemplate = chatbotAnswerTemplateConstant
+              .pickRandomTemplate(chatbotAnswerTemplateConstant.pageNavigationTemplates)
+
+            data.payload.templateAnswer = pageNavigationAnswerTemplate
+          }
+        }
+
+        setMessages((previousMessages) =>
+          [...previousMessages, newBotMessage])
+      })
 
     setIsBotTyping(false)
   }
 
-  const sendUserMessage = () => {
+  const addUserMessageToChatWindow = () => {
     if (!userMessage.trim() || isBotTyping) {
       return
     }
 
     const newUserMessage = {
-      id: messages.length + 1,
       sender: 'user',
-      content: userMessage
+      content: userMessage,
+      payload: {}
     }
 
     setMessages((previousMessages) =>
@@ -97,8 +110,9 @@ export default function ChatWindow({
       if (!isBotTyping) {
         if (!_event.shiftKey) {
           _event.preventDefault()
-          sendUserMessage()
+          addUserMessageToChatWindow()
           setUserMessage('')
+          addBotMessageToChatWindow()
         }
       } else {
         // Prevent user from sending message
@@ -112,6 +126,65 @@ export default function ChatWindow({
       src={_imageSource}
       alt={_imageAlt}
       className='w-10 h-10 rounded-full object-cover' />
+  }
+
+  function renderBotMessageByPayload(_message) {
+    // Search for page
+    if (_message.payload.type === 1) {
+
+      return <>
+        {_message.payload.description}
+        <br />
+        {_message.payload.templateAnswer}
+        <span>
+          <Link
+            aria-label={'navigation-link'}
+            className={stringUtility.merge([
+              'font-semibold',
+              textTheme.hover.accentColor700
+            ])}
+            to={{
+              pathname: _message.payload.path
+            }}>
+            {_message.payload.title}
+          </Link>
+          {' '}page.
+        </span>
+      </>
+    }
+    // FAQ
+    else {
+      return <>
+        {_message.payload.answer}
+      </>
+    }
+  }
+
+  function renderMessageContent(_message) {
+    const commonClassName = 'px-3 py-2 w-fit max-w-[70%] rounded-md whitespace-pre-wrap wrap-break-word'
+
+    if (_message.sender === 'user') {
+      return <p
+        className={stringUtility.merge([
+          commonClassName,
+          'rounded-br-none',
+          backgroundTheme.accentColor700,
+          textTheme.primaryColor
+        ])}>
+        {_message.content}
+      </p>
+    }
+
+    return <p
+      className={stringUtility.merge([
+        `${commonClassName} ${backgroundTheme.secondaryColor100} rounded-bl-none`
+      ])}>
+      {_message.content
+        ? _message.content
+        : _message.payload
+          ? renderBotMessageByPayload(_message)
+          : 'I have searched everywhere but couldn\'t answer. Please try again with another query.'}
+    </p>
   }
 
   return <div
@@ -156,22 +229,7 @@ export default function ChatWindow({
             {renderUtility.renderIfTrue(
               message.sender === 'bot',
               renderChatProfileImage('/bot-avatar.png', 'Bot'))}
-
-            <p
-              className={stringUtility.merge([
-                'px-3 py-2 w-fit max-w-[70%] rounded-md',
-                'whitespace-pre-wrap wrap-break-word',
-                message.sender === 'user'
-                  ? stringUtility.merge([
-                    'rounded-br-none',
-                    backgroundTheme.accentColor700,
-                    textTheme.primaryColor
-                  ])
-                  : `${backgroundTheme.secondaryColor100} rounded-bl-none`
-              ])}>
-              {message.content}
-            </p>
-
+            {renderMessageContent(message)}
             {renderUtility.renderIfTrue(
               message.sender === 'user',
               renderChatProfileImage('/user-avatar.jpg', 'User'))}
@@ -207,7 +265,7 @@ export default function ChatWindow({
         onKeyDown={onEnterKeyDown} />
       <IconButton
         ariaLabel={'Send message button'}
-        onClick={sendUserMessage}
+        onClick={addUserMessageToChatWindow}
         className={stringUtility.merge([
           textTheme.hover.accentColor700,
           isBotTyping ? 'cursor-default' : 'cursor-pointer'
