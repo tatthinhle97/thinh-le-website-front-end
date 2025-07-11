@@ -20,7 +20,7 @@ export default function HeroSection() {
   } = useSelector(themeStates)
 
   return <section>
-    <div className='container-layout hero-section-py px-6 max-w-3xl text-center'>
+    <div className='container-layout p-y-hero-section px-6 max-w-3xl text-center'>
       <h1
         className={'hero-section-header-text mb-8'}>
         From curiosity<br />to reality

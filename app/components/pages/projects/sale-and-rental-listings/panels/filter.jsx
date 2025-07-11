@@ -46,7 +46,7 @@ export default function FilterPanel({
       backgroundTheme.primaryColor,
       className
     ])}>
-    <div className={'flex flex-col 2xl:flex-row content-gap'}>
+    <div className={'flex flex-col 2xl:flex-row gap-4'}>
       <RangeSlider
         label={'Price range'}
         min={0}

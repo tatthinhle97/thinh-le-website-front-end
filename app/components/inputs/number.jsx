@@ -36,7 +36,7 @@ export default function NumberInput({
   return <div className={containerClassName}>
     {renderUtility.renderIfTrue(
       shouldDisplayLabel, <label htmlFor={id}
-        className={'font-medium'}>
+        className={'leading-6 font-medium'}>
         {label}
       </label>)}
     <div className={stringUtility.merge([

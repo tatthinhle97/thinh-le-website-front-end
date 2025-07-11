@@ -51,16 +51,28 @@ export default function SaleAndRentalListingsPage() {
       .then(_saleAndRentalListingsDto => setSaleAndRentalListingsDto(_saleAndRentalListingsDto))
   }, [])
 
-  const renderValueBoxBackgroundColorById = useCallback((_id) => {
+  const getValueBoxBackgroundColorClassNameById = useCallback((_id) => {
     switch (_id) {
-    case valueBoxConstant.bestDeal.id:
+    case valueBoxConstant.minimumPrice.id:
       return backgroundTheme.valid600
     case valueBoxConstant.medianPrice.id:
       return backgroundTheme.warning400
-    default: // 'mostExpensive'
+    default: // 'maximumPrice'
       return backgroundTheme.invalid600
     }
   }, [backgroundTheme.invalid600, backgroundTheme.valid600, backgroundTheme.warning400])
+
+  function getValueBoxValueById(_id) {
+    console.log('saleAndRentalListingsDto', saleAndRentalListingsDto)
+    switch (_id) {
+    case valueBoxConstant.minimumPrice.id:
+      return saleAndRentalListingsDto.min_price.toLocaleString()
+    case valueBoxConstant.medianPrice.id:
+      return saleAndRentalListingsDto.median_price.toLocaleString()
+    default: // 'maximumPrice'
+      return saleAndRentalListingsDto.max_price.toLocaleString()
+    }
+  }
 
   const valueBoxes = useMemo(() => {
     return valueBoxConstant.allValueBoxes.map(
@@ -68,14 +80,14 @@ export default function SaleAndRentalListingsPage() {
         return <section
           key={_index}
           className={stringUtility.merge([
-            'basis-1/3 p-4 border rounded-big-1',
-            'flex content-gap items-center',
+            'basis-1/3 p-4 border rounded-lg',
+            'flex gap-4 items-center',
             borderTheme.secondaryColor300
           ])}>
           <div
             className={stringUtility.merge([
-              renderValueBoxBackgroundColorById(_valueBox.id),
-              'p-2 w-fit rounded-normal h-fit',
+              getValueBoxBackgroundColorClassNameById(_valueBox.id),
+              'p-2 w-fit rounded-lg h-fit',
               textTheme.primaryColor
             ])}>
             {_valueBox.icon}
@@ -86,13 +98,16 @@ export default function SaleAndRentalListingsPage() {
             <p className={stringUtility.merge([
               textTheme.secondaryColor600
             ])}>{_valueBox.title}</p>
-            <p className={'mt-1 text-big-2 font-bold'}>$ 4,000,000</p>
+            <p className={'mt-1 text-3xl/10 font-bold'}>
+              $ {getValueBoxValueById(_valueBox.id)}
+            </p>
           </div>
         </section>
       })
   }, [
     borderTheme.secondaryColor300,
-    renderValueBoxBackgroundColorById,
+    getValueBoxBackgroundColorClassNameById,
+    getValueBoxValueById,
     textTheme.primaryColor,
     textTheme.secondaryColor600
   ])
@@ -147,7 +162,7 @@ export default function SaleAndRentalListingsPage() {
       <PanelBar />
       <section
         className={stringUtility.merge([
-          'p-4 lg:p-6 border border-t-0 flex flex-col lg:gap-6 rounded-b-lg',
+          'p-4 border border-t-0 flex flex-col gap-4 rounded-b-lg',
           borderTheme.secondaryColor300,
           backgroundTheme.primaryColor
         ])}>
@@ -157,14 +172,11 @@ export default function SaleAndRentalListingsPage() {
         </div>
         <div className={'flex flex-col lg:flex-row content-gap'}>
           <div className={'basis-1/2'}>test</div>
-          {renderUtility.renderIfTrue(
-            locations && coordinates,
-            <GoogleMap
-              locations={locations}
-              coordinates={coordinates}
-              onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
-              className={'basis-1/2'} />
-          )}
+          <GoogleMap
+            locations={locations}
+            coordinates={coordinates}
+            onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
+            className={'basis-1/2 rounded-lg'} />
         </div>
       </section>
     </section>

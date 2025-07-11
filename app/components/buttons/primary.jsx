@@ -30,6 +30,7 @@ export default function PrimaryButton({
       borderTheme.secondaryColor,
       borderTheme.hover.accentColor700,
       textTheme.primaryColor,
+      'leading-6',
       className
     ])}
     onClick={onClick}>

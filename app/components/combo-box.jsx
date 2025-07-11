@@ -121,7 +121,7 @@ export default function ComboBox({
     onClose={onComboBoxClose}>
     <div className={containerClassName}>
       {renderUtility.renderIfTrue(label, <label htmlFor={id}
-        className={'font-medium'}>
+        className={'leading-6 font-medium'}>
         {label}{isRequired && !isReadonly ? ' (*)' : ''}
       </label>)}
       <div className={stringUtility.merge([

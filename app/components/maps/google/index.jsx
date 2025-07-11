@@ -18,6 +18,12 @@ const GoogleMap = memo(({
     ])}>
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
       <Map
+        style={{
+          borderRadius: '0.5rem',
+          overflow: 'hidden', // Important to clip the corners
+          width: '100%',
+          height: '100%' // or any height you prefer
+        }}
         // onCameraChanged={(e) => console.log(e.detail.zoom)}
         defaultZoom={8}
         defaultCenter={{lat: 40.143, lng: -74.726}}

@@ -122,15 +122,15 @@ export default function SearchPanel({
   return <section
     ref={ref}
     className={stringUtility.merge([
-      'py-4 px-4 lg:px-6 border border-t-0',
+      'p-4 border border-t-0',
       borderTheme.secondaryColor300,
       backgroundTheme.primaryColor,
       className
     ])}>
     {/* [Form tip]: noValidate is to disable built-in form validation */}
     <form onSubmit={onFormSubmit} noValidate>
-      <div className={'flex flex-col 2xl:flex-row content-gap'}>
-        <div className={'flex flex-col xs:flex-row content-gap xs:basis-1/3'}>
+      <div className={'flex flex-col 2xl:flex-row gap-4 mb-6'}>
+        <div className={'flex flex-col xs:flex-row gap-4 xs:basis-1/3'}>
           <ComboBox
             containerClassName={'basis-1/2'}
             id={'state'}
@@ -161,7 +161,7 @@ export default function SearchPanel({
             optionsClassName={'z-40'}
             value={cityNameValue} />
         </div>
-        <div className={'flex flex-col xs:flex-row content-gap xs:basis-1/3'}>
+        <div className={'flex flex-col xs:flex-row gap-4 xs:basis-1/3'}>
           <ComboBox
             containerClassName={'basis-1/2'}
             id={'propertyType'}
@@ -191,7 +191,7 @@ export default function SearchPanel({
             optionsClassName={'z-40'}
             value={forValue} />
         </div>
-        <div className={'flex flex-col xs:flex-row content-gap xs:basis-1/3'}>
+        <div className={'flex flex-col xs:flex-row gap-4 xs:basis-1/3'}>
           <NumberInput
             containerClassName={'basis-1/2'}
             id={'numberOfBedRooms'}
@@ -217,7 +217,7 @@ export default function SearchPanel({
       <PrimaryButton
         ariaLabel={'Search listings button'}
         type={'submit'}
-        className={'button-link-leading-icon min-w-fit mt-8 mx-auto'}>
+        className={'button-link-leading-icon mx-auto min-w-fit'}>
         <HugeiconsIcon icon={Search01Icon} size={iconConstant.buttonIconSize} />
         Search
       </PrimaryButton>

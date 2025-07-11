@@ -59,15 +59,11 @@
 }
 
 @utility button-link-leading-icon {
-  @apply button-link-text inline-flex gap-x-2 items-center;
+  @apply button-link-text flex gap-x-2 items-center;
 }
 
 @utility container-layout {
   @apply lg:container mx-auto;
-}
-
-@utility feature-py {
-  @apply py-28;
 }
 
 @utility feature-section-header-text {
@@ -90,16 +86,22 @@
   @apply text-xl lg:text-2xl font-medium text-pretty;
 }
 
-@utility hero-section-py {
-  @apply py-42;
-}
-
 @utility normal-text {
   @apply text-base/7 lg:text-lg/7;
 }
 
 @utility profile-image-border-radius {
   border-radius: 43% 57% 42% 58% / 49% 39% 61% 51%;
+}
+
+/* Padding */
+
+@utility p-y-feature-section {
+  @apply py-30;
+}
+
+@utility p-y-hero-section {
+  @apply py-42;
 }
 
 

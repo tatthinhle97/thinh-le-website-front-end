@@ -16,7 +16,7 @@ export default function FeatureSection() {
 
   return <section>
     <div className={stringUtility.merge([
-      'container-layout feature-py px-6 text-center'
+      'container-layout p-y-feature-section px-6 text-center'
     ])}>
       <h2 className='feature-section-header-text mb-8'>
         Projects

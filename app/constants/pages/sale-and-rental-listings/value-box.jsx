@@ -1,9 +1,9 @@
 import {HugeiconsIcon} from '@hugeicons/react'
 import {MoneyBag02Icon} from '@hugeicons-pro/core-solid-rounded'
 
-const bestDeal = {
+const minimumPrice = {
   id: 0,
-  title: 'Best deal',
+  title: 'Minimum price',
   icon: <HugeiconsIcon icon={MoneyBag02Icon} className={'wh-big-4'} />
 }
 
@@ -13,16 +13,16 @@ const medianPrice = {
   icon: <HugeiconsIcon icon={MoneyBag02Icon} className={'wh-big-4'} />
 }
 
-const mostExpensive = {
+const maximumPrice = {
   id: 2,
-  title: 'Most expensive',
+  title: 'Maximum price',
   icon: <HugeiconsIcon icon={MoneyBag02Icon} className={'wh-big-4'} />
 }
 
-const allValueBoxes = [bestDeal, medianPrice, mostExpensive]
+const allValueBoxes = [minimumPrice, medianPrice, maximumPrice]
 
 const valueBoxConstant = {
-  bestDeal, medianPrice, mostExpensive, allValueBoxes
+  minimumPrice, medianPrice, maximumPrice, allValueBoxes
 }
 
 export default valueBoxConstant

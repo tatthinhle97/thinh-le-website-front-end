@@ -138,7 +138,7 @@ export default function PanelBar() {
       backgroundTheme.primaryColor
     ])}>
     <div className={stringUtility.merge([
-      'border py-4 px-6 rounded-t-lg',
+      'border p-4 rounded-t-lg',
       'flex justify-end gap-x-4 items-center',
       borderTheme.secondaryColor300
     ])}>
