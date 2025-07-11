@@ -21,14 +21,14 @@ export default function Blog({
 
   return <section>
     <div className={stringUtility.merge([
-      'container-layout section-pt section-px'
+      'container-layout py-24 lg:py-32 px-6'
     ])}>
       <time
         dateTime={dateCreated}
-        className={textTheme.secondaryColor600}>
+        className={`${textTheme.secondaryColor600}`}>
         {dateTimeUtility.formatLongDate(dateCreated)}
       </time>
-      <h1 className={'text-big-4 font-bold mt-2 mb-12'}>
+      <h1 className={'text-4xl lg:text-5xl font-semibold tracking-tight text-pretty mt-2 mb-8'}>
         {title}
       </h1>
       {children}

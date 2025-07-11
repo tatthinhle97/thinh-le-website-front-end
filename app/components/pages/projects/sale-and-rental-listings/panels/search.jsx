@@ -4,6 +4,7 @@ import {useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import locationApi from '../../../../../apis/location.js'
+import iconConstant from '../../../../../constants/icon.jsx'
 import rentCastConstant from '../../../../../constants/rentcast.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
 import PrimaryButton from '../../../../buttons/primary.jsx'
@@ -60,7 +61,9 @@ export default function SearchPanel({
   }, [])
 
   const stateNames = useMemo(() => {
-    return states.map(_state => _state.name)
+    return states
+      ? states.map(_state => _state.name)
+      : []
   }, [states])
 
   useEffect(() => {
@@ -119,7 +122,7 @@ export default function SearchPanel({
   return <section
     ref={ref}
     className={stringUtility.merge([
-      'p-4 border border-t-0',
+      'py-4 px-4 lg:px-6 border border-t-0',
       borderTheme.secondaryColor300,
       backgroundTheme.primaryColor,
       className
@@ -212,10 +215,10 @@ export default function SearchPanel({
         </div>
       </div>
       <PrimaryButton
-        ariaLabel={'Search'}
+        ariaLabel={'Search listings button'}
         type={'submit'}
-        className={'button-link-leading-icon min-w-fit content-mt mx-auto'}>
-        <HugeiconsIcon icon={Search01Icon} className={'wh-normal'} />
+        className={'button-link-leading-icon min-w-fit mt-8 mx-auto'}>
+        <HugeiconsIcon icon={Search01Icon} size={iconConstant.buttonIconSize} />
         Search
       </PrimaryButton>
     </form>

@@ -46,7 +46,7 @@ export default function FeatureSection() {
 
   return <section>
     <div className={stringUtility.merge([
-      'container-layout py-24 lg:py-32 section-px',
+      'container-layout feature-py px-6',
       'flex flex-col-reverse lg:flex-row gap-x-8 justify-between',
       'items-center'
     ])}>
@@ -59,23 +59,20 @@ export default function FeatureSection() {
         </div>
       </div>
       <section className={'basis-3/5'}>
-        <h1 className={'feature-section-heading-text'}>
-          Tat Thinh Le (Terry)
-        </h1>
-        <p className={`feature-section-description-text mt-6 ${textTheme.secondaryColor600}`}>
+        <h2 className={'feature-section-header-text mb-8'}>
+          Lê Tất Thịnh (Terry)
+        </h2>
+        <p className={`feature-section-description-text mb-6 ${textTheme.secondaryColor600}`}>
           I’m a <span
             ref={personalStatementRef}>
           </span>
         </p>
         <p
-          className={`mt-10 text-lg/7 ${textTheme.secondaryColor600}`}>
-          I have 2 years of experience in software development,
-          with a strong focus on quality, meeting deadlines,
-          and ensuring client satisfaction. With a major in
-          Information Systems, I am currently pursuing a
-          master’s program in Data Science and Analytics at
-          Stockton University. In my free time, I enjoy coding
-          or going around capturing moments through photography.
+          className={`feature-section-description-text ${textTheme.secondaryColor600}`}>
+          I have 2 years of experience in software development, with a strong focus on quality, meeting deadlines,
+          and ensuring client satisfaction. With a major in Information Systems, I am currently pursuing a master’s
+          program in Data Science and Analytics at Stockton University. In my free time, I enjoy coding or going
+          around capturing moments through photography.
         </p>
       </section>
     </div>

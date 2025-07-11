@@ -1,4 +1,4 @@
-import {useCallback, useContext} from 'react'
+import {useContext} from 'react'
 import {NavLink, useLocation} from 'react-router'
 import NavigationBarContext from '../contexts/navigation-bar.jsx'
 import renderUtility from '../utilities/render.jsx'
@@ -8,11 +8,11 @@ export default function useNavigationBar() {
   const location = useLocation()
   const onNavigationItemClick = useContext(NavigationBarContext)
 
-  const isChildPath = useCallback((_navigationItemPathName) => {
+  const isChildPath = (_navigationItemPathName) => {
     // Not homepage & child path
     return _navigationItemPathName.length > 1 &&
         location.pathname.includes(_navigationItemPathName)
-  }, [location.pathname])
+  }
 
   const renderNavigationItems = (
     navigationItems,

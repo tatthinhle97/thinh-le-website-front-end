@@ -63,22 +63,22 @@ export default function ChatWindow({
     setIsBotTyping(true)
 
     chatApi.sendMessage(userMessage)
-      .then(data => {
+      .then(pointDto => {
         const newBotMessage = {
           sender: 'bot',
           content: '',
           payload: undefined
         }
 
-        if (data.payload) {
-          newBotMessage.payload = data.payload
+        if (pointDto.payload) {
+          newBotMessage.payload = pointDto.payload
 
           // Page navigation: add a template answer
-          if (data.payload.type === 1) {
+          if (pointDto.payload.type === 1) {
             const pageNavigationAnswerTemplate = chatbotAnswerTemplateConstant
               .pickRandomTemplate(chatbotAnswerTemplateConstant.pageNavigationTemplates)
 
-            data.payload.templateAnswer = pageNavigationAnswerTemplate
+            pointDto.payload.templateAnswer = pageNavigationAnswerTemplate
           }
         }
 
@@ -190,7 +190,7 @@ export default function ChatWindow({
   return <div
     ref={ref}
     className={stringUtility.merge([
-      'fixed bottom-18 lg:bottom-22 left-4 lg:left-auto right-4 z-40',
+      'fixed bottom-18 lg:bottom-22 left-4 lg:left-auto right-4 lg:right-6 z-40',
       'flex-col hidden',
       'w-auto lg:w-144 h-144 rounded-big-1 shadow-lg',
       shadowTheme.opacity.fourty.accentColor700

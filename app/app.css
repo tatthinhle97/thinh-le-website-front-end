@@ -10,8 +10,6 @@
   --breakpoint-xxs: 20rem;
   --breakpoint-xs: 30rem;
 
-  --background-image-stockton-desktop: url('/background/stockton-background-desktop.avif');
-  --background-image-stockton-mobile: url('/background/stockton-background-mobile.avif');
   --background-image-profile: url('/profile.webp');
   --background-image-sale-and-rental-listings: url('/projects/sale-and-rental-listings.avif');
 
@@ -30,14 +28,7 @@
 
   --font-sans: InterVariable, sans-serif;
 
-  --flex-basis-3\/10: 30%;
-  --flex-basis-7\/10: 70%;
-
-  --spacing-19_75: 4.875rem;
-
   --transition-property-box-shadow: box-shadow;
-  --transition-property-max-width: max-width;
-  --transition-property-padding: padding;
   --transition-property-range-slider-handle: width height border-width;
 
   @keyframes hamburger {
@@ -53,59 +44,91 @@
   }
 }
 
+/* Notes */
+/* Font: Tailwind template font +1 level */
+/* Spacing: keep the same */
+/* Rounding: keep the same */
+/* Shadow: keep the same */
+/*
+  chiều ngang: 2-4-6-8
+  chiều đọc: 6-8-10-12
+*/
+
+@utility button-link-text {
+  @apply px-3 py-2 border-2 rounded-md  hover:cursor-pointer shadow-xs;
+}
+
+@utility button-link-leading-icon {
+  @apply button-link-text inline-flex gap-x-2 items-center;
+}
+
+@utility container-layout {
+  @apply lg:container mx-auto;
+}
+
+@utility feature-py {
+  @apply py-28;
+}
+
+@utility feature-section-header-text {
+  @apply text-5xl lg:text-6xl font-semibold tracking-tight text-pretty lg:text-balance;
+}
+
+@utility feature-section-description-text {
+  @apply text-xl/8;
+}
+
 @utility grid-3-columns {
   @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+@utility hero-section-header-text {
+  @apply text-6xl lg:text-8xl font-semibold tracking-tight text-pretty;
+}
+
+@utility hero-section-description-text {
+  @apply text-xl lg:text-2xl font-medium text-pretty;
+}
+
+@utility hero-section-py {
+  @apply py-42;
+}
+
+@utility normal-text {
+  @apply text-base/7 lg:text-lg/7;
 }
 
 @utility profile-image-border-radius {
   border-radius: 43% 57% 42% 58% / 49% 39% 61% 51%;
 }
 
-@utility feature-gap {
-  @apply gap-24 lg:gap-30;
-}
 
-@utility feature-pt {
-  @apply pt-24 lg:pt-30;
-}
 
-@utility feature-pb {
-  @apply pb-24 lg:pb-30;
-}
 
-@utility feature-py {
-  @apply feature-pt feature-pb transition-padding;
-}
 
-@utility feature-section-heading-text {
-  @apply text-4xl lg:text-5xl font-semibold tracking-tight text-pretty;
-}
 
-@utility feature-section-description-text {
-  @apply text-xl/8;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Sections */
-
-@utility hero-section-py {
-  @apply py-32 sm:py-48 lg:py-56;
-}
-
-@utility hero-section-heading-text {
-  @apply text-6xl sm:text-8xl font-semibold tracking-tight text-balance;
-}
-
-@utility hero-section-description-text {
-  @apply text-xl sm:text-2xl font-medium text-pretty;
-}
-
-@utility section-gap {
-  @apply gap-18 lg:gap-24;
-}
-
-@utility section-px {
-  @apply px-4 lg:px-6;
-}
-
 @utility section-pt {
   @apply pt-18 lg:pt-24;
 }
@@ -115,7 +138,7 @@
 }
 
 @utility section-py {
-  @apply section-pt section-pb transition-padding;
+  @apply section-pt section-pb;
 }
 
 @utility content-mt {
@@ -136,18 +159,6 @@
 
 @utility content-gap-y {
   @apply gap-y-6;
-}
-
-@utility container-layout {
-  @apply lg:container mx-auto transition-max-width;
-}
-
-@utility button-link-text {
-  @apply px-3.5 py-2.5 border-2 text-lg rounded-md font-semibold hover:cursor-pointer;
-}
-
-@utility button-link-leading-icon {
-  @apply button-link-text inline-flex gap-x-2 items-center;
 }
 
 @utility rounded-normal {

@@ -4,7 +4,6 @@ import {createSelector, createStructuredSelector} from 'reselect'
 import socialMediaConstant from '../constants/social-media.jsx'
 import stringUtility from '../utilities/string.jsx'
 import IconLinkButton from './buttons/links/icon.jsx'
-import FooterNavigationBar from './navigation-bars/footer.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -24,34 +23,15 @@ export default function Footer({className}) {
     ])}>
     <div
       className={stringUtility.merge([
-        'container-layout pb-6 pt-20 sm:pt-24 lg:pt-32 section-px'
+        'container-layout py-6 px-6'
       ])}>
+      <hr className={`mb-6 ${borderTheme.secondaryColor300}`} />
       <div className={stringUtility.merge([
-        'lg:grid lg:grid-cols-3 lg:gap-8'
+        'flex flex-col gap-y-6 lg:gap-y-0 md:flex-row md:gap-0',
+        'md:justify-between'
       ])}>
-        <Link
-          aria-label={'Logo'}
-          to={{
-            pathname: '/'
-          }}>
-          <img
-            alt='https://www.flaticon.com/free-icons/basketball'
-            src='/logo.png'
-            className='h-9' />
-        </Link>
-
-        <FooterNavigationBar />
-      </div>
-
-      <hr className={`content-mt ${borderTheme.secondaryColor300}`} />
-      <div className={stringUtility.merge([
-        'flex flex-col content-gap md:flex-row md:gap-0',
-        'md:justify-between content-mt'
-      ])}>
-        <p>
-          © 2024 Tat Thinh Le&apos;s website, Inc. All rights reserved.
-        </p>
-        <div className={'flex content-gap justify-center xs:justify-start items-center'}>
+        <p>© 2024 Lê Tất Thịnh&apos;s website, Inc. All rights reserved.</p>
+        <div className={'flex space-x-4 justify-center xs:justify-start items-center'}>
           {socialMediaConstant.allSocialMedia.map(
             (_socialMedia, _index) => {
               return <IconLinkButton

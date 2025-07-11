@@ -25,11 +25,11 @@ export default function Card({
     textTheme
   } = useSelector(themeStates)
 
-  return <article className={'flex flex-col content-gap'}>
+  return <article className={'flex flex-col gap-6'}>
     <Link
       aria-label={description}
       className={stringUtility.merge([
-        'block aspect-3/2 bg-contain rounded-big-1',
+        'block aspect-3/2 bg-contain rounded-2xl',
         backgroundImageClass
       ])}
       to={{
@@ -40,23 +40,25 @@ export default function Card({
       <time
         dateTime={date}
         className={stringUtility.merge([
-          'text-small-1',
+          'text-sm lg:text-base mb-2',
           textTheme.secondaryColor600
         ])}>
         {dateTimeUtility.formatLongDate(date)}
       </time>
       <a aria-label={title} href={link}>
-        <p className={'mt-2 font-bold text-big-2'}>{title}</p>
+        <h3 className={`mb-8 font-semibold text-lg/6 lg:text-xl/6 ${textTheme.hover.accentColor700}`}>
+          {title}
+        </h3>
       </a>
       <p className={stringUtility.merge([
-        'content-mt line-clamp-3',
+        'line-clamp-3 text-base/6 lg:text-lg/6',
         textTheme.secondaryColor600
       ])}>
         {description}
       </p>
     </div>
     <div className={stringUtility.merge([
-      'mt-auto flex gap-2 items-center text-small-1',
+      'flex gap-2 items-center text-sm lg:text-base',
       textTheme.secondaryColor600
     ])}>
       {tags.map((_tag, _index) => {

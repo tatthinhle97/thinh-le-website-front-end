@@ -35,7 +35,7 @@ export default function ChatBotWidget() {
     <button
       onClick={toggleChatWindow}
       className={stringUtility.merge([
-        'fixed bottom-6 right-4 p-2 lg:p-4 rounded-full cursor-pointer z-40',
+        'fixed bottom-6 right-4 lg:right-6 p-2 lg:p-4 rounded-full cursor-pointer z-40',
         backgroundTheme.hover.accentColor700,
         backgroundTheme.secondaryColor,
         textTheme.primaryColor

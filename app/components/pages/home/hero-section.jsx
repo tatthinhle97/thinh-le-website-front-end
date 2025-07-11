@@ -20,20 +20,20 @@ export default function HeroSection() {
   } = useSelector(themeStates)
 
   return <section>
-    <div className='hero-section-py section-px mx-auto max-w-3xl text-center'>
+    <div className='container-layout hero-section-py px-6 max-w-3xl text-center'>
       <h1
-        className={'hero-section-heading-text'}>
-        From curiosity<br />to contribution
+        className={'hero-section-header-text mb-8'}>
+        From curiosity<br />to reality
       </h1>
       <p className={stringUtility.merge([
-        'hero-section-description-text mt-8',
+        'hero-section-description-text mb-6',
         textTheme.secondaryColor600
       ])}>
         &ldquo;A creative mind builds not just for answers,<br />but to explore
         and to share what it discovers.&rdquo;
       </p>
       <div className={stringUtility.merge([
-        'mt-10 flex flex-col xs:flex-row gap-2',
+        'flex flex-col xs:flex-row gap-4',
         // [Tip]: Targeting a breakpoint range
         'justify-center'
       ])}>

@@ -134,12 +134,12 @@ export default function PanelBar() {
   return <section
     ref={panelRef}
     className={stringUtility.merge([
-      'sticky top-19 lg:top-20 z-1',
+      'relative z-1',
       backgroundTheme.primaryColor
     ])}>
     <div className={stringUtility.merge([
-      'border p-4 rounded-t-big-1',
-      'flex justify-end gap-4 items-center',
+      'border py-4 px-6 rounded-t-lg',
+      'flex justify-end gap-x-4 items-center',
       borderTheme.secondaryColor300
     ])}>
       <IconButton

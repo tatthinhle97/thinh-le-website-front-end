@@ -180,7 +180,7 @@ export default function Header({className}) {
       ])}>
       <section
         className={stringUtility.merge([
-          'container-layout py-6 section-px',
+          'container-layout py-6 px-6',
           'flex justify-between items-center'
         ])}>
         <Link
@@ -189,7 +189,7 @@ export default function Header({className}) {
           to={{
             pathname: '/'
           }}>
-          Tat Thinh Le
+          Lê Tất Thịnh
         </Link>
         <HeaderNavigationBar />
         <IconButton

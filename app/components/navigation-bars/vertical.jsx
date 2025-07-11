@@ -45,7 +45,7 @@ export default function VerticalNavigationBar() {
     ])}>
     {renderNavigationItems(
       navigationItemConstant.allNavigationItems,
-      'section-px py-2 font-medium',
+      'px-6 py-2 font-medium',
       activeNavigationItemClassName,
       nonActiveNavigationItemClassName
     )}

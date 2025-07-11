@@ -15,6 +15,7 @@ import pageMetadataConstant from '../../../../constants/metadata/page.jsx'
 import valueBoxConstant from '../../../../constants/pages/sale-and-rental-listings/value-box.jsx'
 import projectConstant from '../../../../constants/project.jsx'
 import rentCastConstant from '../../../../constants/rentcast.jsx'
+import renderUtility from '../../../../utilities/render.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import GoogleMap from '../../../maps/google/index.jsx'
@@ -46,7 +47,8 @@ export default function SaleAndRentalListingsPage() {
   const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState()
 
   useEffect(() => {
-    saleAndRentalListingsApi.getInitialSaleListings().then(data => setSaleAndRentalListingsDto(data))
+    saleAndRentalListingsApi.getInitialSaleListings()
+      .then(_saleAndRentalListingsDto => setSaleAndRentalListingsDto(_saleAndRentalListingsDto))
   }, [])
 
   const renderValueBoxBackgroundColorById = useCallback((_id) => {
@@ -137,11 +139,15 @@ export default function SaleAndRentalListingsPage() {
       'relative',
       borderTheme.secondaryColor300
     ])}>
+    <p className={`mb-6 ${textTheme.secondaryColor600}`}>
+      Search for sale and rental listings across the US, integrating interactive data visualizations to analyze trends
+      and insights in the housing market.
+    </p>
     <section>
       <PanelBar />
       <section
         className={stringUtility.merge([
-          'p-4 border border-t-0 flex flex-col gap-4',
+          'p-4 lg:p-6 border border-t-0 flex flex-col lg:gap-6 rounded-b-lg',
           borderTheme.secondaryColor300,
           backgroundTheme.primaryColor
         ])}>
@@ -151,11 +157,14 @@ export default function SaleAndRentalListingsPage() {
         </div>
         <div className={'flex flex-col lg:flex-row content-gap'}>
           <div className={'basis-1/2'}>test</div>
-          <GoogleMap
-            locations={locations}
-            coordinates={coordinates}
-            onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
-            className={'basis-1/2'} />
+          {renderUtility.renderIfTrue(
+            locations && coordinates,
+            <GoogleMap
+              locations={locations}
+              coordinates={coordinates}
+              onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
+              className={'basis-1/2'} />
+          )}
         </div>
       </section>
     </section>
