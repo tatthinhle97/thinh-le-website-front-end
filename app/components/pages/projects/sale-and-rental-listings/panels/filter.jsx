@@ -1,6 +1,10 @@
+import {Search01Icon} from '@hugeicons-pro/core-solid-rounded'
+import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
+import iconConstant from '../../../../../constants/icon.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
+import PrimaryButton from '../../../../buttons/primary.jsx'
 import RangeSlider from '../../../../range-slider/index.jsx'
 
 const themeStates = createStructuredSelector(
@@ -46,7 +50,7 @@ export default function FilterPanel({
       backgroundTheme.primaryColor,
       className
     ])}>
-    <div className={'flex flex-col 2xl:flex-row gap-4'}>
+    <div className={'flex flex-col 2xl:flex-row gap-4 mb-6'}>
       <RangeSlider
         label={'Price range'}
         min={0}
@@ -57,7 +61,22 @@ export default function FilterPanel({
         onChange={onPriceRangeChange}
         containerClassName={'basis-1/2'}
         tooltipClassName={'text-small-1'} />
-      <p className={'basis-1/2'}>a</p>
+    </div>
+    <div className={'flex justify-center gap-4'}>
+      <PrimaryButton
+        ariaLabel={'Search listings button'}
+        type={'submit'}
+        className={'button-link-leading-icon min-w-fit'}>
+        <HugeiconsIcon icon={Search01Icon} size={iconConstant.buttonIconSize} />
+        Filter
+      </PrimaryButton>
+      <PrimaryButton
+        ariaLabel={'Search listings button'}
+        type={'submit'}
+        className={'button-link-leading-icon min-w-fit'}>
+        <HugeiconsIcon icon={Search01Icon} size={iconConstant.buttonIconSize} />
+        Reset filter
+      </PrimaryButton>
     </div>
   </section>
 }

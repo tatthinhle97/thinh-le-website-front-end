@@ -15,10 +15,10 @@ import pageMetadataConstant from '../../../../constants/metadata/page.jsx'
 import valueBoxConstant from '../../../../constants/pages/sale-and-rental-listings/value-box.jsx'
 import projectConstant from '../../../../constants/project.jsx'
 import rentCastConstant from '../../../../constants/rentcast.jsx'
-import renderUtility from '../../../../utilities/render.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import GoogleMap from '../../../maps/google/index.jsx'
+import AveragePriceByListingTypeBarChart from './charts/bar.jsx'
 import PanelBar from './panel-bar.jsx'
 
 export function meta() {
@@ -44,11 +44,37 @@ export default function SaleAndRentalListingsPage() {
     textTheme
   } = useSelector(themeStates)
 
-  const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState()
+  const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState(undefined)
+  const [filteredSaleAndRentalListingsDto, setFilterSaleAndRentalListingsDto] = useState(undefined)
+  const [priceStats, setPriceStats] = useState({
+    min: 0,
+    median: 0,
+    max: 0
+  })
+
+  const updatePriceStats = (_saleAndRentalListingsDto) => {
+    const sortedPrices = _saleAndRentalListingsDto.locations
+      .map(item => item.price)
+      .sort((a, b) => a - b)
+
+    const min = sortedPrices[0] || 0
+    const max = sortedPrices[sortedPrices.length - 1] || 0
+    const median = sortedPrices.length
+      ? sortedPrices.length % 2 === 0
+        ? (sortedPrices[sortedPrices.length / 2 - 1] + sortedPrices[sortedPrices.length / 2]) / 2
+        : sortedPrices[Math.floor(sortedPrices.length / 2)]
+      : 0
+
+    setPriceStats({min, median, max})
+  }
 
   useEffect(() => {
     saleAndRentalListingsApi.getInitialSaleListings()
-      .then(_saleAndRentalListingsDto => setSaleAndRentalListingsDto(_saleAndRentalListingsDto))
+      .then(_saleAndRentalListingsDto => {
+        setSaleAndRentalListingsDto(_saleAndRentalListingsDto)
+        setFilterSaleAndRentalListingsDto(_saleAndRentalListingsDto)
+        updatePriceStats(_saleAndRentalListingsDto)
+      })
   }, [])
 
   const getValueBoxBackgroundColorClassNameById = useCallback((_id) => {
@@ -60,19 +86,21 @@ export default function SaleAndRentalListingsPage() {
     default: // 'maximumPrice'
       return backgroundTheme.invalid600
     }
-  }, [backgroundTheme.invalid600, backgroundTheme.valid600, backgroundTheme.warning400])
+  }, [
+    backgroundTheme.invalid600,
+    backgroundTheme.valid600,
+    backgroundTheme.warning400])
 
-  function getValueBoxValueById(_id) {
-    console.log('saleAndRentalListingsDto', saleAndRentalListingsDto)
+  const getValueBoxValueById = useCallback((_id) => {
     switch (_id) {
     case valueBoxConstant.minimumPrice.id:
-      return saleAndRentalListingsDto.min_price.toLocaleString()
+      return priceStats.min.toLocaleString() ?? 0
     case valueBoxConstant.medianPrice.id:
-      return saleAndRentalListingsDto.median_price.toLocaleString()
+      return priceStats.median.toLocaleString() ?? 0
     default: // 'maximumPrice'
-      return saleAndRentalListingsDto.max_price.toLocaleString()
+      return priceStats.max.toLocaleString() ?? 0
     }
-  }
+  }, [priceStats.max, priceStats.median, priceStats.min])
 
   const valueBoxes = useMemo(() => {
     return valueBoxConstant.allValueBoxes.map(
@@ -112,11 +140,64 @@ export default function SaleAndRentalListingsPage() {
     textTheme.secondaryColor600
   ])
 
+  const barChartData = useMemo(() => {
+    if (filteredSaleAndRentalListingsDto) {
+      const totalAndCountByListingType = filteredSaleAndRentalListingsDto.locations
+        .reduce((_accumulator, _currentLocation) => {
+          if (_currentLocation.listingType) {
+            // destruct the listingType and price
+            const {listingType, price} = _currentLocation
+
+            if (!_accumulator[listingType]) {
+              _accumulator[listingType] = {total: 0, count: 0}
+            }
+
+            _accumulator[listingType].total += price
+            _accumulator[listingType].count += 1
+          }
+
+          return _accumulator
+        }, {})
+
+      return Object.entries(totalAndCountByListingType)
+        .map(([_listingType, _groupedData]) => ({
+          listingType: _listingType,
+          // Round up to nearest integer
+          averagePrice: Math.round(_groupedData.total / _groupedData.count)
+        }))
+    }
+
+    return []
+  }, [filteredSaleAndRentalListingsDto])
+
+  console.log(barChartData)
+
+  const donutChartData = useMemo(() => {
+    if (filteredSaleAndRentalListingsDto) {
+      const countByListingType = filteredSaleAndRentalListingsDto.locations
+        .reduce((_accumulator, _currentLocation) => {
+          if (_currentLocation.listingType) {
+            _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
+          }
+
+          return _accumulator
+        }, {})
+
+      return Object.entries(countByListingType)
+        .map(([_listingType, _count]) => ({
+          listingType: _listingType,
+          count: _count
+        }))
+    }
+
+    return []
+  }, [filteredSaleAndRentalListingsDto])
+
   const [locations, coordinates] = useMemo(() => {
-    return saleAndRentalListingsDto
-      ? [saleAndRentalListingsDto.locations, saleAndRentalListingsDto.coordinates]
+    return filteredSaleAndRentalListingsDto
+      ? [filteredSaleAndRentalListingsDto.locations, filteredSaleAndRentalListingsDto.coordinates]
       : [[], []]
-  }, [saleAndRentalListingsDto])
+  }, [filteredSaleAndRentalListingsDto])
 
   const createMapIcon = useCallback((_icon) => {
     return <div className={stringUtility.merge([
@@ -171,7 +252,9 @@ export default function SaleAndRentalListingsPage() {
           {valueBoxes}
         </div>
         <div className={'flex flex-col lg:flex-row content-gap'}>
-          <div className={'basis-1/2'}>test</div>
+          <div className={'basis-1/2'}>
+            <AveragePriceByListingTypeBarChart data={barChartData} />
+          </div>
           <GoogleMap
             locations={locations}
             coordinates={coordinates}
