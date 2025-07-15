@@ -28,6 +28,10 @@ export function meta() {
   ]
 }
 
+export async function clientLoader() {
+  return await saleAndRentalListingsApi.getInitialSaleListings()
+}
+
 const themeStates = createStructuredSelector(
   {
     backgroundTheme: (_state) => _state.backgroundTheme,
@@ -37,45 +41,40 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function SaleAndRentalListingsPage() {
+export default function SaleAndRentalListingsPage({
+  loaderData: locationDtos
+}) {
   const {
     backgroundTheme,
     borderTheme,
     textTheme
   } = useSelector(themeStates)
 
-  const [locationDtos, setLocationDtos] = useState([])
-  const [filteredLocationDtos, setFilteredLocationDtos] = useState([])
+  const [filteredLocationDtos, setFilteredLocationDtos] = useState(locationDtos)
   const [priceStats, setPriceStats] = useState({
     min: 0,
     median: 0,
     max: 0
   })
 
-  const updatePriceStats = (_locationDtos) => {
-    const sortedPrices = _locationDtos
+  const calculatePriceStats = (_locationDtos) => {
+    const locationPrices = _locationDtos
       .map(item => item.price)
-      .sort((a, b) => a - b)
 
-    const min = sortedPrices[0] || 0
-    const max = sortedPrices[sortedPrices.length - 1] || 0
-    const median = sortedPrices.length
-      ? sortedPrices.length % 2 === 0
-        ? (sortedPrices[sortedPrices.length / 2 - 1] + sortedPrices[sortedPrices.length / 2]) / 2
-        : sortedPrices[Math.floor(sortedPrices.length / 2)]
+    const min = locationPrices[0] || 0
+    const max = locationPrices[locationPrices.length - 1] || 0
+    const median = locationPrices.length
+      ? locationPrices.length % 2 === 0
+        ? (locationPrices[locationPrices.length / 2 - 1] + locationPrices[locationPrices.length / 2]) / 2
+        : locationPrices[Math.floor(locationPrices.length / 2)]
       : 0
 
     setPriceStats({min, median, max})
   }
 
   useEffect(() => {
-    saleAndRentalListingsApi.getInitialSaleListings()
-      .then(_locationDtos => {
-        setLocationDtos(_locationDtos)
-        setFilteredLocationDtos(_locationDtos)
-        updatePriceStats(_locationDtos)
-      })
-  }, [])
+    calculatePriceStats(filteredLocationDtos)
+  }, [filteredLocationDtos])
 
   const getValueBoxBackgroundColorClassNameById = useCallback((_id) => {
     switch (_id) {
@@ -230,7 +229,7 @@ export default function SaleAndRentalListingsPage() {
         locationDtos,
         setFilteredLocationDtos,
         priceStats,
-        updatePriceStats
+        calculatePriceStats
       }}>
         <PanelBar />
       </SaleAndRentalListingsContext.Provider>

@@ -33,20 +33,20 @@ export default function FilterPanel({
     borderTheme
   } = useSelector(themeStates)
 
-  const {priceStats} = useContext(SaleAndRentalListingsContext)
+  const {locationDtos, priceStats, setFilteredLocationDtos} = useContext(SaleAndRentalListingsContext)
 
-  const [filteredPriceRange, setFilteredPriceRange] = useState({
-    min: 0,
-    max: 10
-  })
+  const priceRangeSliderRef = useRef(null)
+
+  const [priceRangeHanlders, setPriceRangeHanlders] = useState([
+    locationDtos[0].price,
+    locationDtos[locationDtos.length - 1].price
+  ])
   const [listingTypeValue, setListingTypeValue] = useState('')
   const [listingTypeOption, setListingTypeOption] = useState('')
   const [livingAreaValue, setLivingAreaValue] = useState('')
   const [livingAreaOption, setLivingAreaOption] = useState('')
   const [lotAreaValue, setLotAreaValue] = useState('')
   const [lotAreaOption, setLotAreaOption] = useState('')
-
-  const priceRangeSliderRef = useRef(null)
 
   const setPriceRangeDisplayValue = (value) => {
     const formatter = new Intl.NumberFormat('en-US', {
@@ -64,22 +64,18 @@ export default function FilterPanel({
   }
 
   const onPriceRangeChange = (handleValues) => {
-    setFilteredPriceRange({
-      min: setPriceRangeReturnValue(handleValues[0]),
-      max: setPriceRangeReturnValue(handleValues[1])
-    })
+    setPriceRangeHanlders([
+      setPriceRangeReturnValue(handleValues[0]),
+      setPriceRangeReturnValue(handleValues[1])
+    ])
   }
 
   const resetPriceRange = useCallback(() => {
-    setFilteredPriceRange({
-      min: priceStats.min,
-      max: priceStats.max
-    })
-  }, [priceStats.max, priceStats.min])
-
-  useEffect(() => {
-    resetPriceRange()
-  }, [resetPriceRange])
+    setPriceRangeHanlders([
+      locationDtos[0].price,
+      locationDtos[locationDtos.length - 1].price
+    ])
+  }, [locationDtos])
 
   const onListingTypeValueChange = (_event) => {
     setListingTypeValue(_event.target.value)
@@ -106,10 +102,17 @@ export default function FilterPanel({
   }
 
   const onFilterButtonClick = () => {
-    return undefined
+    const filteredLocationDtos = locationDtos.filter(
+      (_locationDto) => {
+        return _locationDto.price >= priceRangeHanlders[0]
+            && _locationDto.price <= priceRangeHanlders[1]
+      })
+
+    setFilteredLocationDtos(filteredLocationDtos)
   }
 
   const onResetFilterButtonClick = () => {
+    setFilteredLocationDtos(locationDtos)
     resetPriceRange()
     setListingTypeOption('')
     setLivingAreaOption('')
@@ -128,10 +131,10 @@ export default function FilterPanel({
       <RangeSlider
         ref={priceRangeSliderRef}
         label={'Price range'}
-        min={priceStats.min}
-        filteredMin={filteredPriceRange.min}
-        max={priceStats.max}
-        filteredMax={filteredPriceRange.max}
+        min={locationDtos[0].price}
+        filteredMin={priceRangeHanlders[0]}
+        max={locationDtos[locationDtos.length - 1].price}
+        filteredMax={priceRangeHanlders[1]}
         step={10}
         toValue={setPriceRangeDisplayValue}
         fromValue={setPriceRangeReturnValue}
