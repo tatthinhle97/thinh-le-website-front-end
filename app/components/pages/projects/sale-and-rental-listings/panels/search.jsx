@@ -10,6 +10,7 @@ import stringUtility from '../../../../../utilities/string.jsx'
 import PrimaryButton from '../../../../buttons/primary.jsx'
 import ComboBox from '../../../../combo-box.jsx'
 import NumberInput from '../../../../inputs/number.jsx'
+import TextInput from '../../../../inputs/text.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -20,8 +21,7 @@ const themeStates = createStructuredSelector(
 )
 
 const propertyTypeOptions = Object.values(rentCastConstant.propertyType)
-
-const forOptions = ['Rent', 'Sale']
+const forOptions = Object.values(rentCastConstant.forType)
 
 export default function SearchPanel({
   ref,
@@ -34,22 +34,22 @@ export default function SearchPanel({
     borderTheme
   } = useSelector(themeStates)
 
+  const [forValue, setForValue] = useState('')
+  const [forOption, setForOption] = useState(forOptions[0])
   const [states, setStates] = useState([])
   const [cityNames, setCityNames] = useState([])
   const [stateNameValue, setStateNameValue] = useState('')
-  const [stateNameOption, setStateNameOption] = useState(
-    'New Jersey')
+  const [stateNameOption, setStateNameOption] = useState('New Jersey')
   const [cityNameValue, setCityNameValue] = useState('')
-  const [cityNameOption, setCityNameOption] = useState(
-    'Atlantic City')
+  const [cityNameOption, setCityNameOption] = useState('Atlantic City')
+  const [zipCodeValue, setZipCodeValue]
+      = useState('')
   const [propertyTypeValue, setPropertyTypeValue]
     = useState('')
   const [
     propertyTypeOption,
     setPropertyTypeOption
   ] = useState(propertyTypeOptions[0])
-  const [forValue, setForValue] = useState('')
-  const [forOption, setForOption] = useState(forOptions[0])
   const [numberOfBedRoomsValue, setNumberOfBedRoomsValue]
     = useState('')
   const [numberOfBathRoomsValue, setNumberOfBathRoomsValue]
@@ -76,6 +76,10 @@ export default function SearchPanel({
     }
   }, [stateNameOption])
 
+  const onForValueChange = (_event) => {
+    setForValue(_event.target.value)
+  }
+
   const onStateNameValueChange = (_event) => {
     setStateNameValue(_event.target.value)
   }
@@ -99,12 +103,12 @@ export default function SearchPanel({
     setPropertyTypeValue(_event.target.value)
   }
 
-  const onPropertyTypeOptionChange = (_option) => {
-    setPropertyTypeOption(_option)
+  const onZipCodeValueChange = (_event) => {
+    setZipCodeValue(_event.target.value)
   }
 
-  const onForValueChange = (_event) => {
-    setForValue(_event.target.value)
+  const onPropertyTypeOptionChange = (_option) => {
+    setPropertyTypeOption(_option)
   }
 
   const onForOptionChange = (_option) => {
@@ -129,90 +133,88 @@ export default function SearchPanel({
     ])}>
     {/* [Form tip]: noValidate is to disable built-in form validation */}
     <form onSubmit={onFormSubmit} noValidate>
-      <div className={'flex flex-col 2xl:flex-row gap-4 mb-6'}>
-        <div className={'flex flex-col xs:flex-row gap-4 xs:basis-1/3'}>
-          <ComboBox
-            containerClassName={'basis-1/2'}
-            id={'state'}
-            isRequired={true}
-            shouldValidate={shouldValidateForm}
-            label={'State'}
-            name={'state'}
-            onComboBoxClose={() => setStateNameValue('')}
-            onOptionChange={onStateNameOptionChange}
-            onValueChange={onStateNameValueChange}
-            option={stateNameOption}
-            options={stateNames}
-            optionsClassName={'z-40'}
-            value={stateNameValue} />
-          <ComboBox
-            containerClassName={'basis-1/2'}
-            id={'city'}
-            isRequired={true}
-            shouldValidate={shouldValidateForm}
-            isVirtualScrolling={true}
-            label={'City'}
-            name={'city'}
-            onComboBoxClose={() => setCityNameValue('')}
-            onOptionChange={onCityNameOptionChange}
-            onValueChange={onCityNameValueChange}
-            option={cityNameOption}
-            options={cityNames}
-            optionsClassName={'z-40'}
-            value={cityNameValue} />
-        </div>
-        <div className={'flex flex-col xs:flex-row gap-4 xs:basis-1/3'}>
-          <ComboBox
-            containerClassName={'basis-1/2'}
-            id={'propertyType'}
-            isReadonly={true}
-            isRequired={true}
-            label={'Property type'}
-            name={'propertyType'}
-            onComboBoxClose={() => setPropertyTypeValue('')}
-            onOptionChange={onPropertyTypeOptionChange}
-            onValueChange={onPropertyTypeValueChange}
-            option={propertyTypeOption}
-            options={propertyTypeOptions}
-            optionsClassName={'z-40'}
-            value={propertyTypeValue} />
-          <ComboBox
-            containerClassName={'basis-1/2'}
-            id={'for'}
-            isReadonly={true}
-            isRequired={true}
-            label={'For'}
-            name={'for'}
-            onComboBoxClose={() => setForValue('')}
-            onOptionChange={onForOptionChange}
-            onValueChange={onForValueChange}
-            option={forOption}
-            options={forOptions}
-            optionsClassName={'z-40'}
-            value={forValue} />
-        </div>
-        <div className={'flex flex-col xs:flex-row gap-4 xs:basis-1/3'}>
-          <NumberInput
-            containerClassName={'basis-1/2'}
-            id={'numberOfBedRooms'}
-            shouldValidate={shouldValidateForm}
-            label={'Number of bedrooms'}
-            min={1}
-            name={'numberOfBedRooms'}
-            onValueChange={onNumberOfBedRoomsValueChange}
-            validationMessage={'Number must greater than 0'}
-            value={numberOfBedRoomsValue} />
-          <NumberInput
-            containerClassName={'basis-1/2'}
-            id={'numberOfBathRooms'}
-            shouldValidate={shouldValidateForm}
-            label={'Number of bathrooms'}
-            min={1}
-            name={'numberOfBathRooms'}
-            onValueChange={onNumberOfBathRoomsValueChange}
-            validationMessage={'Number must greater than 0'}
-            value={numberOfBathRoomsValue} />
-        </div>
+      <div className={'grid sm:grid-cols-3 2xl:grid-cols-10 gap-4 mb-4'}>
+        <ComboBox
+          id={'for'}
+          isReadonly={true}
+          isRequired={true}
+          label={'For'}
+          name={'for'}
+          onComboBoxClose={() => setForValue('')}
+          onOptionChange={onForOptionChange}
+          onValueChange={onForValueChange}
+          option={forOption}
+          options={forOptions}
+          optionsClassName={'z-40'}
+          value={forValue} />
+        <ComboBox
+          containerClassName={'2xl:col-span-2'}
+          id={'state'}
+          isRequired={true}
+          shouldValidate={shouldValidateForm}
+          label={'State'}
+          name={'state'}
+          onComboBoxClose={() => setStateNameValue('')}
+          onOptionChange={onStateNameOptionChange}
+          onValueChange={onStateNameValueChange}
+          option={stateNameOption}
+          options={stateNames}
+          optionsClassName={'z-40'}
+          value={stateNameValue} />
+        <ComboBox
+          containerClassName={'2xl:col-span-2'}
+          id={'city'}
+          isRequired={true}
+          shouldValidate={shouldValidateForm}
+          isVirtualScrolling={true}
+          label={'City'}
+          name={'city'}
+          onComboBoxClose={() => setCityNameValue('')}
+          onOptionChange={onCityNameOptionChange}
+          onValueChange={onCityNameValueChange}
+          option={cityNameOption}
+          options={cityNames}
+          optionsClassName={'z-40'}
+          value={cityNameValue} />
+        <TextInput
+          id={'zipCode'}
+          shouldValidate={shouldValidateForm}
+          label={'Zip code'}
+          name={'zipCode'}
+          onValueChange={onZipCodeValueChange}
+          value={zipCodeValue} />
+        <ComboBox
+          containerClassName={'2xl:col-span-2'}
+          id={'propertyType'}
+          isReadonly={true}
+          isRequired={true}
+          label={'Property type'}
+          name={'propertyType'}
+          onComboBoxClose={() => setPropertyTypeValue('')}
+          onOptionChange={onPropertyTypeOptionChange}
+          onValueChange={onPropertyTypeValueChange}
+          option={propertyTypeOption}
+          options={propertyTypeOptions}
+          optionsClassName={'z-40'}
+          value={propertyTypeValue} />
+        <NumberInput
+          id={'numberOfBedRooms'}
+          shouldValidate={shouldValidateForm}
+          label={'Bedrooms'}
+          min={1}
+          name={'numberOfBedRooms'}
+          onValueChange={onNumberOfBedRoomsValueChange}
+          validationMessage={'Number must greater than 0'}
+          value={numberOfBedRoomsValue} />
+        <NumberInput
+          id={'numberOfBathRooms'}
+          shouldValidate={shouldValidateForm}
+          label={'BathRooms'}
+          min={1}
+          name={'numberOfBathRooms'}
+          onValueChange={onNumberOfBathRoomsValueChange}
+          validationMessage={'Number must greater than 0'}
+          value={numberOfBathRoomsValue} />
       </div>
       <PrimaryButton
         ariaLabel={'Search listings button'}

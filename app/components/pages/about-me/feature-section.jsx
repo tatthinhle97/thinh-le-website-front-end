@@ -47,7 +47,7 @@ export default function FeatureSection() {
   return <section>
     <div className={stringUtility.merge([
       'container-layout p-y-feature-section px-6',
-      'flex flex-col-reverse lg:flex-row gap-x-8 justify-between',
+      'flex flex-col-reverse lg:flex-row gap-6 justify-between',
       'items-center'
     ])}>
       <div className={'basis-2/5'}>

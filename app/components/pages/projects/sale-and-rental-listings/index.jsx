@@ -15,10 +15,11 @@ import pageMetadataConstant from '../../../../constants/metadata/page.jsx'
 import valueBoxConstant from '../../../../constants/pages/sale-and-rental-listings/value-box.jsx'
 import projectConstant from '../../../../constants/project.jsx'
 import rentCastConstant from '../../../../constants/rentcast.jsx'
+import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import GoogleMap from '../../../maps/google/index.jsx'
-import AveragePriceByListingTypeBarChart from './charts/bar.jsx'
+import DonutChart from './charts/bar.jsx'
 import PanelBar from './panel-bar.jsx'
 
 export function meta() {
@@ -142,28 +143,20 @@ export default function SaleAndRentalListingsPage() {
 
   const barChartData = useMemo(() => {
     if (filteredSaleAndRentalListingsDto) {
-      const totalAndCountByListingType = filteredSaleAndRentalListingsDto.locations
+      const countByListingType = filteredSaleAndRentalListingsDto.locations
         .reduce((_accumulator, _currentLocation) => {
           if (_currentLocation.listingType) {
-            // destruct the listingType and price
-            const {listingType, price} = _currentLocation
-
-            if (!_accumulator[listingType]) {
-              _accumulator[listingType] = {total: 0, count: 0}
-            }
-
-            _accumulator[listingType].total += price
-            _accumulator[listingType].count += 1
+            _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
           }
 
           return _accumulator
         }, {})
 
-      return Object.entries(totalAndCountByListingType)
-        .map(([_listingType, _groupedData]) => ({
+      return Object.entries(countByListingType)
+        .map(([_listingType, _count]) => ({
           listingType: _listingType,
           // Round up to nearest integer
-          averagePrice: Math.round(_groupedData.total / _groupedData.count)
+          count: _count
         }))
     }
 
@@ -240,7 +233,9 @@ export default function SaleAndRentalListingsPage() {
       and insights in the housing market.
     </p>
     <section>
-      <PanelBar />
+      <SaleAndRentalListingsContext.Provider value={{priceStats}}>
+        <PanelBar />
+      </SaleAndRentalListingsContext.Provider>
       <section
         className={stringUtility.merge([
           'p-4 border border-t-0 flex flex-col gap-4 rounded-b-lg',
@@ -251,15 +246,17 @@ export default function SaleAndRentalListingsPage() {
         <div className={'flex flex-col md:flex-row gap-4'}>
           {valueBoxes}
         </div>
-        <div className={'flex flex-col lg:flex-row content-gap'}>
-          <div className={'basis-1/2'}>
-            <AveragePriceByListingTypeBarChart data={barChartData} />
+        <div className={'flex flex-col lg:flex-row gap-4'}>
+          <div className={'grow min-h-96'}>
+            <DonutChart data={barChartData} />
           </div>
-          <GoogleMap
-            locations={locations}
-            coordinates={coordinates}
-            onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
-            className={'basis-1/2 rounded-lg'} />
+          <div className={'grow aspect-3/2'}>
+            <GoogleMap
+              locations={locations}
+              coordinates={coordinates}
+              onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
+              mapClassName={''} />
+          </div>
         </div>
       </section>
     </section>

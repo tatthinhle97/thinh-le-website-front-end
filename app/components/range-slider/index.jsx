@@ -1,5 +1,5 @@
 import noUiSlider from 'nouislider'
-import {useEffect, useRef} from 'react'
+import {memo, useEffect, useRef} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import renderUtility from '../../utilities/render.jsx'
@@ -13,36 +13,38 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function RangeSlider({
+const RangeSlider = memo(({
   label,
   min = 0,
+  filteredMin = 0,
   max = 100,
+  filteredMax = 100,
   behaviour = 'drag-tap',
   step,
   toValue,
   fromValue,
   onChange,
   containerClassName,
-  tooltipClassName
-}) {
+  tooltipClassName,
+  ref
+}) => {
   const {
     backgroundTheme,
     borderTheme
   } = useSelector(themeStates)
 
-  const rangeSliderRef = useRef(null)
   const rangeSliderContainerRef = useRef(null)
 
   useEffect(() => {
-    const rangeSliderElement = rangeSliderRef.current
-
-    if (!rangeSliderElement) {
+    if (!ref || !ref.current) {
       return
     }
 
+    const rangeSliderElement = ref.current
+
     /* Create the range slider */
     noUiSlider.create(rangeSliderElement, {
-      start: [min, max],
+      start: [filteredMin, filteredMax],
       behaviour: behaviour,
       step: step,
       connect: [false, true, false],
@@ -112,9 +114,10 @@ export default function RangeSlider({
         valueVertical: 'noUi-value-vertical',
         markerVertical: 'noUi-marker-vertical',
         tooltip: stringUtility.merge([
-          'noUi-tooltip absolute py-0.5 px-1 border rounded-normal',
+          'noUi-tooltip absolute py-0.5 px-1 border rounded-md',
           'text-center whitespace-nowrap -translate-x-1/2 left-1/2',
           'bottom-5 lg:bottom-6.25',
+          backgroundTheme.primaryColor,
           borderTheme.secondaryColor300,
           tooltipClassName
         ])
@@ -153,7 +156,9 @@ export default function RangeSlider({
     borderTheme.active.accentColor700,
     borderTheme.hover.accentColor700,
     borderTheme.secondaryColor300,
-    fromValue, max, min, onChange, step, toValue, tooltipClassName]
+    fromValue, max, min, onChange, ref, step,
+    toValue, tooltipClassName
+  ]
   )
 
   return <div className={stringUtility.merge([
@@ -170,7 +175,9 @@ export default function RangeSlider({
         'pb-1.5 lg:pb-2.25 pt-9 lg:pt-10.75'
       ])}>
       <div
-        ref={rangeSliderRef}></div>
+        ref={ref}></div>
     </div>
   </div>
-}
+})
+
+export default RangeSlider

@@ -5,7 +5,7 @@ import Card from '../../card.jsx'
 export default function Projects() {
   return <section>
     <div className={stringUtility.merge([
-      'container-layout px-6 gap-x-8 gap-y-20 grid-3-columns'
+      'container-layout px-6 gap-x-6 gap-y-20 grid-3-columns'
     ])}>
       {projectConstant.allProjects.map((_projectCard, _index) => {
         return (

@@ -11,7 +11,7 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function NumberInput({
+export default function TextInput({
   containerClassName,
   id,
   isRequired = false,
@@ -21,8 +21,6 @@ export default function NumberInput({
   shouldValidate = false,
   label,
   shouldDisplayLabel = true,
-  max,
-  min,
   name,
   onValueChange,
   placeholder = '',
@@ -58,13 +56,11 @@ export default function NumberInput({
       {prefix}
       <input
         aria-label={label}
-        type={'number'}
+        type={'text'}
         value={value}
         id={id}
         required={isRequired}
         name={name}
-        min={min}
-        max={max}
         placeholder={placeholder}
         className={stringUtility.merge([
           'w-full focus:outline-0',

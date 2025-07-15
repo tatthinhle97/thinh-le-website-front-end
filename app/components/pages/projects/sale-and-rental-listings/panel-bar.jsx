@@ -1,8 +1,9 @@
 import {HugeiconsIcon} from '@hugeicons/react'
-import {PreferenceHorizontalIcon, Search01Icon} from '@hugeicons-pro/core-solid-rounded'
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {FilterIcon, Search01Icon} from '@hugeicons-pro/core-solid-rounded'
+import {useCallback, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
+import iconConstant from '../../../../constants/icon.jsx'
 import panelNameConstant from '../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import IconButton from '../../../buttons/icon.jsx'
@@ -24,9 +25,7 @@ export default function PanelBar() {
   } = useSelector(themeStates)
 
   const panelRef = useRef(null)
-  const searchButtonRef = useRef(null)
   const searchPanelRef = useRef(null)
-  const filterButtonRef = useRef(null)
   const filterPanelRef = useRef(null)
 
   const [activePanelName, setActivePanelName] = useState(undefined)
@@ -72,35 +71,6 @@ export default function PanelBar() {
     }
   }
 
-  useEffect(() => {
-    const hidePanelWhenClickOutside = (event) => {
-      let clickedOutside = true;
-
-      [
-        searchButtonRef,
-        searchPanelRef,
-        filterButtonRef,
-        filterPanelRef
-      ].forEach((_elementRef) => {
-        if (_elementRef.current && _elementRef.current.contains(event.target)) {
-          clickedOutside = false
-        }
-      })
-
-      if (clickedOutside) {
-        hidePanelByName(activePanelName)
-      }
-    }
-
-    // Add listener when component mounts
-    document.addEventListener('click', hidePanelWhenClickOutside)
-
-    // Cleanup the listener when component unmounts
-    return () => {
-      document.removeEventListener('click', hidePanelWhenClickOutside)
-    }
-  }, [activePanelName, hidePanelByName])
-
   const onSearchIconButtonClick = (_event) => {
     _event.preventDefault()
     setShouldValidateSearchPanel(false)
@@ -143,18 +113,16 @@ export default function PanelBar() {
       borderTheme.secondaryColor300
     ])}>
       <IconButton
-        ref={searchButtonRef}
         ariaLabel={'Search icon button'}
         onClick={onSearchIconButtonClick}
         className={'wh-normal cursor-pointer'}>
-        <HugeiconsIcon icon={Search01Icon} />
+        <HugeiconsIcon icon={Search01Icon} size={iconConstant.defaultSize} />
       </IconButton>
       <IconButton
-        ref={filterButtonRef}
         ariaLabel={'Filter icon button'}
         onClick={onFilterIconButtonClick}
         className={'wh-normal cursor-pointer'}>
-        <HugeiconsIcon icon={PreferenceHorizontalIcon} />
+        <HugeiconsIcon icon={FilterIcon} size={iconConstant.defaultSize} />
       </IconButton>
     </div>
     <SearchPanel

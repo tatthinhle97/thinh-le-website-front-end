@@ -4,45 +4,40 @@ import stringUtility from '../../../utilities/string.jsx'
 import BoundaryFit from './boundary-fit.jsx'
 
 const GoogleMap = memo(({
-  className = '',
   locations,
   coordinates,
   onIconRender,
   isClickable = true,
-  markerClassName = ''
+  markerClassName = '',
+  mapClassName = '',
+  defaultZoom = 8,
+  defaultLat = 40.143,
+  defaultLng = -74.726
+
 }) => {
-  return <div
-    className={stringUtility.merge([
-      'min-h-120',
-      className
-    ])}>
-    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
-      <Map
-        style={{
-          borderRadius: '0.5rem', // rounded-lg
-          overflow: 'hidden',
-          width: '100%',
-          height: '100%'
-        }}
-        // onCameraChanged={(e) => console.log(e.detail.zoom)}
-        defaultZoom={8}
-        defaultCenter={{lat: 40.143, lng: -74.726}}
-        // Required for AdvancedMarker
-        mapId={import.meta.env.VITE_GOOGLE_MAP_ID}>
-        {/* Render markers */}
-        {locations.map((_location, _index) => <AdvancedMarker
-          key={_index}
-          title={_location.title}
-          // Format: {lat: number, lng: number}
-          position={{lat: _location.latitude, lng: _location.longitude}}
-          clickable={isClickable}
-          className={markerClassName}>
-          {onIconRender(_location)}
-        </AdvancedMarker>)}
-        <BoundaryFit coordinates={coordinates} />
-      </Map>
-    </APIProvider>
-  </div>
+  return <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+    <Map
+      // onCameraChanged={(e) => console.log(e.detail.zoom)}
+      defaultZoom={defaultZoom}
+      defaultCenter={{lat: defaultLat, lng: defaultLng}}
+      // Required for AdvancedMarker
+      mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
+      className={stringUtility.merge([
+        mapClassName
+      ])}>
+      {/* Render markers */}
+      {locations.map((_location, _index) => <AdvancedMarker
+        key={_index}
+        title={_location.title}
+        // Format: {lat: number, lng: number}
+        position={{lat: _location.latitude, lng: _location.longitude}}
+        clickable={isClickable}
+        className={markerClassName}>
+        {onIconRender(_location)}
+      </AdvancedMarker>)}
+      <BoundaryFit coordinates={coordinates} />
+    </Map>
+  </APIProvider>
 })
 
 export default GoogleMap
