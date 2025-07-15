@@ -3,20 +3,21 @@ import {useMap} from '@vis.gl/react-google-maps'
 import {useEffect} from 'react'
 
 export default function BoundaryFit({
-  coordinates
+  locations
 }) {
   const map = useMap()
 
   // Adjust the map view to fit all the markers
   useEffect(() => {
-    if (!map || coordinates.length === 0) return
+    if (!map || locations.length === 0) return
 
     const bounds = new window.google.maps.LatLngBounds()
-    coordinates.forEach(_location => bounds.extend(_location)
-    )
+    locations.forEach(_location => bounds.extend({
+      lat: _location.lat, lng: _location.lng
+    }))
 
     map.fitBounds(bounds)
-  }, [coordinates, map])
+  }, [locations, map])
 
   return <></>
 }

@@ -45,16 +45,17 @@ export default function SaleAndRentalListingsPage() {
     textTheme
   } = useSelector(themeStates)
 
-  const [saleAndRentalListingsDto, setSaleAndRentalListingsDto] = useState(undefined)
-  const [filteredSaleAndRentalListingsDto, setFilterSaleAndRentalListingsDto] = useState(undefined)
+  const [locationDtos, setLocationDtos] = useState([])
+  const [filteredLocationDtos, setFilteredLocationDtos] = useState([])
   const [priceStats, setPriceStats] = useState({
     min: 0,
     median: 0,
     max: 0
   })
 
-  const updatePriceStats = (_saleAndRentalListingsDto) => {
-    const sortedPrices = _saleAndRentalListingsDto.locations
+  const updatePriceStats = (_locationDtos) => {
+    console.log(_locationDtos)
+    const sortedPrices = _locationDtos
       .map(item => item.price)
       .sort((a, b) => a - b)
 
@@ -71,10 +72,10 @@ export default function SaleAndRentalListingsPage() {
 
   useEffect(() => {
     saleAndRentalListingsApi.getInitialSaleListings()
-      .then(_saleAndRentalListingsDto => {
-        setSaleAndRentalListingsDto(_saleAndRentalListingsDto)
-        setFilterSaleAndRentalListingsDto(_saleAndRentalListingsDto)
-        updatePriceStats(_saleAndRentalListingsDto)
+      .then(_locationDtos => {
+        setLocationDtos(_locationDtos)
+        setFilteredLocationDtos(_locationDtos)
+        updatePriceStats(_locationDtos)
       })
   }, [])
 
@@ -141,56 +142,50 @@ export default function SaleAndRentalListingsPage() {
     textTheme.secondaryColor600
   ])
 
-  const barChartData = useMemo(() => {
-    if (filteredSaleAndRentalListingsDto) {
-      const countByListingType = filteredSaleAndRentalListingsDto.locations
-        .reduce((_accumulator, _currentLocation) => {
-          if (_currentLocation.listingType) {
-            _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
-          }
-
-          return _accumulator
-        }, {})
-
-      return Object.entries(countByListingType)
-        .map(([_listingType, _count]) => ({
-          listingType: _listingType,
-          // Round up to nearest integer
-          count: _count
-        }))
-    }
-
-    return []
-  }, [filteredSaleAndRentalListingsDto])
-
-  console.log(barChartData)
-
-  const donutChartData = useMemo(() => {
-    if (filteredSaleAndRentalListingsDto) {
-      const countByListingType = filteredSaleAndRentalListingsDto.locations
-        .reduce((_accumulator, _currentLocation) => {
-          if (_currentLocation.listingType) {
-            _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
-          }
-
-          return _accumulator
-        }, {})
-
-      return Object.entries(countByListingType)
-        .map(([_listingType, _count]) => ({
-          listingType: _listingType,
-          count: _count
-        }))
-    }
-
-    return []
-  }, [filteredSaleAndRentalListingsDto])
-
-  const [locations, coordinates] = useMemo(() => {
-    return filteredSaleAndRentalListingsDto
-      ? [filteredSaleAndRentalListingsDto.locations, filteredSaleAndRentalListingsDto.coordinates]
-      : [[], []]
-  }, [filteredSaleAndRentalListingsDto])
+  // const barChartData = useMemo(() => {
+  //   if (filteredLocationDtos) {
+  //     const countByListingType = filteredLocationDtos.locations
+  //       .reduce((_accumulator, _currentLocation) => {
+  //         if (_currentLocation.listingType) {
+  //           _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
+  //         }
+  //
+  //         return _accumulator
+  //       }, {})
+  //
+  //     return Object.entries(countByListingType)
+  //       .map(([_listingType, _count]) => ({
+  //         listingType: _listingType,
+  //         // Round up to nearest integer
+  //         count: _count
+  //       }))
+  //   }
+  //
+  //   return []
+  // }, [filteredLocationDtos])
+  //
+  // console.log(barChartData)
+  //
+  // const donutChartData = useMemo(() => {
+  //   if (filteredLocationDtos) {
+  //     const countByListingType = filteredLocationDtos.locations
+  //       .reduce((_accumulator, _currentLocation) => {
+  //         if (_currentLocation.listingType) {
+  //           _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
+  //         }
+  //
+  //         return _accumulator
+  //       }, {})
+  //
+  //     return Object.entries(countByListingType)
+  //       .map(([_listingType, _count]) => ({
+  //         listingType: _listingType,
+  //         count: _count
+  //       }))
+  //   }
+  //
+  //   return []
+  // }, [filteredLocationDtos])
 
   const createMapIcon = useCallback((_icon) => {
     return <div className={stringUtility.merge([
@@ -220,6 +215,7 @@ export default function SaleAndRentalListingsPage() {
       return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} className={'wh-normal'} />)
     }
   }, [createMapIcon])
+  console.log(filteredLocationDtos)
 
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
@@ -248,12 +244,10 @@ export default function SaleAndRentalListingsPage() {
         </div>
         <div className={'flex flex-col lg:flex-row gap-4'}>
           <div className={'grow min-h-96'}>
-            <DonutChart data={barChartData} />
           </div>
           <div className={'grow aspect-3/2'}>
             <GoogleMap
-              locations={locations}
-              coordinates={coordinates}
+              locations={filteredLocationDtos}
               onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
               mapClassName={''} />
           </div>

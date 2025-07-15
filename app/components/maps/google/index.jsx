@@ -30,12 +30,12 @@ const GoogleMap = memo(({
         key={_index}
         title={_location.title}
         // Format: {lat: number, lng: number}
-        position={{lat: _location.latitude, lng: _location.longitude}}
+        position={{lat: _location.lat, lng: _location.lng}}
         clickable={isClickable}
         className={markerClassName}>
         {onIconRender(_location)}
       </AdvancedMarker>)}
-      <BoundaryFit coordinates={coordinates} />
+      <BoundaryFit locations={locations} />
     </Map>
   </APIProvider>
 })

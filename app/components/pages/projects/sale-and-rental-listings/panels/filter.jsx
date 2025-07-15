@@ -36,7 +36,7 @@ export default function FilterPanel({
 
   const [filteredPriceRange, setFilteredPriceRange] = useState({
     min: 0,
-    max: 100000
+    max: 10
   })
   const [livingAreaValue, setLivingAreaValue] = useState('')
   const [livingAreaOption, setLivingAreaOption] = useState('')
@@ -100,8 +100,8 @@ export default function FilterPanel({
 
   const onResetFilterButtonClick = () => {
     resetPriceRange()
-    setLivingAreaValue('')
-    setLotAreaValue('')
+    setLivingAreaOption('')
+    setLotAreaOption('')
   }
 
   return <section
