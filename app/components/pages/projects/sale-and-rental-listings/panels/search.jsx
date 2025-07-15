@@ -1,11 +1,13 @@
 import {HugeiconsIcon} from '@hugeicons/react'
 import {Search01Icon} from '@hugeicons-pro/core-solid-rounded'
-import {useEffect, useMemo, useState} from 'react'
+import {useContext, useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import locationApi from '../../../../../apis/location.js'
 import iconConstant from '../../../../../constants/icon.jsx'
+import panelNameConstant from '../../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
 import rentCastConstant from '../../../../../constants/rentcast.jsx'
+import {SaleAndRentalListingsContext} from '../../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
 import PrimaryButton from '../../../../buttons/primary.jsx'
 import ComboBox from '../../../../combo-box.jsx'
@@ -25,8 +27,6 @@ const forOptions = Object.values(rentCastConstant.forType)
 
 export default function SearchPanel({
   ref,
-  onFormSubmit,
-  shouldValidateForm = false,
   className
 }) {
   const {
@@ -34,6 +34,9 @@ export default function SearchPanel({
     borderTheme
   } = useSelector(themeStates)
 
+  const {activePanelName, togglePanel} = useContext(SaleAndRentalListingsContext)
+
+  const [shouldValidateForm, setShouldValidateForm] = useState(true)
   const [forValue, setForValue] = useState('')
   const [forOption, setForOption] = useState(forOptions[0])
   const [states, setStates] = useState([])
@@ -56,6 +59,13 @@ export default function SearchPanel({
     = useState('')
 
   useEffect(() => {
+    if (activePanelName !== panelNameConstant.search
+    || ref.current.classList.contains('hidden')) {
+      setShouldValidateForm(false)
+    }
+  }, [activePanelName, ref])
+
+  useEffect(() => {
     // Get all the states when the component first loaded
     locationApi.getStates().then(data => setStates(data))
   }, [])
@@ -75,6 +85,24 @@ export default function SearchPanel({
       setCityNames([])
     }
   }, [stateNameOption])
+
+  const onSearchPanelFormSubmit = (_event) => {
+    _event.preventDefault()
+
+    if (!_event.target.checkValidity()) {
+      setShouldValidateForm(true)
+      return
+    }
+
+    setShouldValidateForm(false)
+
+    const formData = new FormData(_event.target)
+    const data = Object.fromEntries(formData.entries())
+    console.log('TODO:', data)
+
+    // Hide the search panel by toggling the class name
+    togglePanel(panelNameConstant.search)
+  }
 
   const onForValueChange = (_event) => {
     setForValue(_event.target.value)
@@ -132,7 +160,7 @@ export default function SearchPanel({
       className
     ])}>
     {/* [Form tip]: noValidate is to disable built-in form validation */}
-    <form onSubmit={onFormSubmit} noValidate>
+    <form onSubmit={onSearchPanelFormSubmit} noValidate>
       <div className={'grid sm:grid-cols-3 2xl:grid-cols-10 gap-4 mb-4'}>
         <ComboBox
           id={'for'}

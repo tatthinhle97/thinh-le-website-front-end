@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import iconConstant from '../../../../constants/icon.jsx'
 import panelNameConstant from '../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
+import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import IconButton from '../../../buttons/icon.jsx'
 import FilterPanel from './panels/filter.jsx'
@@ -29,7 +30,6 @@ export default function PanelBar() {
   const filterPanelRef = useRef(null)
 
   const [activePanelName, setActivePanelName] = useState(undefined)
-  const [shouldValidateSearchPanel, setShouldValidateSearchPanel] = useState(false)
 
   const getPanelByName = (_panelName) => {
     switch (_panelName) {
@@ -73,32 +73,12 @@ export default function PanelBar() {
 
   const onSearchIconButtonClick = (_event) => {
     _event.preventDefault()
-    setShouldValidateSearchPanel(false)
     togglePanel(panelNameConstant.search)
   }
 
   const onFilterIconButtonClick = (_event) => {
     _event.preventDefault()
-    setShouldValidateSearchPanel(false)
     togglePanel(panelNameConstant.filter)
-  }
-
-  const onSearchPanelFormSubmit = (_event) => {
-    _event.preventDefault()
-
-    if (!_event.target.checkValidity()) {
-      setShouldValidateSearchPanel(true)
-      return
-    }
-
-    setShouldValidateSearchPanel(false)
-
-    const formData = new FormData(_event.target)
-    const data = Object.fromEntries(formData.entries())
-    console.log('TODO:', data)
-
-    // Hide the search panel by toggling the class name
-    togglePanel(panelNameConstant.search)
   }
 
   return <section
@@ -125,13 +105,17 @@ export default function PanelBar() {
         <HugeiconsIcon icon={FilterIcon} size={iconConstant.defaultSize} />
       </IconButton>
     </div>
-    <SearchPanel
-      ref={searchPanelRef}
-      shouldValidateForm={shouldValidateSearchPanel}
-      onFormSubmit={onSearchPanelFormSubmit}
-      className={stringUtility.merge([
-        'hidden absolute inset-x-0'
-      ])} />
+
+    <SaleAndRentalListingsContext.Provider value={{
+      activePanelName,
+      togglePanel
+    }}>
+      <SearchPanel
+        ref={searchPanelRef}
+        className={stringUtility.merge([
+          'hidden absolute inset-x-0'
+        ])} />
+    </SaleAndRentalListingsContext.Provider>
     <FilterPanel
       ref={filterPanelRef}
       className={'hidden absolute inset-x-0'} />

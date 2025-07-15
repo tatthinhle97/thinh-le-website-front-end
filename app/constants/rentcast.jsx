@@ -34,11 +34,19 @@ const lotAreaType = {
   over10M: '10M+'
 }
 
+const listingType = {
+  standard: 'Standard',
+  newConstruction: 'New Construction',
+  foreclosure: ' Foreclosure',
+  shortSale: 'Short Sale'
+}
+
 const rentCastConstant = {
   propertyType,
   forType,
   livingAreaType,
-  lotAreaType
+  lotAreaType,
+  listingType
 }
 
 export default rentCastConstant

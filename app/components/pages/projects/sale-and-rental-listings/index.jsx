@@ -19,7 +19,6 @@ import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import GoogleMap from '../../../maps/google/index.jsx'
-import DonutChart from './charts/bar.jsx'
 import PanelBar from './panel-bar.jsx'
 
 export function meta() {
@@ -54,7 +53,6 @@ export default function SaleAndRentalListingsPage() {
   })
 
   const updatePriceStats = (_locationDtos) => {
-    console.log(_locationDtos)
     const sortedPrices = _locationDtos
       .map(item => item.price)
       .sort((a, b) => a - b)
@@ -215,7 +213,6 @@ export default function SaleAndRentalListingsPage() {
       return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} className={'wh-normal'} />)
     }
   }, [createMapIcon])
-  console.log(filteredLocationDtos)
 
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
@@ -229,7 +226,12 @@ export default function SaleAndRentalListingsPage() {
       and insights in the housing market.
     </p>
     <section>
-      <SaleAndRentalListingsContext.Provider value={{priceStats}}>
+      <SaleAndRentalListingsContext.Provider value={{
+        locationDtos,
+        setFilteredLocationDtos,
+        priceStats,
+        updatePriceStats
+      }}>
         <PanelBar />
       </SaleAndRentalListingsContext.Provider>
       <section

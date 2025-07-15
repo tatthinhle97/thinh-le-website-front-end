@@ -22,6 +22,7 @@ const themeStates = createStructuredSelector(
 
 const livingAreaOptions = Object.values(rentCastConstant.livingAreaType)
 const lotAreaOptions = Object.values(rentCastConstant.lotAreaType)
+const listingTypeOptions = Object.values(rentCastConstant.listingType)
 
 export default function FilterPanel({
   ref,
@@ -38,6 +39,8 @@ export default function FilterPanel({
     min: 0,
     max: 10
   })
+  const [listingTypeValue, setListingTypeValue] = useState('')
+  const [listingTypeOption, setListingTypeOption] = useState('')
   const [livingAreaValue, setLivingAreaValue] = useState('')
   const [livingAreaOption, setLivingAreaOption] = useState('')
   const [lotAreaValue, setLotAreaValue] = useState('')
@@ -78,6 +81,14 @@ export default function FilterPanel({
     resetPriceRange()
   }, [resetPriceRange])
 
+  const onListingTypeValueChange = (_event) => {
+    setListingTypeValue(_event.target.value)
+  }
+
+  const onListingTypeOptionChange = (_option) => {
+    setListingTypeOption(_option)
+  }
+
   const onLivingAreaValueChange = (_event) => {
     setLivingAreaValue(_event.target.value)
   }
@@ -100,6 +111,7 @@ export default function FilterPanel({
 
   const onResetFilterButtonClick = () => {
     resetPriceRange()
+    setListingTypeOption('')
     setLivingAreaOption('')
     setLotAreaOption('')
   }
@@ -112,10 +124,9 @@ export default function FilterPanel({
       backgroundTheme.primaryColor,
       className
     ])}>
-    <div className={'grid xl:grid-cols-5 gap-4 mb-4'}>
+    <div className={'grid 2xl:grid-cols-2 gap-4 mb-4'}>
       <RangeSlider
         ref={priceRangeSliderRef}
-        containerClassName={'xl:col-span-3'}
         label={'Price range'}
         min={priceStats.min}
         filteredMin={filteredPriceRange.min}
@@ -126,11 +137,20 @@ export default function FilterPanel({
         fromValue={setPriceRangeReturnValue}
         onChange={onPriceRangeChange}
         tooltipClassName={'text-small-1'} />
-      <div className={'xl:col-span-2 grid sm:grid-cols-2 gap-4'}>
+      <div className={'grid md:grid-cols-3 gap-4'}>
+        <ComboBox
+          id={'listingType'}
+          label={'Listing type'}
+          name={'listingType'}
+          onComboBoxClose={() => setListingTypeValue('')}
+          onOptionChange={onListingTypeOptionChange}
+          onValueChange={onListingTypeValueChange}
+          option={listingTypeOption}
+          options={listingTypeOptions}
+          optionsClassName={'z-2'}
+          value={listingTypeValue} />
         <ComboBox
           id={'livingArea'}
-          isReadonly={true}
-          isRequired={true}
           label={'Living area'}
           name={'livingArea'}
           onComboBoxClose={() => setLivingAreaValue('')}
@@ -142,8 +162,6 @@ export default function FilterPanel({
           value={livingAreaValue} />
         <ComboBox
           id={'lotArea'}
-          isReadonly={true}
-          isRequired={true}
           label={'Lot area'}
           name={'lotArea'}
           onComboBoxClose={() => setLotAreaValue('')}

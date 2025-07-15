@@ -5,7 +5,6 @@ import BoundaryFit from './boundary-fit.jsx'
 
 const GoogleMap = memo(({
   locations,
-  coordinates,
   onIconRender,
   isClickable = true,
   markerClassName = '',
