@@ -11,6 +11,7 @@
     "@googlemaps/markerclusterer": "^2.5.3",
     "@headlessui/react": "^2.2.4",
     "@hugeicons-pro/core-solid-rounded": "^1.0.14",
+    "@hugeicons-pro/core-stroke-rounded": "^1.0.14",
     "@hugeicons/react": "^1.0.5",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",

@@ -1,12 +1,4 @@
-import {
-  Building05Icon,
-  FactoryIcon,
-  Home01Icon,
-  House01Icon,
-  House05Icon, PinLocation03Icon,
-  RealEstate01Icon
-} from '@hugeicons-pro/core-solid-rounded'
-import {HugeiconsIcon} from '@hugeicons/react'
+
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
@@ -14,11 +6,10 @@ import saleAndRentalListingsApi from '../../../../apis/sale-and-rental-listings.
 import pageMetadataConstant from '../../../../constants/metadata/page.jsx'
 import valueBoxConstant from '../../../../constants/pages/sale-and-rental-listings/value-box.jsx'
 import projectConstant from '../../../../constants/project.jsx'
-import rentCastConstant from '../../../../constants/rentcast.jsx'
 import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
-import GoogleMap from '../../../maps/google/index.jsx'
+import GoogleMap from './google-maps/index.jsx'
 import PanelBar from './panel-bar.jsx'
 
 export function meta() {
@@ -139,30 +130,6 @@ export default function SaleAndRentalListingsPage({
     textTheme.secondaryColor600
   ])
 
-  // const barChartData = useMemo(() => {
-  //   if (filteredLocationDtos) {
-  //     const countByListingType = filteredLocationDtos.locations
-  //       .reduce((_accumulator, _currentLocation) => {
-  //         if (_currentLocation.listingType) {
-  //           _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
-  //         }
-  //
-  //         return _accumulator
-  //       }, {})
-  //
-  //     return Object.entries(countByListingType)
-  //       .map(([_listingType, _count]) => ({
-  //         listingType: _listingType,
-  //         // Round up to nearest integer
-  //         count: _count
-  //       }))
-  //   }
-  //
-  //   return []
-  // }, [filteredLocationDtos])
-  //
-  // console.log(barChartData)
-  //
   // const donutChartData = useMemo(() => {
   //   if (filteredLocationDtos) {
   //     const countByListingType = filteredLocationDtos.locations
@@ -184,35 +151,6 @@ export default function SaleAndRentalListingsPage({
   //   return []
   // }, [filteredLocationDtos])
 
-  const createMapIcon = useCallback((_icon) => {
-    return <div className={stringUtility.merge([
-      'flex items-center justify-center',
-      backgroundTheme.valid600,
-      'rounded-full p-1.5 text-white'
-    ])}>
-      {_icon}
-    </div>
-  }, [backgroundTheme.valid600])
-
-  const getMapIconByPropertyType = useCallback((_propertyType) => {
-    switch (_propertyType) {
-    case rentCastConstant.propertyType.singleFamily:
-      return createMapIcon(<HugeiconsIcon icon={Home01Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.multiFamily:
-      return createMapIcon(<HugeiconsIcon icon={House05Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.condo:
-      return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.townhouse:
-      return createMapIcon(<HugeiconsIcon icon={House01Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.manufactured:
-      return createMapIcon(<HugeiconsIcon icon={FactoryIcon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.apartment:
-      return createMapIcon(<HugeiconsIcon icon={Building05Icon} className={'wh-normal'} />)
-    default: // land
-      return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} className={'wh-normal'} />)
-    }
-  }, [createMapIcon])
-
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
     title={projectConstant.saleAndRentalListings.title}
@@ -227,9 +165,7 @@ export default function SaleAndRentalListingsPage({
     <section>
       <SaleAndRentalListingsContext.Provider value={{
         locationDtos,
-        setFilteredLocationDtos,
-        priceStats,
-        calculatePriceStats
+        setFilteredLocationDtos
       }}>
         <PanelBar />
       </SaleAndRentalListingsContext.Provider>
@@ -244,13 +180,12 @@ export default function SaleAndRentalListingsPage({
           {valueBoxes}
         </div>
         <div className={'flex flex-col lg:flex-row gap-4'}>
-          <div className={'grow min-h-96'}>
-          </div>
-          <div className={'grow aspect-3/2'}>
+          <div className={'grow aspect-4/3'}>
             <GoogleMap
               locations={filteredLocationDtos}
-              onIconRender={(_location) => getMapIconByPropertyType(_location.propertyType)}
               mapClassName={''} />
+          </div>
+          <div className={'grow min-h-96'}>
           </div>
         </div>
       </section>

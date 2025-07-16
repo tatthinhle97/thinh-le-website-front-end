@@ -93,15 +93,14 @@ export default function SearchPanel({
       setShouldValidateForm(true)
       return
     }
+    // Hide the search panel by toggling the class name
+    togglePanel(panelNameConstant.search)
 
     setShouldValidateForm(false)
 
     const formData = new FormData(_event.target)
     const data = Object.fromEntries(formData.entries())
     console.log('TODO:', data)
-
-    // Hide the search panel by toggling the class name
-    togglePanel(panelNameConstant.search)
   }
 
   const onForValueChange = (_event) => {

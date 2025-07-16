@@ -1,9 +1,11 @@
-import {FilterIcon, FilterResetIcon, PreferenceHorizontalIcon, Search01Icon} from '@hugeicons-pro/core-solid-rounded'
+import {RefreshIcon} from '@hugeicons-pro/core-solid-rounded'
+import {FilterIcon} from '@hugeicons-pro/core-stroke-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
-import {useCallback, useContext, useEffect, useRef, useState} from 'react'
+import {useCallback, useContext, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import iconConstant from '../../../../../constants/icon.jsx'
+import panelNameConstant from '../../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
 import rentCastConstant from '../../../../../constants/rentcast.jsx'
 import {SaleAndRentalListingsContext} from '../../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
@@ -33,10 +35,10 @@ export default function FilterPanel({
     borderTheme
   } = useSelector(themeStates)
 
-  const {locationDtos, priceStats, setFilteredLocationDtos} = useContext(SaleAndRentalListingsContext)
+  const {locationDtos, setFilteredLocationDtos, togglePanel} = useContext(SaleAndRentalListingsContext)
 
   const priceRangeSliderRef = useRef(null)
-
+  // locationDtos is sorted in the backend
   const [priceRangeHanlders, setPriceRangeHanlders] = useState([
     locationDtos[0].price,
     locationDtos[locationDtos.length - 1].price
@@ -102,17 +104,55 @@ export default function FilterPanel({
   }
 
   const onFilterButtonClick = () => {
+    togglePanel(panelNameConstant.filter)
+
+    const livingAreaRange = stringUtility.extractNumbers(livingAreaOption)
+    const lotAreaRange = stringUtility.extractNumbersWithSuffixMultipliers(lotAreaOption)
+
     const filteredLocationDtos = locationDtos.filter(
       (_locationDto) => {
-        return _locationDto.price >= priceRangeHanlders[0]
-            && _locationDto.price <= priceRangeHanlders[1]
+        if (_locationDto.price < priceRangeHanlders[0]
+            || _locationDto.price > priceRangeHanlders[1]) {
+          return false
+        }
+
+        if (listingTypeOption && _locationDto.listingType !== listingTypeOption) {
+          return false
+        }
+
+        if (livingAreaRange) {
+          if (livingAreaRange.length > 1) {
+            if (_locationDto.livingArea < livingAreaRange[0]
+            || _locationDto.livingArea > livingAreaRange[1]) {
+              return false
+            }
+          } else {
+            if (_locationDto.livingArea < livingAreaRange[0]) {
+              return false
+            }
+          }
+        }
+
+        if (lotAreaRange) {
+          if (lotAreaRange.length > 1) {
+            if (_locationDto.lotArea < lotAreaRange[0]
+                || _locationDto.lotArea > lotAreaRange[1]) {
+              return false
+            }
+          } else {
+            if (_locationDto.lotArea < lotAreaRange[0]) {
+              return false
+            }
+          }
+        }
+
+        return true
       })
 
     setFilteredLocationDtos(filteredLocationDtos)
   }
 
   const onResetFilterButtonClick = () => {
-    setFilteredLocationDtos(locationDtos)
     resetPriceRange()
     setListingTypeOption('')
     setLivingAreaOption('')
@@ -190,7 +230,7 @@ export default function FilterPanel({
         type={'submit'}
         onClick={onResetFilterButtonClick}
         className={'button-link-leading-icon min-w-fit'}>
-        <HugeiconsIcon icon={FilterResetIcon} size={iconConstant.buttonIconSize} />
+        <HugeiconsIcon icon={RefreshIcon} size={iconConstant.buttonIconSize} />
         Reset filter
       </SecondaryButton>
     </div>

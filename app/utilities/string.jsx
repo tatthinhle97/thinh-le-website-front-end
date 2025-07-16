@@ -25,9 +25,35 @@ const isSubStringOf = function (_stringToCheck, _string) {
       _string.includes(_stringToCheck)
 }
 
+const extractNumbers = function (_string) {
+  if (!_string) {
+    return []
+  }
+
+  const numbersAsStrings = _string.match(/\d+/g)
+  return numbersAsStrings.map(Number)
+}
+
+// SuffixMultipliers: K, M, ...
+const extractNumbersWithSuffixMultipliers = function (_string) {
+  if (!_string) {
+    return []
+  }
+  const multiplier = {K: 1000, M: 1000000, B: 1000000000}
+  const matches = [..._string.matchAll(/(\d+)([KM])/gi)]
+
+  return matches.map(_match => {
+    const number = parseInt(_match[1], 10)
+    const suffixMultiplier = _match[2].toUpperCase()
+    return number * (multiplier[suffixMultiplier] || 1)
+  })
+}
+
 const stringUtility = {
   merge,
-  isSubStringOf
+  isSubStringOf,
+  extractNumbers,
+  extractNumbersWithSuffixMultipliers
 }
 
 export default stringUtility

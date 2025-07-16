@@ -34,6 +34,7 @@ export default function App() {
 }
 
 export function ErrorBoundary({error}) {
+  console.error(error)
   let message = 'Oops!'
   let details = 'An unexpected error occurred.'
   let stack

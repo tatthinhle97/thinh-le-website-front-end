@@ -1,6 +1,7 @@
 import {HugeiconsIcon} from '@hugeicons/react'
-import {FilterIcon, Search01Icon} from '@hugeicons-pro/core-solid-rounded'
-import {useCallback, useRef, useState} from 'react'
+import {Search01Icon} from '@hugeicons-pro/core-solid-rounded'
+import {FilterIcon} from '@hugeicons-pro/core-stroke-rounded'
+import {useCallback, useContext, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import iconConstant from '../../../../constants/icon.jsx'
@@ -24,6 +25,8 @@ export default function PanelBar() {
     backgroundTheme,
     borderTheme
   } = useSelector(themeStates)
+
+  const saleAndRentalListingsContext = useContext(SaleAndRentalListingsContext)
 
   const panelRef = useRef(null)
   const searchPanelRef = useRef(null)
@@ -105,8 +108,8 @@ export default function PanelBar() {
         <HugeiconsIcon icon={FilterIcon} size={iconConstant.defaultSize} />
       </IconButton>
     </div>
-
     <SaleAndRentalListingsContext.Provider value={{
+      ...saleAndRentalListingsContext,
       activePanelName,
       togglePanel
     }}>
@@ -115,9 +118,9 @@ export default function PanelBar() {
         className={stringUtility.merge([
           'hidden absolute inset-x-0'
         ])} />
+      <FilterPanel
+        ref={filterPanelRef}
+        className={'hidden absolute inset-x-0'} />
     </SaleAndRentalListingsContext.Provider>
-    <FilterPanel
-      ref={filterPanelRef}
-      className={'hidden absolute inset-x-0'} />
   </section>
 }
