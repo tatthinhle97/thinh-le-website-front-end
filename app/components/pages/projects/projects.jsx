@@ -1,6 +1,6 @@
 import projectConstant from '../../../constants/project.jsx'
 import stringUtility from '../../../utilities/string.jsx'
-import Card from '../../card.jsx'
+import BlogCard from '../../cards/blogCard.jsx'
 
 export default function Projects() {
   return <section>
@@ -9,7 +9,7 @@ export default function Projects() {
     ])}>
       {projectConstant.allProjects.map((_projectCard, _index) => {
         return (
-          <Card
+          <BlogCard
             key={_index}
             link={_projectCard.path}
             backgroundImageClass={_projectCard.backgroundImageClass}

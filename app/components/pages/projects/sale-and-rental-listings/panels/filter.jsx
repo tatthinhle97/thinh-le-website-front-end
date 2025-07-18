@@ -40,8 +40,8 @@ export default function FilterPanel({
   const priceRangeSliderRef = useRef(null)
   // locationDtos is sorted in the backend
   const [priceRangeHanlders, setPriceRangeHanlders] = useState([
-    locationDtos[0].price,
-    locationDtos[locationDtos.length - 1].price
+    locationDtos[0]?.price ?? 0,
+    locationDtos[locationDtos.length - 1]?.price ?? 0
   ])
   const [listingTypeValue, setListingTypeValue] = useState('')
   const [listingTypeOption, setListingTypeOption] = useState('')
@@ -74,8 +74,8 @@ export default function FilterPanel({
 
   const resetPriceRange = useCallback(() => {
     setPriceRangeHanlders([
-      locationDtos[0].price,
-      locationDtos[locationDtos.length - 1].price
+      locationDtos[0]?.price ?? 0,
+      locationDtos[locationDtos.length - 1]?.price ?? 0
     ])
   }, [locationDtos])
 
@@ -171,10 +171,10 @@ export default function FilterPanel({
       <RangeSlider
         ref={priceRangeSliderRef}
         label={'Price range'}
-        min={locationDtos[0].price}
-        filteredMin={priceRangeHanlders[0]}
-        max={locationDtos[locationDtos.length - 1].price}
-        filteredMax={priceRangeHanlders[1]}
+        min={locationDtos[0]?.price ?? 0}
+        filteredMin={priceRangeHanlders[0] ?? 0}
+        max={locationDtos[locationDtos.length - 1]?.price ?? 0}
+        filteredMax={priceRangeHanlders[1] ?? 0}
         step={10}
         toValue={setPriceRangeDisplayValue}
         fromValue={setPriceRangeReturnValue}

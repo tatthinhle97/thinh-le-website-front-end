@@ -1,8 +1,8 @@
 import {useSelector} from 'react-redux'
 import {Link} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
-import dateTimeUtility from '../utilities/datetime.jsx'
-import stringUtility from '../utilities/string.jsx'
+import dateTimeUtility from '../../utilities/datetime.jsx'
+import stringUtility from '../../utilities/string.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -12,7 +12,7 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function Card({
+export default function BlogCard({
   link,
   backgroundImageClass,
   date,

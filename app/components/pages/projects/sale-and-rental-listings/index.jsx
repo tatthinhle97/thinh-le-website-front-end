@@ -9,8 +9,10 @@ import projectConstant from '../../../../constants/project.jsx'
 import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
-import GoogleMap from './google-maps/index.jsx'
+import Card from '../../../cards/index.jsx'
+import GoogleMap from './google-map/index.jsx'
 import PanelBar from './panel-bar.jsx'
+import AveragePriceByPropertyTypeChart from './chart.jsx'
 
 export function meta() {
   return [
@@ -49,18 +51,20 @@ export default function SaleAndRentalListingsPage({
   })
 
   const calculatePriceStats = (_locationDtos) => {
-    const locationPrices = _locationDtos
-      .map(item => item.price)
+    if (_locationDtos) {
+      const locationPrices = _locationDtos
+        .map(item => item.price)
 
-    const min = locationPrices[0] || 0
-    const max = locationPrices[locationPrices.length - 1] || 0
-    const median = locationPrices.length
-      ? locationPrices.length % 2 === 0
-        ? (locationPrices[locationPrices.length / 2 - 1] + locationPrices[locationPrices.length / 2]) / 2
-        : locationPrices[Math.floor(locationPrices.length / 2)]
-      : 0
+      const min = locationPrices[0] || 0
+      const max = locationPrices[locationPrices.length - 1] || 0
+      const median = locationPrices.length
+        ? locationPrices.length % 2 === 0
+          ? (locationPrices[locationPrices.length / 2 - 1] + locationPrices[locationPrices.length / 2]) / 2
+          : locationPrices[Math.floor(locationPrices.length / 2)]
+        : 0
 
-    setPriceStats({min, median, max})
+      setPriceStats({min, median, max})
+    }
   }
 
   useEffect(() => {
@@ -130,27 +134,6 @@ export default function SaleAndRentalListingsPage({
     textTheme.secondaryColor600
   ])
 
-  // const donutChartData = useMemo(() => {
-  //   if (filteredLocationDtos) {
-  //     const countByListingType = filteredLocationDtos.locations
-  //       .reduce((_accumulator, _currentLocation) => {
-  //         if (_currentLocation.listingType) {
-  //           _accumulator[_currentLocation.listingType] = (_accumulator[_currentLocation.listingType] || 0) + 1
-  //         }
-  //
-  //         return _accumulator
-  //       }, {})
-  //
-  //     return Object.entries(countByListingType)
-  //       .map(([_listingType, _count]) => ({
-  //         listingType: _listingType,
-  //         count: _count
-  //       }))
-  //   }
-  //
-  //   return []
-  // }, [filteredLocationDtos])
-
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
     title={projectConstant.saleAndRentalListings.title}
@@ -164,7 +147,7 @@ export default function SaleAndRentalListingsPage({
     </p>
     <section>
       <SaleAndRentalListingsContext.Provider value={{
-        locationDtos,
+        locationDtos: locationDtos ?? [],
         setFilteredLocationDtos
       }}>
         <PanelBar />
@@ -172,21 +155,26 @@ export default function SaleAndRentalListingsPage({
       <section
         className={stringUtility.merge([
           'p-4 border border-t-0 flex flex-col gap-4 rounded-b-lg',
-          borderTheme.secondaryColor300,
-          backgroundTheme.primaryColor
+          borderTheme.secondaryColor300
         ])}>
         {/* Value boxes */}
         <div className={'flex flex-col md:flex-row gap-4'}>
           {valueBoxes}
         </div>
-        <div className={'flex flex-col lg:flex-row gap-4'}>
-          <div className={'grow aspect-4/3'}>
+        <div className={'grid grid-cols-2 gap-4'}>
+          <Card
+            title={'Average price by Property type'}
+            containerClassName={'content-stretch flex flex-col'}
+            contentClassName={'p-4 grow'}>
+            <AveragePriceByPropertyTypeChart locationDtos={filteredLocationDtos} />
+          </Card>
+          <Card
+            title={'Listing locations'}
+            contentClassName={''}>
             <GoogleMap
-              locations={filteredLocationDtos}
-              mapClassName={''} />
-          </div>
-          <div className={'grow min-h-96'}>
-          </div>
+              locationDtos={filteredLocationDtos}
+              mapClassName={'aspect-4/3'} />
+          </Card>
         </div>
       </section>
     </section>

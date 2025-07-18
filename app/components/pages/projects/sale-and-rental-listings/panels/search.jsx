@@ -52,7 +52,7 @@ export default function SearchPanel({
   const [
     propertyTypeOption,
     setPropertyTypeOption
-  ] = useState(propertyTypeOptions[0])
+  ] = useState('')
   const [numberOfBedRoomsValue, setNumberOfBedRoomsValue]
     = useState('')
   const [numberOfBathRoomsValue, setNumberOfBathRoomsValue]
@@ -213,8 +213,6 @@ export default function SearchPanel({
         <ComboBox
           containerClassName={'2xl:col-span-2'}
           id={'propertyType'}
-          isReadonly={true}
-          isRequired={true}
           label={'Property type'}
           name={'propertyType'}
           onComboBoxClose={() => setPropertyTypeValue('')}

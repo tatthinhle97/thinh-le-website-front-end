@@ -16,15 +16,17 @@
   --border-width-5: 0.3125rem;
 
   --color-white-accent-color-100: #e0f2fe;
-  --color-white-accent-color-700: #0369a1;
-  --color-white-invalid-600: #dc2626;
-  --color-white-valid-600: #059669;
-  --color-white-warning-400: #fbbf24;
+  --color-white-accent-color-700: oklch(50% 0.134 242.749);
+  --color-white-accent-color-900: oklch(39.1% 0.09 240.876);
+  --color-white-invalid: #dc2626;
+  --color-white-valid: oklch(52.7% 0.154 150.069);
+  --color-white-warning: oklch(82.8% 0.189 84.429);
   --color-black-accent-color-100: #e2e8f0;
   --color-black-accent-color-700: #450a0a;
-  --color-black-invalid-600: #0369a1;
-  --color-black-valid-600: #0369a1;
-  --color-black-warning-400: #0369a1;
+  --color-black-accent-color-900: oklch(50% 0.134 242.749);
+  --color-black-invalid: #0369a1;
+  --color-black-valid: #0369a1;
+  --color-black-warning: #0369a1;
 
   --font-sans: InterVariable, sans-serif;
 

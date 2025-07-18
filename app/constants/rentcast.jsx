@@ -1,10 +1,9 @@
 const forType = {
-  sale: 'Sale',
-  rent: 'Rent'
+  rent: 'Rent',
+  sale: 'Sale'
 }
 
 const propertyType = {
-  all: 'All',
   singleFamily: 'Single Family',
   multiFamily: 'Multi-Family',
   condo: 'Condo',

@@ -10,38 +10,26 @@ import {
 import {HugeiconsIcon} from '@hugeicons/react'
 import {AdvancedMarker, APIProvider, Map} from '@vis.gl/react-google-maps'
 import {memo, useCallback} from 'react'
-import {useSelector} from 'react-redux'
-import {createSelector, createStructuredSelector} from 'reselect'
 import rentCastConstant from '../../../../../constants/rentcast.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
 import BoundaryFit from './boundary-fit.jsx'
 
-const themeStates = createStructuredSelector(
-  {
-    backgroundTheme: (_state) => _state.backgroundTheme
-  },
-  createSelector
-)
-
 const GoogleMap = memo(({
-  locations,
+  locationDtos,
   isClickable = true,
   markerClassName = '',
   mapClassName = ''
 }) => {
-  const {
-    backgroundTheme
-  } = useSelector(themeStates)
 
   const createMapIcon = useCallback((_icon) => {
     return <div className={stringUtility.merge([
       'flex items-center justify-center',
-      backgroundTheme.valid600,
+      'bg-sky-700',
       'rounded-full p-1.5 text-white'
     ])}>
       {_icon}
     </div>
-  }, [backgroundTheme.valid600])
+  }, [])
 
   const getMapIconByPropertyType = useCallback((_propertyType) => {
     switch (_propertyType) {
@@ -71,16 +59,16 @@ const GoogleMap = memo(({
       mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
       className={mapClassName}>
       {/* Render markers */}
-      {locations.map((_location, _index) => <AdvancedMarker
+      {locationDtos?.map((_locationDto, _index) => <AdvancedMarker
         key={_index}
-        title={_location.title}
+        title={_locationDto.title}
         // Format: {lat: number, lng: number}
-        position={{lat: _location.lat, lng: _location.lng}}
+        position={{lat: _locationDto.lat, lng: _locationDto.lng}}
         clickable={isClickable}
         className={markerClassName}>
-        {getMapIconByPropertyType(_location.propertyType)}
+        {getMapIconByPropertyType(_locationDto.propertyType)}
       </AdvancedMarker>)}
-      <BoundaryFit locations={locations} />
+      <BoundaryFit locationDtos={locationDtos} />
     </Map>
   </APIProvider>
 })
