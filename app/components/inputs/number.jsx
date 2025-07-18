@@ -49,7 +49,7 @@ export default function NumberInput({
       shouldValidate
         ? stringUtility.merge([
           'has-[input:invalid]:outline-2 has-[input:invalid]:outline-offset-1',
-          outlineTheme.has.input.invalid600
+          outlineTheme.has.input.invalid
         ])
         : '',
       outlineTheme.secondaryColor300,
@@ -75,7 +75,7 @@ export default function NumberInput({
     {renderUtility.renderIfTrue(shouldValidate, <p
       className={stringUtility.merge([
         'mt-2 text-small-1 hidden peer-has-[input:invalid]:block',
-        textTheme.invalid600
+        textTheme.invalid
       ])}>
       {validationMessage}
     </p>)}

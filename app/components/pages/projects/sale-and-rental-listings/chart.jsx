@@ -1,4 +1,4 @@
-import React, {memo, PureComponent, useMemo} from 'react'
+import React, {memo, PureComponent, useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {
   Bar,
@@ -13,8 +13,7 @@ import {createSelector, createStructuredSelector} from 'reselect'
 
 const themeStates = createStructuredSelector(
   {
-    colorTheme: (_state) => _state.colorTheme,
-    textTheme: (_state) => _state.textTheme
+    colorTheme: (_state) => _state.colorTheme
   },
   createSelector
 )
@@ -23,9 +22,17 @@ const AveragePriceByPropertyTypeChart = memo(({
   locationDtos = []
 }) => {
   const {
-    colorTheme,
-    textTheme
+    colorTheme
   } = useSelector(themeStates)
+
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
+
+  useEffect(() => {
+    const checkSize = () => setIsSmallScreen(window.innerWidth < 640)
+    checkSize() // run once
+    window.addEventListener('resize', checkSize)
+    return () => window.removeEventListener('resize', checkSize)
+  }, [])
 
   const getAveragePrices = (_listingDtos) => {
     const grouped = {}
@@ -35,8 +42,10 @@ const AveragePriceByPropertyTypeChart = memo(({
         grouped[propertyType] = {total: 0, count: 0}
       }
 
-      grouped[propertyType].total += price
-      grouped[propertyType].count += 1
+      if (price && price !== 0) {
+        grouped[propertyType].total += price
+        grouped[propertyType].count += 1
+      }
     })
 
     return Object.entries(grouped).map(
@@ -55,7 +64,7 @@ const AveragePriceByPropertyTypeChart = memo(({
         y={y - 10}
         textAnchor='middle'
         fill={colorTheme.secondaryColor600}
-        className={'text-base'}>
+        className={'text-sm lg:text-base'}>
         {`$${value.toLocaleString()}`}
       </Text>
     )
@@ -66,18 +75,21 @@ const AveragePriceByPropertyTypeChart = memo(({
       <BarChart data={averagePriceData} margin={{top: 22, left: 32, bottom: 22}}>
         <XAxis
           dataKey='propertyType'
-          className={'text-base'}
+          angle={isSmallScreen ? -45 : 0}
+          textAnchor={isSmallScreen ? 'end' : 'middle'}
+          className={'text-sm lg:text-base'}
+          height={isSmallScreen ? 82 : 24}
           tick={{fill: colorTheme.secondaryColor600}}>
           <Label
             value='Property Type'
             offset={-18}
             position='insideBottom'
-            className={'text-normal'}
+            className={'normal-text'}
             fill={colorTheme.secondaryColor} />
         </XAxis>
         <YAxis
           dataKey='averagePrice'
-          className={'text-base'}
+          className={'text-sm lg:text-base'}
           tick={{fill: colorTheme.secondaryColor600}}
           tickFormatter={(value) => `$${value.toLocaleString()}`}>
           <Label
@@ -85,12 +97,12 @@ const AveragePriceByPropertyTypeChart = memo(({
             offset={-24}
             angle={-90}
             position='insideLeft'
-            className={'text-normal'}
+            className={'normal-text'}
             fill={colorTheme.secondaryColor} />
         </YAxis>
         <Bar
           dataKey='averagePrice'
-          fill='oklch(50% 0.134 242.749)'
+          fill={colorTheme.accentColor700}
           label={<CustomLabel />} />
       </BarChart>
     </ResponsiveContainer>

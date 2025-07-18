@@ -8,11 +8,11 @@ const white = {
       focusWithin: {
         accentColor700: 'has-[input:focus-within]:outline-white-accent-color-700'
       },
-      invalid600: 'has-[input:invalid]:outline-white-invalid'
+      invalid: 'has-[input:invalid]:outline-white-invalid'
     }
   },
   secondaryColor300: 'outline-gray-300',
-  invalid600: 'invalid:outline-white-invalid'
+  invalid: 'invalid:outline-white-invalid'
 }
 
 const black = {
@@ -25,11 +25,11 @@ const black = {
       focusWithin: {
         accentColor700: 'has-[input:focus-within]:outline-black-accent-color-700' // [Debt]
       },
-      invalid600: 'has-[input:invalid]:outline-black-invalid' // [Debt]
+      invalid: 'has-[input:invalid]:outline-black-invalid' // [Debt]
     }
   },
   secondaryColor300: 'outline-gray-300', // [Debt]
-  invalid600: 'invalid:outline-black-invalid' // [Debt]
+  invalid: 'invalid:outline-black-invalid' // [Debt]
 }
 
 const outlineThemeConstant = {

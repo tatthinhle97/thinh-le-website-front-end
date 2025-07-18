@@ -47,7 +47,7 @@ export default function TextAreaInput({
       shouldValidate
         ? stringUtility.merge([
           'has-[input:invalid]:outline-2 has-[input:invalid]:outline-offset-1',
-          outlineTheme.has.input.invalid600
+          outlineTheme.has.input.invalid
         ])
         : '',
       outlineTheme.secondaryColor300,

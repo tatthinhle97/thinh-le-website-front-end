@@ -13,6 +13,7 @@ const themeStates = createStructuredSelector(
 export default function Blog({
   dateCreated,
   title,
+  containerClassName,
   children
 }) {
   const {
@@ -21,7 +22,8 @@ export default function Blog({
 
   return <section>
     <div className={stringUtility.merge([
-      'container-layout py-24 lg:py-32 px-6'
+      'container-layout py-24 lg:py-32 px-6',
+      containerClassName
     ])}>
       <time
         dateTime={dateCreated}

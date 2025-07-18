@@ -10,9 +10,18 @@ import {
 import {HugeiconsIcon} from '@hugeicons/react'
 import {AdvancedMarker, APIProvider, Map} from '@vis.gl/react-google-maps'
 import {memo, useCallback} from 'react'
+import {useSelector} from 'react-redux'
+import {createSelector, createStructuredSelector} from 'reselect'
 import rentCastConstant from '../../../../../constants/rentcast.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
 import BoundaryFit from './boundary-fit.jsx'
+
+const themeStates = createStructuredSelector(
+  {
+    backgroundTheme: (_state) => _state.backgroundTheme
+  },
+  createSelector
+)
 
 const GoogleMap = memo(({
   locationDtos,
@@ -20,11 +29,14 @@ const GoogleMap = memo(({
   markerClassName = '',
   mapClassName = ''
 }) => {
+  const {
+    backgroundTheme
+  } = useSelector(themeStates)
 
   const createMapIcon = useCallback((_icon) => {
     return <div className={stringUtility.merge([
       'flex items-center justify-center',
-      'bg-sky-700',
+      backgroundTheme.accentColor700,
       'rounded-full p-1.5 text-white'
     ])}>
       {_icon}

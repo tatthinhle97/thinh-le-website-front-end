@@ -5,6 +5,7 @@ import {
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
+import iconConstant from '../../../constants/icon.jsx'
 import stringUtility from '../../../utilities/string.jsx'
 import ChatWindow from './chat-window/index.jsx'
 
@@ -35,13 +36,13 @@ export default function ChatBotWidget() {
     <button
       onClick={toggleChatWindow}
       className={stringUtility.merge([
-        'fixed bottom-6 right-4 lg:right-6 p-2 lg:p-4 rounded-full cursor-pointer z-40',
+        'fixed bottom-6 right-4 lg:right-6 p-4 rounded-full cursor-pointer z-40',
         backgroundTheme.hover.accentColor700,
         backgroundTheme.secondaryColor,
         textTheme.primaryColor
       ])}
       aria-label='Chat bot icon'>
-      <HugeiconsIcon icon={MessageMultiple02Icon} className={'wh-normal'} />
+      <HugeiconsIcon icon={MessageMultiple02Icon} size={iconConstant.defaultSize} />
     </button>
     <ChatWindow
       ref={chatWindowRef}

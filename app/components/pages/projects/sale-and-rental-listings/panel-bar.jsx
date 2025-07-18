@@ -15,7 +15,8 @@ import SearchPanel from './panels/search.jsx'
 const themeStates = createStructuredSelector(
   {
     backgroundTheme: (_state) => _state.backgroundTheme,
-    borderTheme: (_state) => _state.borderTheme
+    borderTheme: (_state) => _state.borderTheme,
+    textTheme: (_state) => _state.textTheme
   },
   createSelector
 )
@@ -23,7 +24,8 @@ const themeStates = createStructuredSelector(
 export default function PanelBar() {
   const {
     backgroundTheme,
-    borderTheme
+    borderTheme,
+    textTheme
   } = useSelector(themeStates)
 
   const saleAndRentalListingsContext = useContext(SaleAndRentalListingsContext)
@@ -87,24 +89,24 @@ export default function PanelBar() {
   return <section
     ref={panelRef}
     className={stringUtility.merge([
-      'relative z-1',
-      backgroundTheme.primaryColor
+      'relative z-1'
     ])}>
     <div className={stringUtility.merge([
       'border p-4 rounded-t-lg',
       'flex justify-end gap-x-4 items-center',
-      borderTheme.secondaryColor300
+      backgroundTheme.secondaryColor,
+      borderTheme.secondaryColor
     ])}>
       <IconButton
         ariaLabel={'Search icon button'}
         onClick={onSearchIconButtonClick}
-        className={'wh-normal cursor-pointer'}>
+        className={`cursor-pointer ${textTheme.primaryColor}`}>
         <HugeiconsIcon icon={Search01Icon} size={iconConstant.defaultSize} />
       </IconButton>
       <IconButton
         ariaLabel={'Filter icon button'}
         onClick={onFilterIconButtonClick}
-        className={'wh-normal cursor-pointer'}>
+        className={`cursor-pointer ${textTheme.primaryColor}`}>
         <HugeiconsIcon icon={FilterIcon} size={iconConstant.defaultSize} />
       </IconButton>
     </div>

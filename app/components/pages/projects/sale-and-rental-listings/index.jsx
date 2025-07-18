@@ -74,16 +74,16 @@ export default function SaleAndRentalListingsPage({
   const getValueBoxBackgroundColorClassNameById = useCallback((_id) => {
     switch (_id) {
     case valueBoxConstant.minimumPrice.id:
-      return backgroundTheme.valid600
+      return backgroundTheme.valid
     case valueBoxConstant.medianPrice.id:
-      return backgroundTheme.warning400
+      return backgroundTheme.warning
     default: // 'maximumPrice'
-      return backgroundTheme.invalid600
+      return backgroundTheme.invalid
     }
   }, [
-    backgroundTheme.invalid600,
-    backgroundTheme.valid600,
-    backgroundTheme.warning400])
+    // backgroundTheme.invalid,
+    // backgroundTheme.valid,
+    backgroundTheme.warning])
 
   const getValueBoxValueById = useCallback((_id) => {
     switch (_id) {
@@ -136,11 +136,7 @@ export default function SaleAndRentalListingsPage({
 
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
-    title={projectConstant.saleAndRentalListings.title}
-    contentClassName={stringUtility.merge([
-      'relative',
-      borderTheme.secondaryColor300
-    ])}>
+    title={projectConstant.saleAndRentalListings.title}>
     <p className={`mb-6 ${textTheme.secondaryColor600}`}>
       Search for sale and rental listings across the US, integrating interactive data visualizations to analyze trends
       and insights in the housing market.
@@ -161,11 +157,11 @@ export default function SaleAndRentalListingsPage({
         <div className={'flex flex-col md:flex-row gap-4'}>
           {valueBoxes}
         </div>
-        <div className={'grid grid-cols-2 gap-4'}>
+        <div className={'grid xl:grid-cols-2 gap-4'}>
           <Card
             title={'Average price by Property type'}
             containerClassName={'content-stretch flex flex-col'}
-            contentClassName={'p-4 grow'}>
+            contentClassName={'p-4 aspect-4/3'}>
             <AveragePriceByPropertyTypeChart locationDtos={filteredLocationDtos} />
           </Card>
           <Card
@@ -174,6 +170,13 @@ export default function SaleAndRentalListingsPage({
             <GoogleMap
               locationDtos={filteredLocationDtos}
               mapClassName={'aspect-4/3'} />
+          </Card>
+        </div>
+        <div>
+          <Card
+            title={'Listing locations'}
+            contentClassName={'p-4'}>
+            a
           </Card>
         </div>
       </section>

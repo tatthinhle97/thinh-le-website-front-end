@@ -21,7 +21,7 @@ const white = {
       primaryColor: 'data-focus:text-white'
     }
   },
-  invalid600: 'text-white-invalid'
+  invalid: 'text-white-invalid'
 }
 
 const black = {
@@ -47,7 +47,7 @@ const black = {
       primaryColor: 'data-focus:text-black' // [Debt]
     }
   },
-  invalid600: 'text-black-invalid'
+  invalid: 'text-black-invalid'
 }
 
 const textThemeConstant = {

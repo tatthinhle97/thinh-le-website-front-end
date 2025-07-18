@@ -222,16 +222,16 @@ export default function ChatWindow({
         backgroundTheme.primaryColor
       ])}>
       <div className={'flex-1 flex flex-col gap-y-2 justify-end\n'}>
-        {messages.map((message) => (
+        {messages.map((_message, _index) => (
           <div
-            key={message.id}
-            className={`flex gap-2 items-end ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+            key={_index}
+            className={`flex gap-2 items-end ${_message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             {renderUtility.renderIfTrue(
-              message.sender === 'bot',
+              _message.sender === 'bot',
               renderChatProfileImage('/bot-avatar.png', 'Bot'))}
-            {renderMessageContent(message)}
+            {renderMessageContent(_message)}
             {renderUtility.renderIfTrue(
-              message.sender === 'user',
+              _message.sender === 'user',
               renderChatProfileImage('/user-avatar.jpg', 'User'))}
           </div>
         ))}

@@ -16,11 +16,11 @@
   --border-width-5: 0.3125rem;
 
   --color-white-accent-color-100: #e0f2fe;
-  --color-white-accent-color-700: oklch(50% 0.134 242.749);
-  --color-white-accent-color-900: oklch(39.1% 0.09 240.876);
+  --color-white-accent-color-700: oklch(50% 0.134 242.749); /* sky-700 */
+  --color-white-accent-color-900: oklch(39.1% 0.09 240.876); /* sky-900 */
   --color-white-invalid: #dc2626;
   --color-white-valid: oklch(52.7% 0.154 150.069);
-  --color-white-warning: oklch(82.8% 0.189 84.429);
+  --color-white-warning: oklch(76.9% 0.188 70.08);
   --color-black-accent-color-100: #e2e8f0;
   --color-black-accent-color-700: #450a0a;
   --color-black-accent-color-900: oklch(50% 0.134 242.749);

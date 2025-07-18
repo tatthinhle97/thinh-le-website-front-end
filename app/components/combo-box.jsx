@@ -141,7 +141,7 @@ export default function ComboBox({
             shouldValidate
               ? stringUtility.merge([
                 'invalid:outline-2 invalid:outline-offset-1',
-                outlineTheme.invalid600
+                outlineTheme.invalid
               ])
               : '',
             outlineTheme.secondaryColor300,
@@ -160,7 +160,7 @@ export default function ComboBox({
       {renderUtility.renderIfTrue(shouldValidate, <p
         className={stringUtility.merge([
           'mt-2 text-small-1 hidden peer-has-invalid:block',
-          textTheme.invalid600
+          textTheme.invalid
         ])}>
         {validationMessage}
       </p>)}
