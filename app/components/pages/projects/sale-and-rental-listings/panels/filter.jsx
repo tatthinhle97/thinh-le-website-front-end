@@ -1,6 +1,6 @@
 import {FilterIcon, RefreshIcon} from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
-import {useCallback, useContext, useRef, useState} from 'react'
+import {useCallback, useContext, useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import iconConstant from '../../../../../constants/icon.jsx'
@@ -34,13 +34,17 @@ export default function FilterPanel({
     borderTheme
   } = useSelector(themeStates)
 
-  const {locationDtos, setFilteredLocationDtos, togglePanel} = useContext(SaleAndRentalListingsContext)
+  const {
+    locationDtos,
+    setFilteredLocationDtos,
+    setSelectedLocation,
+    togglePanel
+  } = useContext(SaleAndRentalListingsContext)
 
   const priceRangeSliderRef = useRef(null)
   // locationDtos is sorted in the backend
   const [priceRangeHanlders, setPriceRangeHanlders] = useState([
-    locationDtos[0]?.price ?? 0,
-    locationDtos[locationDtos.length - 1]?.price ?? 0
+    0, 0
   ])
   const [listingTypeValue, setListingTypeValue] = useState('')
   const [listingTypeOption, setListingTypeOption] = useState('')
@@ -48,6 +52,13 @@ export default function FilterPanel({
   const [livingAreaOption, setLivingAreaOption] = useState('')
   const [lotAreaValue, setLotAreaValue] = useState('')
   const [lotAreaOption, setLotAreaOption] = useState('')
+
+  useEffect(() => {
+    setPriceRangeHanlders([
+      locationDtos[0]?.price ?? 0,
+      locationDtos[locationDtos.length - 1]?.price ?? 0
+    ])
+  }, [locationDtos])
 
   const setPriceRangeDisplayValue = (value) => {
     const formatter = new Intl.NumberFormat('en-US', {
@@ -103,6 +114,8 @@ export default function FilterPanel({
   }
 
   const onFilterButtonClick = () => {
+    setSelectedLocation({})
+    // Hide the filter panel by toggling the class name
     togglePanel(panelNameConstant.filter)
 
     const livingAreaRange = stringUtility.extractNumbers(livingAreaOption)

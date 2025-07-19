@@ -70,7 +70,8 @@ const GoogleMap = memo(({
       defaultCenter={{lat: 40.143, lng: -74.726}}
       // Required for AdvancedMarker
       mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
-      className={mapClassName}>
+      className={mapClassName}
+      gestureHandling={'greedy'}>
       {/* Render markers */}
       {locationDtos?.map((_locationDto, _index) => <AdvancedMarker
         key={_index}

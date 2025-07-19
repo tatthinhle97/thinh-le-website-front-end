@@ -34,7 +34,7 @@ export default function SearchPanel({
     borderTheme
   } = useSelector(themeStates)
 
-  const {activePanelName, togglePanel} = useContext(SaleAndRentalListingsContext)
+  const {activePanelName, setSelectedLocation, togglePanel} = useContext(SaleAndRentalListingsContext)
 
   const [shouldValidateForm, setShouldValidateForm] = useState(true)
   const [forValue, setForValue] = useState('')
@@ -93,6 +93,7 @@ export default function SearchPanel({
       setShouldValidateForm(true)
       return
     }
+    setSelectedLocation({})
     // Hide the search panel by toggling the class name
     togglePanel(panelNameConstant.search)
 

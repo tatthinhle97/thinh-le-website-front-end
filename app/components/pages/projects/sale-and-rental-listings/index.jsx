@@ -10,20 +10,15 @@ import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import Card from '../../../cards/index.jsx'
-import TextInput from '../../../inputs/text.jsx'
 import GoogleMap from './google-map/index.jsx'
 import PanelBar from './panel-bar.jsx'
-import AveragePriceByPropertyTypeChart from './chart.jsx'
+import AveragePriceByListingTypeChart from './chart.jsx'
 
 export function meta() {
   return [
     {title: pageMetadataConstant.saleAndRentalListingsProject.title},
     {name: 'description', content: pageMetadataConstant.saleAndRentalListingsProject.description}
   ]
-}
-
-export async function clientLoader() {
-  return await saleAndRentalListingsApi.getInitialSaleListings()
 }
 
 const themeStates = createStructuredSelector(
@@ -35,22 +30,29 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-export default function SaleAndRentalListingsPage({
-  loaderData: locationDtos
-}) {
+export default function SaleAndRentalListingsPage() {
   const {
     backgroundTheme,
     borderTheme,
     textTheme
   } = useSelector(themeStates)
 
-  const [filteredLocationDtos, setFilteredLocationDtos] = useState(locationDtos)
+  const [locationDtos, setLocationDtos] = useState([])
+  const [filteredLocationDtos, setFilteredLocationDtos] = useState([])
   const [priceStats, setPriceStats] = useState({
     min: 0,
     median: 0,
     max: 0
   })
   const [selectedLocation, setSelectedLocation] = useState({})
+
+  useEffect(() => {
+    saleAndRentalListingsApi.getInitialSaleListings()
+      .then(_locationDtos => {
+        setLocationDtos(_locationDtos)
+        setFilteredLocationDtos(_locationDtos)
+      })
+  }, [])
 
   const calculatePriceStats = (_locationDtos) => {
     if (_locationDtos) {
@@ -140,6 +142,13 @@ export default function SaleAndRentalListingsPage({
     setSelectedLocation(_locationDto)
   }
 
+  function renderField(_label, _data, _shouldAddMarginBottom = true) {
+    return <p className={`text-wrap ${_shouldAddMarginBottom ? 'mb-2' : ''}`}>
+      <span className={'font-semibold'}>{_label}</span>
+      : {_data}
+    </p>
+  }
+
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
     title={projectConstant.saleAndRentalListings.title}>
@@ -149,8 +158,9 @@ export default function SaleAndRentalListingsPage({
     </p>
     <section>
       <SaleAndRentalListingsContext.Provider value={{
-        locationDtos: locationDtos ?? [],
-        setFilteredLocationDtos
+        locationDtos,
+        setFilteredLocationDtos,
+        setSelectedLocation
       }}>
         <PanelBar />
       </SaleAndRentalListingsContext.Provider>
@@ -163,103 +173,120 @@ export default function SaleAndRentalListingsPage({
         <div className={'flex flex-col md:flex-row gap-4'}>
           {valueBoxes}
         </div>
-        <div className={'grid lg:grid-cols-2 gap-4'}>
+        <div className={'flex flex-col-reverse xl:flex-row gap-4'}>
           <Card
-            title={'Average price by Property type'}
-            containerClassName={'content-stretch flex flex-col'}
-            contentClassName={'p-4 aspect-4/3'}>
-            <AveragePriceByPropertyTypeChart locationDtos={filteredLocationDtos} />
-          </Card>
-          <Card
+            containerClassName={'grow basis-1/2'}
             title={'Listing locations'}
-            contentClassName={''}>
+            contentClassName={'aspect-4/3'}>
             <GoogleMap
               locationDtos={filteredLocationDtos}
-              mapClassName={'aspect-4/3'}
               onMarkerClick={onGoogleMarkerClick} />
           </Card>
+          <Card
+            title={'Average price by Property type'}
+            containerClassName={'grow basis-1/2'}
+            contentClassName={'p-4 aspect-4/3'}>
+            <AveragePriceByListingTypeChart locationDtos={filteredLocationDtos} />
+          </Card>
         </div>
-        <Card
-          title={'Listing information'}
-          contentClassName={'p-4'}>
-          <div className={'grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4'}>
-            <TextInput
-              containerClassName={'col-span-2'}
-              isReadonly={true}
-              label={'Full address'}
-              value={selectedLocation.fullAddress ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Property type'}
-              value={selectedLocation.propertyType ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Listing type'}
-              value={selectedLocation.listingType ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Bedrooms'}
-              value={selectedLocation.bedrooms ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Bathrooms'}
-              value={selectedLocation.bathrooms ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Living area'}
-              value={selectedLocation.livingArea ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Lot area'}
-              value={selectedLocation.lotArea ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Year built'}
-              value={selectedLocation.yearBuilt ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Price'}
-              value={selectedLocation.price ? `$ ${selectedLocation.price}` : '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'HOA fee'}
-              value={selectedLocation.hoaFee ? `$ ${selectedLocation.hoaFee}` : '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Days on market'}
-              value={selectedLocation.daysOnMarket ?? '-'} />
-          </div>
-        </Card>
-        <Card
-          title={'Listing contact'}
-          contentClassName={'p-4'}>
-          <div className={'grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'}>
-            <TextInput
-              isReadonly={true}
-              label={'Listing office name'}
-              value={selectedLocation.listingOfficeName ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Listing office phone'}
-              value={selectedLocation.listingOfficePhone ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Listing office email'}
-              value={selectedLocation.listingOfficeEmail ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Listing agent name'}
-              value={selectedLocation.listingAgentName ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Listing agent phone'}
-              value={selectedLocation.listingOfficePhone ?? '-'} />
-            <TextInput
-              isReadonly={true}
-              label={'Listing agent email'}
-              value={selectedLocation.listingAgentEmail ?? '-'} />
-          </div>
-        </Card>
+        <div className={'grid sm:grid-cols-2 xl:grid-cols-4 gap-4'}>
+          <Card
+            containerClassName={''}
+            title={'Listing information'}
+            contentClassName={'p-4'}>
+            {renderField(
+              'Full address',
+              selectedLocation.fullAddress ?? '-')}
+            {renderField(
+              'Property type',
+              selectedLocation.propertyType ?? '-')}
+            {renderField(
+              'Listing type',
+              selectedLocation.listingType ?? '-')}
+            {renderField(
+              'Bedrooms',
+              selectedLocation.bedrooms ?? '-')}
+            {renderField(
+              'Bathrooms',
+              selectedLocation.bathrooms ?? '-')}
+            {renderField(
+              'Living area',
+              selectedLocation.livingArea ?? '-')}
+            {renderField(
+              'Lot area',
+              selectedLocation.lotArea ?? '-')}
+            {renderField(
+              'Year built',
+              selectedLocation.yearBuilt ?? '-')}
+            {renderField(
+              'Price',
+              selectedLocation.price ? `$${selectedLocation.price}` : '-')}
+            {renderField(
+              'HOA fee',
+              selectedLocation.hoaFee ? `$${selectedLocation.hoaFee}` : '-')}
+            {renderField(
+              'Days on market',
+              selectedLocation.daysOnMarket ?? '-',
+              false)}
+          </Card>
+          <Card
+            containerClassName={'content-stretch flex flex-col'}
+            title={'Listing contact'}
+            contentClassName={'p-4 grow'}>
+            {renderField(
+              'Office name',
+              selectedLocation.listingOfficeName ?? '-')}
+            {renderField(
+              'Office phone',
+              selectedLocation.listingOfficePhone ?? '-')}
+            {renderField(
+              'Office email',
+              selectedLocation.listingOfficeEmail ?? '-')}
+            {renderField(
+              'Agent name',
+              selectedLocation.listingAgentName ?? '-')}
+            {renderField(
+              'Agent phone',
+              selectedLocation.listingOfficePhone ?? '-')}
+            {renderField(
+              'Agent email',
+              selectedLocation.listingAgentEmail ?? '-',
+              false)}
+          </Card>
+          <Card
+            containerClassName={'sm:col-span-2 content-stretch flex flex-col'}
+            title={'Listing history'}
+            contentClassName={'p-4 grow'}>
+            <table className='min-w-full divide-y'>
+              <thead>
+                <tr>
+                  <th scope='col' className='pb-3.5 pr-3 font-semibold text-left'>
+                    Date
+                  </th>
+                  <th scope='col' className='pb-3.5 pr-3 font-semibold text-left'>
+                    Event
+                  </th>
+                  <th scope='col' className='pb-3.5 pr-3 font-semibold text-left'>
+                    Price
+                  </th>
+                  <th scope='col' className='pb-3.5 font-semibold text-left'>
+                    Days on Market
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='divide-y divide-gray-300'>
+                {selectedLocation.history?.map((item) => (
+                  <tr key={item.date}>
+                    <td className='py-4 pr-3 whitespace-nowrap'>{item.date}</td>
+                    <td className='py-4 pr-3 whitespace-nowrap'>{item.event}</td>
+                    <td className='py-4 pr-3 whitespace-nowrap'>${item.price}</td>
+                    <td className='py-4 whitespace-nowrap'>{item.daysOnMarket}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card>
+        </div>
       </section>
     </section>
   </Blog>

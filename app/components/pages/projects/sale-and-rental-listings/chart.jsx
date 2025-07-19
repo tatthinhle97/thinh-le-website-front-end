@@ -18,7 +18,7 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
-const AveragePriceByPropertyTypeChart = memo(({
+const AveragePriceByListingTypeChart = memo(({
   locationDtos = []
 }) => {
   const {
@@ -37,20 +37,20 @@ const AveragePriceByPropertyTypeChart = memo(({
   const getAveragePrices = (_listingDtos) => {
     const grouped = {}
 
-    _listingDtos.forEach(({price, propertyType}) => {
-      if (!grouped[propertyType]) {
-        grouped[propertyType] = {total: 0, count: 0}
+    _listingDtos.forEach(({price, listingType}) => {
+      if (!grouped[listingType]) {
+        grouped[listingType] = {total: 0, count: 0}
       }
 
       if (price && price !== 0) {
-        grouped[propertyType].total += price
-        grouped[propertyType].count += 1
+        grouped[listingType].total += price
+        grouped[listingType].count += 1
       }
     })
 
     return Object.entries(grouped).map(
-      ([propertyType, {total, count}]) => ({
-        propertyType,
+      ([listingType, {total, count}]) => ({
+        listingType,
         averagePrice: Math.round(total / count)
       }))
   }
@@ -74,14 +74,14 @@ const AveragePriceByPropertyTypeChart = memo(({
     <ResponsiveContainer width='100%' height='100%'>
       <BarChart data={averagePriceData} margin={{top: 22, left: 32, bottom: 22}}>
         <XAxis
-          dataKey='propertyType'
+          dataKey='listingType'
           angle={isSmallScreen ? -45 : 0}
           textAnchor={isSmallScreen ? 'end' : 'middle'}
           className={'small-text'}
           height={isSmallScreen ? 82 : 24}
           tick={{fill: colorTheme.secondaryColor600}}>
           <Label
-            value='Property Type'
+            value='Listing type'
             offset={-18}
             position='insideBottom'
             className={'normal-text'}
@@ -93,7 +93,7 @@ const AveragePriceByPropertyTypeChart = memo(({
           tick={{fill: colorTheme.secondaryColor600}}
           tickFormatter={(value) => `$${value.toLocaleString()}`}>
           <Label
-            value='Average Price'
+            value='Average price'
             offset={-24}
             angle={-90}
             position='insideLeft'
@@ -109,4 +109,4 @@ const AveragePriceByPropertyTypeChart = memo(({
   )
 })
 
-export default AveragePriceByPropertyTypeChart
+export default AveragePriceByListingTypeChart

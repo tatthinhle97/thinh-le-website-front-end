@@ -30,6 +30,8 @@
 
   --font-sans: InterVariable, sans-serif;
 
+  --grid-cols-3-min-content: repeat(3, max-content);
+
   --transition-property-box-shadow: box-shadow;
   --transition-property-range-slider-handle: width height border-width;
 

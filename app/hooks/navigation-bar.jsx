@@ -1,5 +1,5 @@
 import {useContext} from 'react'
-import {NavLink, useLocation} from 'react-router'
+import {Link, useLocation} from 'react-router'
 import NavigationBarContext from '../contexts/navigation-bar.jsx'
 import renderUtility from '../utilities/render.jsx'
 import stringUtility from '../utilities/string.jsx'
@@ -23,10 +23,12 @@ export default function useNavigationBar() {
   ) => {
     return navigationItems
       .map((_navigationItem, _index) => {
-        return <NavLink
+        return <Link
           onClick={onNavigationItemClick}
           key={_index}
-          to={_navigationItem.path}
+          to={{
+            pathname: _navigationItem.path
+          }}
           className={stringUtility.merge([
             className,
             shouldDisplayIcon
@@ -41,7 +43,7 @@ export default function useNavigationBar() {
             _navigationItem.iconComponent
           )}
           {_navigationItem.label}
-        </NavLink>
+        </Link>
       })
   }
 
