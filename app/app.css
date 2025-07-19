@@ -88,6 +88,10 @@
   @apply text-xl lg:text-2xl font-medium text-pretty;
 }
 
+@utility small-text {
+  @apply text-sm/6 lg:text-base/6;
+}
+
 @utility normal-text {
   @apply text-base/7 lg:text-lg/7;
 }

@@ -40,7 +40,7 @@ export default function BlogCard({
       <time
         dateTime={date}
         className={stringUtility.merge([
-          'text-sm lg:text-base mb-2',
+          'small-text mb-2',
           textTheme.secondaryColor600
         ])}>
         {dateTimeUtility.formatLongDate(date)}
@@ -51,14 +51,14 @@ export default function BlogCard({
         </h3>
       </a>
       <p className={stringUtility.merge([
-        'line-clamp-3 text-base/6 lg:text-lg/6',
+        'line-clamp-3',
         textTheme.secondaryColor600
       ])}>
         {description}
       </p>
     </div>
     <div className={stringUtility.merge([
-      'flex gap-2 items-center text-sm lg:text-base',
+      'flex gap-2 items-center small-text',
       textTheme.secondaryColor600
     ])}>
       {tags.map((_tag, _index) => {

@@ -1,6 +1,5 @@
 import {HugeiconsIcon} from '@hugeicons/react'
-import {Search01Icon} from '@hugeicons-pro/core-solid-rounded'
-import {FilterIcon} from '@hugeicons-pro/core-stroke-rounded'
+import {FilterIcon, Search01Icon} from '@hugeicons-pro/core-solid-rounded'
 import {useCallback, useContext, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'

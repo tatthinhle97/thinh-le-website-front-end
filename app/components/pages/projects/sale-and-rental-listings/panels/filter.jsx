@@ -1,5 +1,4 @@
-import {RefreshIcon} from '@hugeicons-pro/core-solid-rounded'
-import {FilterIcon} from '@hugeicons-pro/core-stroke-rounded'
+import {FilterIcon, RefreshIcon} from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useCallback, useContext, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'

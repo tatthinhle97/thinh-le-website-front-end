@@ -27,7 +27,8 @@ const GoogleMap = memo(({
   locationDtos,
   isClickable = true,
   markerClassName = '',
-  mapClassName = ''
+  mapClassName = '',
+  onMarkerClick
 }) => {
   const {
     backgroundTheme
@@ -41,7 +42,7 @@ const GoogleMap = memo(({
     ])}>
       {_icon}
     </div>
-  }, [])
+  }, [backgroundTheme.accentColor700])
 
   const getMapIconByPropertyType = useCallback((_propertyType) => {
     switch (_propertyType) {
@@ -77,7 +78,8 @@ const GoogleMap = memo(({
         // Format: {lat: number, lng: number}
         position={{lat: _locationDto.lat, lng: _locationDto.lng}}
         clickable={isClickable}
-        className={markerClassName}>
+        className={markerClassName}
+        onClick={() => onMarkerClick(_locationDto)}>
         {getMapIconByPropertyType(_locationDto.propertyType)}
       </AdvancedMarker>)}
       <BoundaryFit locationDtos={locationDtos} />

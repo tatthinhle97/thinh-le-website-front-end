@@ -28,6 +28,7 @@ export default function Card({
   return <section className={containerClassName}>
     <div className={stringUtility.merge([
       'border px-4 py-2 rounded-t-lg font-semibold',
+      containerClassName,
       backgroundTheme.secondaryColor,
       textTheme.primaryColor,
       borderTheme.secondaryColor

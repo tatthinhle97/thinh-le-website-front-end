@@ -10,6 +10,7 @@ import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import Card from '../../../cards/index.jsx'
+import TextInput from '../../../inputs/text.jsx'
 import GoogleMap from './google-map/index.jsx'
 import PanelBar from './panel-bar.jsx'
 import AveragePriceByPropertyTypeChart from './chart.jsx'
@@ -49,6 +50,7 @@ export default function SaleAndRentalListingsPage({
     median: 0,
     max: 0
   })
+  const [selectedLocation, setSelectedLocation] = useState({})
 
   const calculatePriceStats = (_locationDtos) => {
     if (_locationDtos) {
@@ -134,6 +136,10 @@ export default function SaleAndRentalListingsPage({
     textTheme.secondaryColor600
   ])
 
+  const onGoogleMarkerClick = (_locationDto) => {
+    setSelectedLocation(_locationDto)
+  }
+
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
     title={projectConstant.saleAndRentalListings.title}>
@@ -157,7 +163,7 @@ export default function SaleAndRentalListingsPage({
         <div className={'flex flex-col md:flex-row gap-4'}>
           {valueBoxes}
         </div>
-        <div className={'grid xl:grid-cols-2 gap-4'}>
+        <div className={'grid lg:grid-cols-2 gap-4'}>
           <Card
             title={'Average price by Property type'}
             containerClassName={'content-stretch flex flex-col'}
@@ -169,16 +175,91 @@ export default function SaleAndRentalListingsPage({
             contentClassName={''}>
             <GoogleMap
               locationDtos={filteredLocationDtos}
-              mapClassName={'aspect-4/3'} />
+              mapClassName={'aspect-4/3'}
+              onMarkerClick={onGoogleMarkerClick} />
           </Card>
         </div>
-        <div>
-          <Card
-            title={'Listing locations'}
-            contentClassName={'p-4'}>
-            a
-          </Card>
-        </div>
+        <Card
+          title={'Listing information'}
+          contentClassName={'p-4'}>
+          <div className={'grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4'}>
+            <TextInput
+              containerClassName={'col-span-2'}
+              isReadonly={true}
+              label={'Full address'}
+              value={selectedLocation.fullAddress ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Property type'}
+              value={selectedLocation.propertyType ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Listing type'}
+              value={selectedLocation.listingType ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Bedrooms'}
+              value={selectedLocation.bedrooms ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Bathrooms'}
+              value={selectedLocation.bathrooms ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Living area'}
+              value={selectedLocation.livingArea ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Lot area'}
+              value={selectedLocation.lotArea ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Year built'}
+              value={selectedLocation.yearBuilt ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Price'}
+              value={selectedLocation.price ? `$ ${selectedLocation.price}` : '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'HOA fee'}
+              value={selectedLocation.hoaFee ? `$ ${selectedLocation.hoaFee}` : '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Days on market'}
+              value={selectedLocation.daysOnMarket ?? '-'} />
+          </div>
+        </Card>
+        <Card
+          title={'Listing contact'}
+          contentClassName={'p-4'}>
+          <div className={'grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'}>
+            <TextInput
+              isReadonly={true}
+              label={'Listing office name'}
+              value={selectedLocation.listingOfficeName ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Listing office phone'}
+              value={selectedLocation.listingOfficePhone ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Listing office email'}
+              value={selectedLocation.listingOfficeEmail ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Listing agent name'}
+              value={selectedLocation.listingAgentName ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Listing agent phone'}
+              value={selectedLocation.listingOfficePhone ?? '-'} />
+            <TextInput
+              isReadonly={true}
+              label={'Listing agent email'}
+              value={selectedLocation.listingAgentEmail ?? '-'} />
+          </div>
+        </Card>
       </section>
     </section>
   </Blog>

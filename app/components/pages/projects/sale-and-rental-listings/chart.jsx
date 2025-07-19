@@ -64,7 +64,7 @@ const AveragePriceByPropertyTypeChart = memo(({
         y={y - 10}
         textAnchor='middle'
         fill={colorTheme.secondaryColor600}
-        className={'text-sm lg:text-base'}>
+        className={'small-text'}>
         {`$${value.toLocaleString()}`}
       </Text>
     )
@@ -77,7 +77,7 @@ const AveragePriceByPropertyTypeChart = memo(({
           dataKey='propertyType'
           angle={isSmallScreen ? -45 : 0}
           textAnchor={isSmallScreen ? 'end' : 'middle'}
-          className={'text-sm lg:text-base'}
+          className={'small-text'}
           height={isSmallScreen ? 82 : 24}
           tick={{fill: colorTheme.secondaryColor600}}>
           <Label
@@ -89,7 +89,7 @@ const AveragePriceByPropertyTypeChart = memo(({
         </XAxis>
         <YAxis
           dataKey='averagePrice'
-          className={'text-sm lg:text-base'}
+          className={'small-text'}
           tick={{fill: colorTheme.secondaryColor600}}
           tickFormatter={(value) => `$${value.toLocaleString()}`}>
           <Label
