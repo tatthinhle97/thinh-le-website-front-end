@@ -55,8 +55,8 @@ export default function FilterPanel({
 
   useEffect(() => {
     setPriceRangeHanlders([
-      locationDtos[0]?.price ?? 0,
-      locationDtos[locationDtos.length - 1]?.price ?? 0
+      locationDtos ? locationDtos[0]?.price : 0,
+      locationDtos ? locationDtos[locationDtos.length - 1]?.price : 0
     ])
   }, [locationDtos])
 
@@ -183,9 +183,9 @@ export default function FilterPanel({
       <RangeSlider
         ref={priceRangeSliderRef}
         label={'Price range'}
-        min={locationDtos[0]?.price ?? 0}
+        min={locationDtos ? locationDtos[0]?.price : 0}
         filteredMin={priceRangeHanlders[0] ?? 0}
-        max={locationDtos[locationDtos.length - 1]?.price ?? 0}
+        max={locationDtos ? locationDtos[locationDtos.length - 1]?.price : 0}
         filteredMax={priceRangeHanlders[1] ?? 0}
         step={10}
         toValue={setPriceRangeDisplayValue}

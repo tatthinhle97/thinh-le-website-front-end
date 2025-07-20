@@ -10,6 +10,8 @@ import {SaleAndRentalListingsContext} from '../../../../contexts/sale-and-rental
 import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import Card from '../../../cards/index.jsx'
+import Loading from '../../../widgets/loading.jsx'
+import Modal from '../../../widgets/modal.jsx'
 import GoogleMap from './google-map/index.jsx'
 import PanelBar from './panel-bar.jsx'
 import AveragePriceByListingTypeChart from './chart.jsx'
@@ -30,6 +32,8 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
+const LOADING_TITLE = 'Fetching data'
+
 export default function SaleAndRentalListingsPage() {
   const {
     backgroundTheme,
@@ -45,12 +49,18 @@ export default function SaleAndRentalListingsPage() {
     max: 0
   })
   const [selectedLocation, setSelectedLocation] = useState({})
+  const [shouldShowLoadingComponent, setShouldShowLoadingComponent] = useState(false)
 
   useEffect(() => {
+    setShouldShowLoadingComponent(true)
     saleAndRentalListingsApi.getInitialSaleListings()
       .then(_locationDtos => {
         setLocationDtos(_locationDtos)
         setFilteredLocationDtos(_locationDtos)
+        setShouldShowLoadingComponent(false)
+      })
+      .finally(() => {
+        setShouldShowLoadingComponent(false)
       })
   }, [])
 
@@ -124,9 +134,11 @@ export default function SaleAndRentalListingsPage() {
             <p className={stringUtility.merge([
               textTheme.secondaryColor600
             ])}>{_valueBox.title}</p>
-            <p className={'mt-1 text-3xl/10 font-bold'}>
-              $ {getValueBoxValueById(_valueBox.id)}
-            </p>
+            {shouldShowLoadingComponent
+              ? <Loading title={LOADING_TITLE} containerClassName={'mt-1'} />
+              : <p className={'mt-1 text-3xl/10 font-bold'}>
+                $ {getValueBoxValueById(_valueBox.id)}
+              </p>}
           </div>
         </section>
       })
@@ -135,7 +147,8 @@ export default function SaleAndRentalListingsPage() {
     getValueBoxBackgroundColorClassNameById,
     getValueBoxValueById,
     textTheme.primaryColor,
-    textTheme.secondaryColor600
+    textTheme.secondaryColor600,
+    shouldShowLoadingComponent
   ])
 
   const onGoogleMarkerClick = (_locationDto) => {
@@ -177,16 +190,26 @@ export default function SaleAndRentalListingsPage() {
           <Card
             containerClassName={'grow basis-1/2'}
             title={'Listing locations'}
-            contentClassName={'aspect-4/3'}>
-            <GoogleMap
-              locationDtos={filteredLocationDtos}
-              onMarkerClick={onGoogleMarkerClick} />
+            contentClassName={stringUtility.merge([
+              'aspect-4/3',
+              shouldShowLoadingComponent ? 'flex justify-center items-center' : ''
+            ])}>
+            {shouldShowLoadingComponent
+              ? <Loading title={LOADING_TITLE} />
+              : <GoogleMap
+                locationDtos={filteredLocationDtos}
+                onMarkerClick={onGoogleMarkerClick} />}
           </Card>
           <Card
             title={'Average price by Property type'}
             containerClassName={'grow basis-1/2'}
-            contentClassName={'p-4 aspect-4/3'}>
-            <AveragePriceByListingTypeChart locationDtos={filteredLocationDtos} />
+            contentClassName={stringUtility.merge([
+              'p-4 aspect-4/3',
+              shouldShowLoadingComponent ? 'flex justify-center items-center' : ''
+            ])}>
+            {shouldShowLoadingComponent
+              ? <Loading title={LOADING_TITLE} />
+              : <AveragePriceByListingTypeChart locationDtos={filteredLocationDtos} />}
           </Card>
         </div>
         <div className={'grid sm:grid-cols-2 xl:grid-cols-4 gap-4'}>
