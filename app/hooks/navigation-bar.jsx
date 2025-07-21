@@ -9,6 +9,7 @@ export default function useNavigationBar() {
   const onNavigationItemClick = useContext(NavigationBarContext)
 
   const isChildPath = (_navigationItemPathName) => {
+    console.log('_navigationItemPathName', _navigationItemPathName)
     // Not homepage & child path
     return _navigationItemPathName.length > 1 &&
         location.pathname.includes(_navigationItemPathName)
