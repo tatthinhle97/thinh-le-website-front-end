@@ -1,6 +1,6 @@
 const forType = {
-  rent: 'Rent',
-  sale: 'Sale'
+  sale: 'Sale',
+  rent: 'Rent'
 }
 
 const propertyType = {

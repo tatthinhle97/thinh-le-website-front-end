@@ -16,6 +16,7 @@ export default function TextInput({
   id,
   isRequired = false,
   isReadonly = false,
+  type = 'text',
   inputClassName,
   // If true, it will apply default built-in validation, and have :invalid state
   shouldValidate = false,
@@ -61,7 +62,7 @@ export default function TextInput({
         {prefix}
         <input
           aria-label={label}
-          type={'text'}
+          type={type}
           value={value}
           id={id}
           required={isRequired}

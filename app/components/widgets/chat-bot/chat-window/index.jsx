@@ -140,7 +140,7 @@ export default function ChatWindow({
           <Link
             aria-label={'navigation-link'}
             className={stringUtility.merge([
-              'font-semibold',
+              'font-medium',
               textTheme.hover.accentColor700
             ])}
             to={{

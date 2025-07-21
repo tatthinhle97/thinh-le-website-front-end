@@ -11,7 +11,6 @@ import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import Card from '../../../cards/index.jsx'
 import Loading from '../../../widgets/loading.jsx'
-import Modal from '../../../widgets/modal.jsx'
 import GoogleMap from './google-map/index.jsx'
 import PanelBar from './panel-bar.jsx'
 import AveragePriceByListingTypeChart from './chart.jsx'
@@ -48,18 +47,19 @@ export default function SaleAndRentalListingsPage() {
     median: 0,
     max: 0
   })
-  const [selectedLocation, setSelectedLocation] = useState({})
+  const [selectedLocationDto, setSelectedLocationDto] = useState({})
   const [shouldShowLoadingComponent, setShouldShowLoadingComponent] = useState(false)
 
   useEffect(() => {
     setShouldShowLoadingComponent(true)
-    saleAndRentalListingsApi.getInitialSaleListings()
+    saleAndRentalListingsApi.getDefaultRentalListings()
       .then(_locationDtos => {
         setLocationDtos(_locationDtos)
         setFilteredLocationDtos(_locationDtos)
         setShouldShowLoadingComponent(false)
       })
       .finally(() => {
+
         setShouldShowLoadingComponent(false)
       })
   }, [])
@@ -87,26 +87,26 @@ export default function SaleAndRentalListingsPage() {
 
   const getValueBoxBackgroundColorClassNameById = useCallback((_id) => {
     switch (_id) {
-    case valueBoxConstant.minimumPrice.id:
-      return backgroundTheme.valid
-    case valueBoxConstant.medianPrice.id:
-      return backgroundTheme.warning
-    default: // 'maximumPrice'
-      return backgroundTheme.invalid
+      case valueBoxConstant.minimumPrice.id:
+        return backgroundTheme.valid
+      case valueBoxConstant.medianPrice.id:
+        return backgroundTheme.warning
+      default: // 'maximumPrice'
+        return backgroundTheme.invalid
     }
   }, [
-    // backgroundTheme.invalid,
-    // backgroundTheme.valid,
+    backgroundTheme.invalid,
+    backgroundTheme.valid,
     backgroundTheme.warning])
 
   const getValueBoxValueById = useCallback((_id) => {
     switch (_id) {
-    case valueBoxConstant.minimumPrice.id:
-      return priceStats.min.toLocaleString() ?? 0
-    case valueBoxConstant.medianPrice.id:
-      return priceStats.median.toLocaleString() ?? 0
-    default: // 'maximumPrice'
-      return priceStats.max.toLocaleString() ?? 0
+      case valueBoxConstant.minimumPrice.id:
+        return priceStats.min.toLocaleString() ?? 0
+      case valueBoxConstant.medianPrice.id:
+        return priceStats.median.toLocaleString() ?? 0
+      default: // 'maximumPrice'
+        return priceStats.max.toLocaleString() ?? 0
     }
   }, [priceStats.max, priceStats.median, priceStats.min])
 
@@ -152,165 +152,195 @@ export default function SaleAndRentalListingsPage() {
   ])
 
   const onGoogleMarkerClick = (_locationDto) => {
-    setSelectedLocation(_locationDto)
+    setSelectedLocationDto(_locationDto)
   }
 
-  function renderField(_label, _data, _shouldAddMarginBottom = true) {
+  const renderField = (_label, _data, _shouldAddMarginBottom = true) => {
     return <p className={`text-wrap ${_shouldAddMarginBottom ? 'mb-2' : ''}`}>
-      <span className={'font-semibold'}>{_label}</span>
+      <span className={'font-medium'}>{_label}</span>
       : {_data}
     </p>
   }
 
+  const listingInformation = useMemo(() => {
+    return <>
+      {renderField(
+        'Full address',
+        selectedLocationDto.fullAddress ?? '-')}
+      {renderField(
+        'Property type',
+        selectedLocationDto.propertyType ?? '-')}
+      {renderField(
+        'Listing type',
+        selectedLocationDto.listingType ?? '-')}
+      {renderField(
+        'Bedrooms',
+        selectedLocationDto.bedrooms ?? '-')}
+      {renderField(
+        'Bathrooms',
+        selectedLocationDto.bathrooms ?? '-')}
+      {renderField(
+        'Living area',
+        selectedLocationDto.livingArea ?? '-')}
+      {renderField(
+        'Lot area',
+        selectedLocationDto.lotArea ?? '-')}
+      {renderField(
+        'Year built',
+        selectedLocationDto.yearBuilt ?? '-')}
+      {renderField(
+        'Price',
+        selectedLocationDto.price ? `$ ${selectedLocationDto.price.toLocaleString()}` : '-')}
+      {renderField(
+        'HOA fee',
+        selectedLocationDto.hoaFee ? `$ ${selectedLocationDto.hoaFee.toLocaleString()}` : '-')}
+      {renderField(
+        'Days on market',
+        selectedLocationDto.daysOnMarket ?? '-',
+        false)}
+    </>
+  }, [selectedLocationDto])
+
+  const listingContact = useMemo(() => {
+    return <>
+      {renderField(
+        'Office name',
+        selectedLocationDto.listingOfficeName ?? '-')}
+      {renderField(
+        'Office phone',
+        selectedLocationDto.listingOfficePhone ?? '-')}
+      {renderField(
+        'Office email',
+        selectedLocationDto.listingOfficeEmail ?? '-')}
+      {renderField(
+        'Agent name',
+        selectedLocationDto.listingAgentName ?? '-')}
+      {renderField(
+        'Agent phone',
+        selectedLocationDto.listingOfficePhone ?? '-')}
+      {renderField(
+        'Agent email',
+        selectedLocationDto.listingAgentEmail ?? '-',
+        false)}
+    </>
+  }, [selectedLocationDto])
+
+  const listingHistory = useMemo(() => {
+    return <table className='min-w-full divide-y'>
+      <thead>
+        <tr>
+          <th scope='col' className='pb-3.5 pr-3 font-medium text-left'>
+            Date
+          </th>
+          <th scope='col' className='pb-3.5 pr-3 font-medium text-left'>
+            Event
+          </th>
+          <th scope='col' className='pb-3.5 pr-3 font-medium text-left'>
+            Price
+          </th>
+          <th scope='col' className='pb-3.5 font-medium text-left'>
+            Days on Market
+          </th>
+        </tr>
+      </thead>
+      <tbody className='divide-y divide-gray-300'>
+        {selectedLocationDto.history?.map((item) => (
+          <tr key={item.date}>
+            <td className='py-4 pr-3 whitespace-nowrap'>{item.date}</td>
+            <td className='py-4 pr-3 whitespace-nowrap'>{item.event}</td>
+            <td className='py-4 pr-3 whitespace-nowrap'>$ {item.price.toLocaleString()}</td>
+            <td className='py-4 whitespace-nowrap'>{item.daysOnMarket}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  }, [selectedLocationDto])
+
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
     title={projectConstant.saleAndRentalListings.title}>
-    <p className={`mb-6 ${textTheme.secondaryColor600}`}>
-      Search for sale and rental listings across the US, integrating interactive data visualizations to analyze trends
-      and insights in the housing market.
-    </p>
-    <section>
-      <SaleAndRentalListingsContext.Provider value={{
-        locationDtos,
-        setFilteredLocationDtos,
-        setSelectedLocation
-      }}>
+    <div className={`mb-6 ${textTheme.secondaryColor600}`}>
+      <p className={'mb-6'}>
+        This project searches for rental and sale listings in the US. As <span className={'font-medium'}>
+          API key usage is limited
+        </span>, please create an account on the <a
+          target='_blank'
+          className={'font-medium underline'}
+          href={'https://app.rentcast.io/app'} rel='noreferrer'>
+          RentCast
+        </a> website to generate an API key and paste it in the search panel.
+      </p>
+      <p className={'mb-6'}>
+        Note: The first load may be slow due to the free backend host.
+      </p>
+    </div>
+    <SaleAndRentalListingsContext.Provider value={{
+      priceStats,
+      locationDtos,
+      setLocationDtos,
+      setFilteredLocationDtos,
+      setSelectedLocationDto,
+      setShouldShowLoadingComponent
+    }}>
+      <section className={'min-w-lg'}>
         <PanelBar />
-      </SaleAndRentalListingsContext.Provider>
-      <section
-        className={stringUtility.merge([
-          'p-4 border border-t-0 flex flex-col gap-4 rounded-b-lg',
-          borderTheme.secondaryColor300
-        ])}>
-        {/* Value boxes */}
-        <div className={'flex flex-col md:flex-row gap-4'}>
-          {valueBoxes}
-        </div>
-        <div className={'flex flex-col-reverse xl:flex-row gap-4'}>
-          <Card
-            containerClassName={'grow basis-1/2'}
-            title={'Listing locations'}
-            contentClassName={stringUtility.merge([
-              'aspect-4/3',
-              shouldShowLoadingComponent ? 'flex justify-center items-center' : ''
-            ])}>
-            {shouldShowLoadingComponent
-              ? <Loading title={LOADING_TITLE} />
-              : <GoogleMap
-                locationDtos={filteredLocationDtos}
-                onMarkerClick={onGoogleMarkerClick} />}
-          </Card>
-          <Card
-            title={'Average price by Property type'}
-            containerClassName={'grow basis-1/2'}
-            contentClassName={stringUtility.merge([
-              'p-4 aspect-4/3',
-              shouldShowLoadingComponent ? 'flex justify-center items-center' : ''
-            ])}>
-            {shouldShowLoadingComponent
-              ? <Loading title={LOADING_TITLE} />
-              : <AveragePriceByListingTypeChart locationDtos={filteredLocationDtos} />}
-          </Card>
-        </div>
-        <div className={'grid sm:grid-cols-2 xl:grid-cols-4 gap-4'}>
-          <Card
-            containerClassName={''}
-            title={'Listing information'}
-            contentClassName={'p-4'}>
-            {renderField(
-              'Full address',
-              selectedLocation.fullAddress ?? '-')}
-            {renderField(
-              'Property type',
-              selectedLocation.propertyType ?? '-')}
-            {renderField(
-              'Listing type',
-              selectedLocation.listingType ?? '-')}
-            {renderField(
-              'Bedrooms',
-              selectedLocation.bedrooms ?? '-')}
-            {renderField(
-              'Bathrooms',
-              selectedLocation.bathrooms ?? '-')}
-            {renderField(
-              'Living area',
-              selectedLocation.livingArea ?? '-')}
-            {renderField(
-              'Lot area',
-              selectedLocation.lotArea ?? '-')}
-            {renderField(
-              'Year built',
-              selectedLocation.yearBuilt ?? '-')}
-            {renderField(
-              'Price',
-              selectedLocation.price ? `$${selectedLocation.price}` : '-')}
-            {renderField(
-              'HOA fee',
-              selectedLocation.hoaFee ? `$${selectedLocation.hoaFee}` : '-')}
-            {renderField(
-              'Days on market',
-              selectedLocation.daysOnMarket ?? '-',
-              false)}
-          </Card>
-          <Card
-            containerClassName={'content-stretch flex flex-col'}
-            title={'Listing contact'}
-            contentClassName={'p-4 grow'}>
-            {renderField(
-              'Office name',
-              selectedLocation.listingOfficeName ?? '-')}
-            {renderField(
-              'Office phone',
-              selectedLocation.listingOfficePhone ?? '-')}
-            {renderField(
-              'Office email',
-              selectedLocation.listingOfficeEmail ?? '-')}
-            {renderField(
-              'Agent name',
-              selectedLocation.listingAgentName ?? '-')}
-            {renderField(
-              'Agent phone',
-              selectedLocation.listingOfficePhone ?? '-')}
-            {renderField(
-              'Agent email',
-              selectedLocation.listingAgentEmail ?? '-',
-              false)}
-          </Card>
-          <Card
-            containerClassName={'sm:col-span-2 content-stretch flex flex-col'}
-            title={'Listing history'}
-            contentClassName={'p-4 grow'}>
-            <table className='min-w-full divide-y'>
-              <thead>
-                <tr>
-                  <th scope='col' className='pb-3.5 pr-3 font-semibold text-left'>
-                    Date
-                  </th>
-                  <th scope='col' className='pb-3.5 pr-3 font-semibold text-left'>
-                    Event
-                  </th>
-                  <th scope='col' className='pb-3.5 pr-3 font-semibold text-left'>
-                    Price
-                  </th>
-                  <th scope='col' className='pb-3.5 font-semibold text-left'>
-                    Days on Market
-                  </th>
-                </tr>
-              </thead>
-              <tbody className='divide-y divide-gray-300'>
-                {selectedLocation.history?.map((item) => (
-                  <tr key={item.date}>
-                    <td className='py-4 pr-3 whitespace-nowrap'>{item.date}</td>
-                    <td className='py-4 pr-3 whitespace-nowrap'>{item.event}</td>
-                    <td className='py-4 pr-3 whitespace-nowrap'>${item.price}</td>
-                    <td className='py-4 whitespace-nowrap'>{item.daysOnMarket}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Card>
-        </div>
+        <section
+          className={stringUtility.merge([
+            'p-4 border border-t-0 flex flex-col gap-4 rounded-b-lg',
+            borderTheme.secondaryColor300
+          ])}>
+          {/* Value boxes */}
+          <div className={'flex flex-col md:flex-row gap-4'}>
+            {valueBoxes}
+          </div>
+          <div className={'flex flex-col-reverse xl:flex-row gap-4'}>
+            <Card
+              containerClassName={'grow basis-1/2'}
+              title={'Listing locations'}
+              contentClassName={stringUtility.merge([
+                'aspect-4/3',
+                shouldShowLoadingComponent ? 'flex justify-center items-center' : ''
+              ])}>
+              {shouldShowLoadingComponent
+                ? <Loading title={LOADING_TITLE} />
+                : <GoogleMap
+                  locationDtos={filteredLocationDtos}
+                  onMarkerClick={onGoogleMarkerClick} />}
+            </Card>
+            <Card
+              title={'Average price by Property type'}
+              containerClassName={'grow basis-1/2'}
+              contentClassName={stringUtility.merge([
+                'p-4 aspect-4/3',
+                shouldShowLoadingComponent ? 'flex justify-center items-center' : ''
+              ])}>
+              {shouldShowLoadingComponent
+                ? <Loading title={LOADING_TITLE} />
+                : <AveragePriceByListingTypeChart locationDtos={filteredLocationDtos} />}
+            </Card>
+          </div>
+          <div className={'grid sm:grid-cols-2 xl:grid-cols-4 gap-4'}>
+            <Card
+              containerClassName={''}
+              title={'Listing information'}
+              contentClassName={'p-4'}>
+              {listingInformation}
+            </Card>
+            <Card
+              containerClassName={'content-stretch flex flex-col'}
+              title={'Listing contact'}
+              contentClassName={'p-4 grow'}>
+              {listingContact}
+            </Card>
+            <Card
+              containerClassName={'sm:col-span-2 content-stretch flex flex-col'}
+              title={'Listing history'}
+              contentClassName={'p-4 grow'}>
+              {listingHistory}
+            </Card>
+          </div>
+        </section>
       </section>
-    </section>
+    </SaleAndRentalListingsContext.Provider>
   </Blog>
 }

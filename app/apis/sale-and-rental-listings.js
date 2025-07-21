@@ -1,12 +1,20 @@
 import apiUtility from '../utilities/api.jsx'
 
-const getInitialSaleListings = async() => {
+const getDefaultRentalListings = async() => {
   return apiUtility.get(
     `${import.meta.env.VITE_BACKEND_ORIGIN}/projects/sale-and-rental-listings/default-rental-listings`)
 }
 
+const searchListings = async(_body) => {
+  return apiUtility.post(
+    `${import.meta.env.VITE_BACKEND_ORIGIN}/projects/sale-and-rental-listings/search-listings`,
+    _body
+  )
+}
+
 const saleAndRentalListingsApi = {
-  getInitialSaleListings
+  getDefaultRentalListings,
+  searchListings
 }
 
 export default saleAndRentalListingsApi

@@ -21,9 +21,10 @@ const themeStates = createStructuredSelector(
   createSelector
 )
 
+const propertyTypeOptions = Object.values(rentCastConstant.propertyType)
+const listingTypeOptions = Object.values(rentCastConstant.listingType)
 const livingAreaOptions = Object.values(rentCastConstant.livingAreaType)
 const lotAreaOptions = Object.values(rentCastConstant.lotAreaType)
-const listingTypeOptions = Object.values(rentCastConstant.listingType)
 
 export default function FilterPanel({
   ref,
@@ -37,7 +38,7 @@ export default function FilterPanel({
   const {
     locationDtos,
     setFilteredLocationDtos,
-    setSelectedLocation,
+    setSelectedLocationDto,
     togglePanel
   } = useContext(SaleAndRentalListingsContext)
 
@@ -46,6 +47,8 @@ export default function FilterPanel({
   const [priceRangeHanlders, setPriceRangeHanlders] = useState([
     0, 0
   ])
+  const [propertyTypeValue, setPropertyTypeValue] = useState('')
+  const [propertyTypeOption, setPropertyTypeOption] = useState('')
   const [listingTypeValue, setListingTypeValue] = useState('')
   const [listingTypeOption, setListingTypeOption] = useState('')
   const [livingAreaValue, setLivingAreaValue] = useState('')
@@ -89,6 +92,14 @@ export default function FilterPanel({
     ])
   }, [locationDtos])
 
+  const onPropertyTypeValueChange = (_event) => {
+    setPropertyTypeValue(_event.target.value)
+  }
+
+  const onPropertyTypeOptionChange = (_option) => {
+    setPropertyTypeOption(_option)
+  }
+
   const onListingTypeValueChange = (_event) => {
     setListingTypeValue(_event.target.value)
   }
@@ -114,7 +125,7 @@ export default function FilterPanel({
   }
 
   const onFilterButtonClick = () => {
-    setSelectedLocation({})
+    setSelectedLocationDto({})
     // Hide the filter panel by toggling the class name
     togglePanel(panelNameConstant.filter)
 
@@ -125,6 +136,10 @@ export default function FilterPanel({
       (_locationDto) => {
         if (_locationDto.price < priceRangeHanlders[0]
             || _locationDto.price > priceRangeHanlders[1]) {
+          return false
+        }
+
+        if (propertyTypeOption && _locationDto.propertyType !== propertyTypeOption) {
           return false
         }
 
@@ -166,6 +181,7 @@ export default function FilterPanel({
 
   const onResetFilterButtonClick = () => {
     resetPriceRange()
+    setPropertyTypeOption('')
     setListingTypeOption('')
     setLivingAreaOption('')
     setLotAreaOption('')
@@ -174,59 +190,69 @@ export default function FilterPanel({
   return <section
     ref={ref}
     className={stringUtility.merge([
-      'p-4 border border-t-0',
+      'p-4 border border-t-0 rounded-b-lg',
       borderTheme.secondaryColor300,
       backgroundTheme.primaryColor,
       className
     ])}>
-    <div className={'grid 2xl:grid-cols-2 gap-4 mb-4'}>
-      <RangeSlider
-        ref={priceRangeSliderRef}
-        label={'Price range'}
-        min={locationDtos ? locationDtos[0]?.price : 0}
-        filteredMin={priceRangeHanlders[0] ?? 0}
-        max={locationDtos ? locationDtos[locationDtos.length - 1]?.price : 0}
-        filteredMax={priceRangeHanlders[1] ?? 0}
-        step={10}
-        toValue={setPriceRangeDisplayValue}
-        fromValue={setPriceRangeReturnValue}
-        onChange={onPriceRangeChange}
-        tooltipClassName={'text-small-1'} />
-      <div className={'grid md:grid-cols-3 gap-4'}>
-        <ComboBox
-          id={'listingType'}
-          label={'Listing type'}
-          name={'listingType'}
-          onComboBoxClose={() => setListingTypeValue('')}
-          onOptionChange={onListingTypeOptionChange}
-          onValueChange={onListingTypeValueChange}
-          option={listingTypeOption}
-          options={listingTypeOptions}
-          optionsClassName={'z-2'}
-          value={listingTypeValue} />
-        <ComboBox
-          id={'livingArea'}
-          label={'Living area'}
-          name={'livingArea'}
-          onComboBoxClose={() => setLivingAreaValue('')}
-          onOptionChange={onLivingAreaOptionChange}
-          onValueChange={onLivingAreaValueChange}
-          option={livingAreaOption}
-          options={livingAreaOptions}
-          optionsClassName={'z-2'}
-          value={livingAreaValue} />
-        <ComboBox
-          id={'lotArea'}
-          label={'Lot area'}
-          name={'lotArea'}
-          onComboBoxClose={() => setLotAreaValue('')}
-          onOptionChange={onLotAreaOptionChange}
-          onValueChange={onLotAreaValueChange}
-          option={lotAreaOption}
-          options={lotAreaOptions}
-          optionsClassName={'z-2'}
-          value={lotAreaValue} />
-      </div>
+    <RangeSlider
+      containerClassName={'mb-4'}
+      ref={priceRangeSliderRef}
+      label={'Price range'}
+      min={locationDtos ? locationDtos[0]?.price : 0}
+      filteredMin={priceRangeHanlders[0] ?? 0}
+      max={locationDtos ? locationDtos[locationDtos.length - 1]?.price : 0}
+      filteredMax={priceRangeHanlders[1] ?? 0}
+      step={10}
+      toValue={setPriceRangeDisplayValue}
+      fromValue={setPriceRangeReturnValue}
+      onChange={onPriceRangeChange}
+      tooltipClassName={'text-small-1'} />
+    <div className={'grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'}>
+      <ComboBox
+        id={'propertyType'}
+        label={'Property type'}
+        name={'propertyType'}
+        onComboBoxClose={() => setPropertyTypeValue('')}
+        onOptionChange={onPropertyTypeOptionChange}
+        onValueChange={onPropertyTypeValueChange}
+        option={propertyTypeOption}
+        options={propertyTypeOptions}
+        optionsClassName={'z-2'}
+        value={propertyTypeValue} />
+      <ComboBox
+        id={'listingType'}
+        label={'Listing type'}
+        name={'listingType'}
+        onComboBoxClose={() => setListingTypeValue('')}
+        onOptionChange={onListingTypeOptionChange}
+        onValueChange={onListingTypeValueChange}
+        option={listingTypeOption}
+        options={listingTypeOptions}
+        optionsClassName={'z-2'}
+        value={listingTypeValue} />
+      <ComboBox
+        id={'livingArea'}
+        label={'Living area'}
+        name={'livingArea'}
+        onComboBoxClose={() => setLivingAreaValue('')}
+        onOptionChange={onLivingAreaOptionChange}
+        onValueChange={onLivingAreaValueChange}
+        option={livingAreaOption}
+        options={livingAreaOptions}
+        optionsClassName={'z-2'}
+        value={livingAreaValue} />
+      <ComboBox
+        id={'lotArea'}
+        label={'Lot area'}
+        name={'lotArea'}
+        onComboBoxClose={() => setLotAreaValue('')}
+        onOptionChange={onLotAreaOptionChange}
+        onValueChange={onLotAreaValueChange}
+        option={lotAreaOption}
+        options={lotAreaOptions}
+        optionsClassName={'z-2'}
+        value={lotAreaValue} />
     </div>
     <div className={'flex justify-center gap-4'}>
       <PrimaryButton

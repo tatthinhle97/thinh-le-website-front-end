@@ -10,6 +10,7 @@ import {
   YAxis
 } from 'recharts'
 import {createSelector, createStructuredSelector} from 'reselect'
+import stringUtility from '../../../../utilities/string.jsx'
 
 const themeStates = createStructuredSelector(
   {
@@ -28,7 +29,7 @@ const AveragePriceByListingTypeChart = memo(({
   const [isSmallScreen, setIsSmallScreen] = useState(false)
 
   useEffect(() => {
-    const checkSize = () => setIsSmallScreen(window.innerWidth < 640)
+    const checkSize = () => setIsSmallScreen(window.innerWidth < 1024)
     checkSize() // run once
     window.addEventListener('resize', checkSize)
     return () => window.removeEventListener('resize', checkSize)
@@ -63,42 +64,27 @@ const AveragePriceByListingTypeChart = memo(({
         x={x + width / 2}
         y={y - 10}
         textAnchor='middle'
-        fill={colorTheme.secondaryColor600}
-        className={'small-text'}>
-        {`$${value.toLocaleString()}`}
+        fill={colorTheme.secondaryColor}>
+        {stringUtility.formatMoneyWithSuffix(value)}
       </Text>
     )
   }
 
   return (
     <ResponsiveContainer width='100%' height='100%'>
-      <BarChart data={averagePriceData} margin={{top: 22, left: 32, bottom: 22}}>
+      <BarChart
+        margin={{left: 16, bottom: isSmallScreen ? 80 : 0, top: isSmallScreen ? 16 : 0}}
+        data={averagePriceData}>
         <XAxis
           dataKey='listingType'
           angle={isSmallScreen ? -45 : 0}
           textAnchor={isSmallScreen ? 'end' : 'middle'}
-          className={'small-text'}
-          height={isSmallScreen ? 82 : 24}
-          tick={{fill: colorTheme.secondaryColor600}}>
-          <Label
-            value='Listing type'
-            offset={-18}
-            position='insideBottom'
-            className={'normal-text'}
-            fill={colorTheme.secondaryColor} />
+          tick={{fill: colorTheme.secondaryColor}}>
         </XAxis>
         <YAxis
           dataKey='averagePrice'
-          className={'small-text'}
-          tick={{fill: colorTheme.secondaryColor600}}
-          tickFormatter={(value) => `$${value.toLocaleString()}`}>
-          <Label
-            value='Average price'
-            offset={-24}
-            angle={-90}
-            position='insideLeft'
-            className={'normal-text'}
-            fill={colorTheme.secondaryColor} />
+          tick={{fill: colorTheme.secondaryColor}}
+          tickFormatter={(value) => stringUtility.formatMoneyWithSuffix(value)}>
         </YAxis>
         <Bar
           dataKey='averagePrice'

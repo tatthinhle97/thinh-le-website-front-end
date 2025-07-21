@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 import stylisticJsx from '@stylistic/eslint-plugin-jsx'
+import stylistic from '@stylistic/eslint-plugin'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
@@ -32,7 +33,8 @@ export default defineConfig([
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       '@stylistic/jsx': stylisticJsx,
-      '@stylistic/js': stylisticJs
+      '@stylistic/js': stylisticJs,
+      '@stylistic': stylistic
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -50,7 +52,6 @@ export default defineConfig([
       'no-template-curly-in-string': 'warn',
       'no-unassigned-vars': 'error',
       'no-use-before-define': 'error',
-      '@stylistic/js/indent': [1, 2],
       '@stylistic/js/semi': [1, 'never'],
       '@stylistic/js/max-len': [1, {
         'code': 120,
@@ -90,7 +91,7 @@ export default defineConfig([
       '@stylistic/js/dot-location': [1, 'property'],
       '@stylistic/js/function-call-spacing': [1, 'never'],
       '@stylistic/js/space-before-blocks': [1, 'always'],
-      '@stylistic/jsx/jsx-indent-props': [1, 2],
+      '@stylistic/indent': [1, 2],
       '@stylistic/jsx/jsx-curly-spacing': [1],
       '@stylistic/jsx/jsx-equals-spacing': [1],
       '@stylistic/jsx/jsx-props-no-multi-spaces': [1],

@@ -4,6 +4,7 @@ import {useContext, useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
 import locationApi from '../../../../../apis/location.js'
+import saleAndRentalListingsApi from '../../../../../apis/sale-and-rental-listings.js'
 import iconConstant from '../../../../../constants/icon.jsx'
 import panelNameConstant from '../../../../../constants/pages/sale-and-rental-listings/panel-name.jsx'
 import rentCastConstant from '../../../../../constants/rentcast.jsx'
@@ -34,9 +35,17 @@ export default function SearchPanel({
     borderTheme
   } = useSelector(themeStates)
 
-  const {activePanelName, setSelectedLocation, togglePanel} = useContext(SaleAndRentalListingsContext)
+  const {
+    activePanelName,
+    setLocationDtos,
+    setFilteredLocationDtos,
+    setShouldShowLoadingComponent,
+    setSelectedLocationDto,
+    togglePanel
+  } = useContext(SaleAndRentalListingsContext)
 
   const [shouldValidateForm, setShouldValidateForm] = useState(true)
+  const [rentCastApiKey, setRentCastApiKey] = useState([])
   const [forValue, setForValue] = useState('')
   const [forOption, setForOption] = useState(forOptions[0])
   const [states, setStates] = useState([])
@@ -86,22 +95,33 @@ export default function SearchPanel({
     }
   }, [stateNameOption])
 
-  const onSearchPanelFormSubmit = (_event) => {
+  const onSearchPanelFormSubmit = async (_event) => {
     _event.preventDefault()
 
     if (!_event.target.checkValidity()) {
       setShouldValidateForm(true)
       return
     }
-    setSelectedLocation({})
+    setShouldShowLoadingComponent(true)
+    setSelectedLocationDto({})
     // Hide the search panel by toggling the class name
     togglePanel(panelNameConstant.search)
 
     setShouldValidateForm(false)
 
     const formData = new FormData(_event.target)
-    const data = Object.fromEntries(formData.entries())
-    console.log('TODO:', data)
+    const searchLocationDto = Object.fromEntries(formData.entries())
+
+    saleAndRentalListingsApi.searchListings(searchLocationDto)
+      .then(_locationDtos => {
+        setLocationDtos(_locationDtos)
+        setFilteredLocationDtos(_locationDtos)
+        setShouldShowLoadingComponent(false)
+      })
+  }
+
+  const onRentCastApiKeyChange = (_event) => {
+    setRentCastApiKey(_event.target.value)
   }
 
   const onForValueChange = (_event) => {
@@ -154,20 +174,30 @@ export default function SearchPanel({
   return <section
     ref={ref}
     className={stringUtility.merge([
-      'p-4 border border-t-0',
+      'p-4 border border-t-0 rounded-b-lg',
       borderTheme.secondaryColor300,
       backgroundTheme.primaryColor,
       className
     ])}>
     {/* [Form tip]: noValidate is to disable built-in form validation */}
     <form onSubmit={onSearchPanelFormSubmit} noValidate>
-      <div className={'grid sm:grid-cols-3 2xl:grid-cols-10 gap-4 mb-4'}>
+      <TextInput
+        id={'rentCastApiKey'}
+        containerClassName={'mb-4'}
+        type={'password'}
+        label={'RentCast API key'}
+        name={'rentCastApiKey'}
+        isRequired={true}
+        shouldValidate={shouldValidateForm}
+        onValueChange={onRentCastApiKeyChange}
+        value={rentCastApiKey} />
+      <div className={'grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-10 gap-4 mb-4'}>
         <ComboBox
-          id={'for'}
+          id={'searchFor'}
           isReadonly={true}
           isRequired={true}
           label={'For'}
-          name={'for'}
+          name={'searchFor'}
           onComboBoxClose={() => setForValue('')}
           onOptionChange={onForOptionChange}
           onValueChange={onForValueChange}
@@ -206,7 +236,6 @@ export default function SearchPanel({
           value={cityNameValue} />
         <TextInput
           id={'zipCode'}
-          shouldValidate={shouldValidateForm}
           label={'Zip code'}
           name={'zipCode'}
           onValueChange={onZipCodeValueChange}
@@ -224,20 +253,20 @@ export default function SearchPanel({
           optionsClassName={'z-40'}
           value={propertyTypeValue} />
         <NumberInput
-          id={'numberOfBedRooms'}
+          id={'bedRooms'}
           shouldValidate={shouldValidateForm}
           label={'Bedrooms'}
           min={1}
-          name={'numberOfBedRooms'}
+          name={'bedRooms'}
           onValueChange={onNumberOfBedRoomsValueChange}
           validationMessage={'Number must greater than 0'}
           value={numberOfBedRoomsValue} />
         <NumberInput
-          id={'numberOfBathRooms'}
+          id={'bathRooms'}
           shouldValidate={shouldValidateForm}
           label={'BathRooms'}
           min={1}
-          name={'numberOfBathRooms'}
+          name={'bathRooms'}
           onValueChange={onNumberOfBathRoomsValueChange}
           validationMessage={'Number must greater than 0'}
           value={numberOfBathRoomsValue} />

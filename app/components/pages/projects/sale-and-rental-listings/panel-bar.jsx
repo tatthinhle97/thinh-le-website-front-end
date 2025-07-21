@@ -37,10 +37,10 @@ export default function PanelBar() {
 
   const getPanelByName = (_panelName) => {
     switch (_panelName) {
-    case panelNameConstant.search:
-      return searchPanelRef.current
-    default: // 'filter'
-      return filterPanelRef.current
+      case panelNameConstant.search:
+        return searchPanelRef.current
+      default: // 'filter'
+        return filterPanelRef.current
     }
   }
 
@@ -91,7 +91,7 @@ export default function PanelBar() {
       'relative z-1'
     ])}>
     <div className={stringUtility.merge([
-      'border p-4 rounded-t-lg',
+      'border p-4 rounded-t-lg min-w-lg',
       'flex justify-end gap-x-4 items-center',
       backgroundTheme.secondaryColor,
       borderTheme.secondaryColor

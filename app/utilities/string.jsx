@@ -49,11 +49,20 @@ const extractNumbersWithSuffixMultipliers = function (_string) {
   })
 }
 
+const formatMoneyWithSuffix = (_money) => {
+  // Format millions as $1.2M, billions as $1.2B
+  if (_money >= 1000000000) return `$${(_money / 1000000000).toFixed(1)}B`
+  if (_money >= 1000000) return `$${(_money / 1000000).toFixed(1)}M`
+  if (_money >= 1000) return `$${(_money / 1000).toFixed(1)}K`
+  return `$${_money.toLocaleString()}` // Add commas to thousands
+}
+
 const stringUtility = {
   merge,
   isSubStringOf,
   extractNumbers,
-  extractNumbersWithSuffixMultipliers
+  extractNumbersWithSuffixMultipliers,
+  formatMoneyWithSuffix
 }
 
 export default stringUtility

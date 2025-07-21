@@ -9,10 +9,13 @@ import {
 } from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {AdvancedMarker, APIProvider, Map} from '@vis.gl/react-google-maps'
-import {memo, useCallback} from 'react'
+import {memo, useCallback, useContext} from 'react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
+import iconConstant from '../../../../../constants/icon.jsx'
+import valueBoxConstant from '../../../../../constants/pages/sale-and-rental-listings/value-box.jsx'
 import rentCastConstant from '../../../../../constants/rentcast.jsx'
+import {SaleAndRentalListingsContext} from '../../../../../contexts/sale-and-rental-listings.jsx'
 import stringUtility from '../../../../../utilities/string.jsx'
 import BoundaryFit from './boundary-fit.jsx'
 
@@ -34,32 +37,50 @@ const GoogleMap = memo(({
     backgroundTheme
   } = useSelector(themeStates)
 
-  const createMapIcon = useCallback((_icon) => {
+  const {
+    priceStats
+  } = useContext(SaleAndRentalListingsContext)
+
+  const getLocationBackgroundColorClassNameByPrice = useCallback((_locationPrice) => {
+    switch (_locationPrice) {
+      case priceStats.min:
+        return 'bg-emerald-600'
+      case priceStats.max:
+        return backgroundTheme.invalid
+      default: // 'maximumPrice'
+        return backgroundTheme.accentColor700
+    }
+  }, [backgroundTheme.invalid, backgroundTheme.accentColor700, priceStats.max, priceStats.min])
+
+  const createMapIcon = useCallback((_icon, _locationPrice) => {
     return <div className={stringUtility.merge([
       'flex items-center justify-center',
-      backgroundTheme.accentColor700,
+      getLocationBackgroundColorClassNameByPrice(_locationPrice),
       'rounded-full p-1.5 text-white'
     ])}>
       {_icon}
     </div>
-  }, [backgroundTheme.accentColor700])
+  }, [getLocationBackgroundColorClassNameByPrice])
 
-  const getMapIconByPropertyType = useCallback((_propertyType) => {
-    switch (_propertyType) {
-    case rentCastConstant.propertyType.singleFamily:
-      return createMapIcon(<HugeiconsIcon icon={Home01Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.multiFamily:
-      return createMapIcon(<HugeiconsIcon icon={House05Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.condo:
-      return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.townhouse:
-      return createMapIcon(<HugeiconsIcon icon={House01Icon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.manufactured:
-      return createMapIcon(<HugeiconsIcon icon={FactoryIcon} className={'wh-normal'} />)
-    case rentCastConstant.propertyType.apartment:
-      return createMapIcon(<HugeiconsIcon icon={Building05Icon} className={'wh-normal'} />)
-    default: // land
-      return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} className={'wh-normal'} />)
+  const getMapIconByPropertyType = useCallback((_locationDto) => {
+    switch (_locationDto.propertyType) {
+      case rentCastConstant.propertyType.singleFamily:
+        return createMapIcon(<HugeiconsIcon icon={Home01Icon} size={iconConstant.defaultSize} />, _locationDto.price)
+      case rentCastConstant.propertyType.multiFamily:
+        return createMapIcon(<HugeiconsIcon icon={House05Icon} size={iconConstant.defaultSize} />, _locationDto.price)
+      case rentCastConstant.propertyType.condo:
+        return createMapIcon(<HugeiconsIcon icon={RealEstate01Icon} size={iconConstant.defaultSize} />,
+          _locationDto.price)
+      case rentCastConstant.propertyType.townhouse:
+        return createMapIcon(<HugeiconsIcon icon={House01Icon} size={iconConstant.defaultSize} />, _locationDto.price)
+      case rentCastConstant.propertyType.manufactured:
+        return createMapIcon(<HugeiconsIcon icon={FactoryIcon} size={iconConstant.defaultSize} />, _locationDto.price)
+      case rentCastConstant.propertyType.apartment:
+        return createMapIcon(<HugeiconsIcon icon={Building05Icon} size={iconConstant.defaultSize} />,
+          _locationDto.price)
+      default: // land
+        return createMapIcon(<HugeiconsIcon icon={PinLocation03Icon} size={iconConstant.defaultSize} />,
+          _locationDto.price)
     }
   }, [createMapIcon])
 
@@ -81,7 +102,7 @@ const GoogleMap = memo(({
         clickable={isClickable}
         className={markerClassName}
         onClick={() => onMarkerClick(_locationDto)}>
-        {getMapIconByPropertyType(_locationDto.propertyType)}
+        {getMapIconByPropertyType(_locationDto)}
       </AdvancedMarker>)}
       <BoundaryFit locationDtos={locationDtos} />
     </Map>
