@@ -13,7 +13,7 @@ export default function useNavigationBar() {
     return _navigationItemPathName.length > 1 &&
         location.pathname.includes(_navigationItemPathName)
   }
-
+  console.log('location.pathname', location.pathname)
   const renderNavigationItems = (
     navigationItems,
     className,
