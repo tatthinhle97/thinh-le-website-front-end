@@ -210,9 +210,7 @@ export default function FilterPanel({
       tooltipClassName={'text-small-1'} />
     <div className={'grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'}>
       <ComboBox
-        id={'propertyType'}
         label={'Property type'}
-        name={'propertyType'}
         onComboBoxClose={() => setPropertyTypeValue('')}
         onOptionChange={onPropertyTypeOptionChange}
         onValueChange={onPropertyTypeValueChange}
@@ -221,9 +219,7 @@ export default function FilterPanel({
         optionsClassName={'z-2'}
         value={propertyTypeValue} />
       <ComboBox
-        id={'listingType'}
         label={'Listing type'}
-        name={'listingType'}
         onComboBoxClose={() => setListingTypeValue('')}
         onOptionChange={onListingTypeOptionChange}
         onValueChange={onListingTypeValueChange}
@@ -232,9 +228,7 @@ export default function FilterPanel({
         optionsClassName={'z-2'}
         value={listingTypeValue} />
       <ComboBox
-        id={'livingArea'}
         label={'Living area'}
-        name={'livingArea'}
         onComboBoxClose={() => setLivingAreaValue('')}
         onOptionChange={onLivingAreaOptionChange}
         onValueChange={onLivingAreaValueChange}
@@ -243,9 +237,7 @@ export default function FilterPanel({
         optionsClassName={'z-2'}
         value={livingAreaValue} />
       <ComboBox
-        id={'lotArea'}
         label={'Lot area'}
-        name={'lotArea'}
         onComboBoxClose={() => setLotAreaValue('')}
         onOptionChange={onLotAreaOptionChange}
         onValueChange={onLotAreaValueChange}
