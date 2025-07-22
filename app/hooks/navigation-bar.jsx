@@ -8,11 +8,15 @@ export default function useNavigationBar() {
   const location = useLocation()
   const onNavigationItemClick = useContext(NavigationBarContext)
 
-  const isChildPath = (_navigationItemPathName) => {
-    console.log('_navigationItemPathName', _navigationItemPathName)
-    // Not homepage & child path
-    return _navigationItemPathName.length > 1 &&
-        location.pathname.includes(_navigationItemPathName)
+  const isActiveNavigationItem = (_navigationItemPath) => {
+    if (_navigationItemPath === location.pathname) {
+      return true
+    } else if (_navigationItemPath.length > 1 &&
+        location.pathname.includes(_navigationItemPath)) {
+      return true
+    }
+
+    return false
   }
   console.log('location.pathname', location.pathname)
   const renderNavigationItems = (
@@ -24,6 +28,7 @@ export default function useNavigationBar() {
   ) => {
     return navigationItems
       .map((_navigationItem, _index) => {
+        console.log('_navigationItem.path', _navigationItem.path)
         return <Link
           onClick={onNavigationItemClick}
           key={_index}
@@ -35,7 +40,7 @@ export default function useNavigationBar() {
             shouldDisplayIcon
               ? 'flex gap-2 items-center'
               : undefined,
-            (location.pathname === _navigationItem.path || isChildPath(_navigationItem.path))
+            (isActiveNavigationItem(_navigationItem.path))
               ? activeNavigationItemClassName
               : nonActiveNavigationItemClassName
           ])}>
