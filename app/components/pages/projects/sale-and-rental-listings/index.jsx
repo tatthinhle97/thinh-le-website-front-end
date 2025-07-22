@@ -11,6 +11,7 @@ import stringUtility from '../../../../utilities/string.jsx'
 import Blog from '../../../blog.jsx'
 import Card from '../../../cards/index.jsx'
 import Loading from '../../../widgets/loading.jsx'
+import Modal from '../../../widgets/modal.jsx'
 import GoogleMap from './google-map/index.jsx'
 import PanelBar from './panel-bar.jsx'
 import AveragePriceByListingTypeChart from './chart.jsx'
@@ -40,6 +41,11 @@ export default function SaleAndRentalListingsPage() {
     textTheme
   } = useSelector(themeStates)
 
+  const [shouldShowModal, setShouldShowModal] = useState(false)
+  const [modalText, setModalText] = useState({
+    title: 'Error',
+    description: 'Something went wrong!'
+  })
   const [locationDtos, setLocationDtos] = useState([])
   const [filteredLocationDtos, setFilteredLocationDtos] = useState([])
   const [priceStats, setPriceStats] = useState({
@@ -58,8 +64,14 @@ export default function SaleAndRentalListingsPage() {
         setFilteredLocationDtos(_locationDtos)
         setShouldShowLoadingComponent(false)
       })
+      .catch(_error => {
+        setShouldShowModal(true)
+        setModalText({
+          title: 'Error',
+          description: `Server error: ${_error.message}. Please try again later.`
+        })
+      })
       .finally(() => {
-
         setShouldShowLoadingComponent(false)
       })
   }, [])
@@ -259,6 +271,12 @@ export default function SaleAndRentalListingsPage() {
   return <Blog
     dateCreated={projectConstant.saleAndRentalListings.dateCreated}
     title={projectConstant.saleAndRentalListings.title}>
+    <Modal
+      shouldShowModal={shouldShowModal}
+      onModalClose={setShouldShowModal}
+      title={modalText.title}
+      description={modalText.description}
+      onPrimaryButtonClick={() => setShouldShowModal(false)} />
     <div className={`mb-6 ${textTheme.secondaryColor600}`}>
       <p className={'mb-6'}>
         This project searches for rental and sale listings in the US. As <span className={'font-medium'}>
@@ -270,9 +288,13 @@ export default function SaleAndRentalListingsPage() {
           RentCast
         </a> website to generate an API key and paste it in the search panel.
       </p>
-      <p className={'mb-6'}>
-        Note: The first load may be slow due to the free backend host.
+      <p className={'mb-2'}>
+        Notes:
       </p>
+      <ul className='list-disc pl-8'>
+        <li>The default data was collected in New York city in New York state.</li>
+        <li>The first load may be slow due to the free backend host.</li>
+      </ul>
     </div>
     <SaleAndRentalListingsContext.Provider value={{
       priceStats,

@@ -51,9 +51,9 @@ export default function SearchPanel({
   const [states, setStates] = useState([])
   const [cityNames, setCityNames] = useState([])
   const [stateNameValue, setStateNameValue] = useState('')
-  const [stateNameOption, setStateNameOption] = useState('New Jersey')
+  const [stateNameOption, setStateNameOption] = useState('New York')
   const [cityNameValue, setCityNameValue] = useState('')
-  const [cityNameOption, setCityNameOption] = useState('Atlantic City')
+  const [cityNameOption, setCityNameOption] = useState('New York')
   const [zipCodeValue, setZipCodeValue]
       = useState('')
   const [propertyTypeValue, setPropertyTypeValue]

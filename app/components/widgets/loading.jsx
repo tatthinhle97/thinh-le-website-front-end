@@ -9,8 +9,6 @@ import {HugeiconsIcon} from '@hugeicons/react'
 
 const themeStates = createStructuredSelector(
   {
-    backgroundTheme: (_state) => _state.backgroundTheme,
-    borderTheme: (_state) => _state.borderTheme,
     textTheme: (_state) => _state.textTheme
   },
   createSelector
@@ -21,8 +19,6 @@ export default function Loading({
   title = 'Loading data'
 }) {
   const {
-    backgroundTheme,
-    borderTheme,
     textTheme
   } = useSelector(themeStates)
 

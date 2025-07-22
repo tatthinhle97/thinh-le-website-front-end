@@ -7,16 +7,16 @@ import stringUtility from '../utilities/string.jsx'
 export default function useNavigationBar() {
   const location = useLocation()
   const onNavigationItemClick = useContext(NavigationBarContext)
-  const [locationPath, setLocationPath] = useState('')
+  const [locationPathName, setLocationPathName] = useState('')
 
   const isActiveNavigationItem = (_navigationItemPath) => {
-    return _navigationItemPath === locationPath || _navigationItemPath.length > 1 &&
-        locationPath.includes(_navigationItemPath)
+    return _navigationItemPath === locationPathName || _navigationItemPath.length > 1 &&
+        locationPathName.includes(_navigationItemPath)
   }
 
   useEffect(() => {
-    setLocationPath(window.location.pathname)
-  }, [location])
+    setLocationPathName(location.pathname)
+  }, [location.pathname])
 
   const renderNavigationItems = (
     navigationItems,
