@@ -9,16 +9,22 @@ export default function useNavigationBar() {
   const onNavigationItemClick = useContext(NavigationBarContext)
 
   const isActiveNavigationItem = (_navigationItemPath) => {
+    console.log('---')
+    console.log('location.pathname', location.pathname)
+    console.log('_navigationItemPath', _navigationItemPath)
     if (_navigationItemPath === location.pathname) {
+      console.log('case 1')
       return true
     } else if (_navigationItemPath.length > 1 &&
         location.pathname.includes(_navigationItemPath)) {
+      console.log('case 2')
       return true
     }
 
+    console.log('case 3')
     return false
   }
-  console.log('location.pathname', location.pathname)
+
   const renderNavigationItems = (
     navigationItems,
     className,
@@ -28,7 +34,6 @@ export default function useNavigationBar() {
   ) => {
     return navigationItems
       .map((_navigationItem, _index) => {
-        console.log('_navigationItem.path', _navigationItem.path)
         return <Link
           onClick={onNavigationItemClick}
           key={_index}
