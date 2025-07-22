@@ -9,17 +9,8 @@ export default function useNavigationBar() {
   const onNavigationItemClick = useContext(NavigationBarContext)
 
   const isActiveNavigationItem = (_navigationItemPath) => {
-    console.log('---')
-    console.log('location.pathname', location.pathname)
-    console.log('_navigationItemPath', _navigationItemPath)
-    if (_navigationItemPath === location.pathname || _navigationItemPath.length > 1 &&
-        location.pathname.includes(_navigationItemPath)) {
-      console.log('case 1')
-      return true
-    }
-
-    console.log('case 2')
-    return false
+    return _navigationItemPath === location.pathname || _navigationItemPath.length > 1 &&
+        location.pathname.includes(_navigationItemPath)
   }
 
   const renderNavigationItems = (

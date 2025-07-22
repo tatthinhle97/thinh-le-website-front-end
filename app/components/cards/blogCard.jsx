@@ -45,11 +45,15 @@ export default function BlogCard({
         ])}>
         {dateTimeUtility.formatLongDate(date)}
       </time>
-      <a aria-label={title} href={link}>
+      <Link
+        aria-label={title}
+        to={{
+          pathname: link
+        }}>
         <h3 className={`mb-8 font-semibold text-lg/6 lg:text-xl/6 ${textTheme.hover.accentColor700}`}>
           {title}
         </h3>
-      </a>
+      </Link>
       <p className={stringUtility.merge([
         'line-clamp-3',
         textTheme.secondaryColor600
