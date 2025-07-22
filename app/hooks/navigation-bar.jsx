@@ -12,16 +12,13 @@ export default function useNavigationBar() {
     console.log('---')
     console.log('location.pathname', location.pathname)
     console.log('_navigationItemPath', _navigationItemPath)
-    if (_navigationItemPath === location.pathname) {
-      console.log('case 1')
-      return true
-    } else if (_navigationItemPath.length > 1 &&
+    if (_navigationItemPath === location.pathname || _navigationItemPath.length > 1 &&
         location.pathname.includes(_navigationItemPath)) {
-      console.log('case 2')
+      console.log('case 1')
       return true
     }
 
-    console.log('case 3')
+    console.log('case 2')
     return false
   }
 
@@ -45,7 +42,7 @@ export default function useNavigationBar() {
             shouldDisplayIcon
               ? 'flex gap-2 items-center'
               : undefined,
-            (isActiveNavigationItem(_navigationItem.path))
+            isActiveNavigationItem(_navigationItem.path)
               ? activeNavigationItemClassName
               : nonActiveNavigationItemClassName
           ])}>
