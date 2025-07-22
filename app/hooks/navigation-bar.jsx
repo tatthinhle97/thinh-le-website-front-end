@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {Link, useLocation} from 'react-router'
 import NavigationBarContext from '../contexts/navigation-bar.jsx'
 import renderUtility from '../utilities/render.jsx'
@@ -7,11 +7,16 @@ import stringUtility from '../utilities/string.jsx'
 export default function useNavigationBar() {
   const location = useLocation()
   const onNavigationItemClick = useContext(NavigationBarContext)
+  const [locationPath, setLocationPath] = useState('')
 
   const isActiveNavigationItem = (_navigationItemPath) => {
-    return _navigationItemPath === location.pathname || _navigationItemPath.length > 1 &&
-        location.pathname.includes(_navigationItemPath)
+    return _navigationItemPath === locationPath || _navigationItemPath.length > 1 &&
+        locationPath.includes(_navigationItemPath)
   }
+
+  useEffect(() => {
+    setLocationPath(window.location.pathname)
+  }, [location])
 
   const renderNavigationItems = (
     navigationItems,
