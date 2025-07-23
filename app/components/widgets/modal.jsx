@@ -1,4 +1,4 @@
-import {AiComputerIcon} from '@hugeicons-pro/core-solid-rounded'
+import {CancelCircleIcon, CheckmarkCircle01Icon} from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {Dialog, DialogBackdrop, DialogPanel, DialogTitle} from '@headlessui/react'
 import {useSelector} from 'react-redux'
@@ -30,12 +30,17 @@ export default function Modal({
     textTheme
   } = useSelector(themeStates)
 
-  function getIconBackgroundClassNameByType(_type) {
+  function getIconByType(_type) {
     switch (_type) {
       case statusConstant.error:
-        return backgroundTheme.invalid
+        return <HugeiconsIcon
+          icon={CancelCircleIcon}
+          size={iconConstant.sizeBig5}
+          className={textTheme.invalid} />
       default:
-        return backgroundTheme.valid
+        return <HugeiconsIcon
+          icon={CheckmarkCircle01Icon}
+          size={iconConstant.sizeBig5} />
     }
   }
 
@@ -61,17 +66,15 @@ export default function Modal({
             backgroundTheme.primaryColor
           ])}>
           <div className={stringUtility.merge([
-            'mx-auto flex w-min p-4 items-center justify-center rounded-full mb-6',
-            getIconBackgroundClassNameByType(type),
-            textTheme.primaryColor
+            'mx-auto flex w-min items-center justify-center rounded-full mb-6'
           ])}>
-            <HugeiconsIcon icon={AiComputerIcon} size={iconConstant.defaultSize} />
+            {getIconByType(type)}
           </div>
           <div className='text-center mb-6'>
-            <DialogTitle as='h3' className='font-semibold'>
+            <DialogTitle as='h3' className='font-semibold mb-2'>
               {title}
             </DialogTitle>
-            <div className='mt-2'>
+            <div>
               <p className={`small-text ${textTheme.secondaryColor600}`}>
                 {description}
               </p>

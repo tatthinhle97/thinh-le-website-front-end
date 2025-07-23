@@ -68,7 +68,7 @@ export default function SaleAndRentalListingsPage() {
         setShouldShowModal(true)
         setModalText({
           title: 'Error',
-          description: `Server error: ${_error.message}. Please try again later.`
+          description: `Server error: ${_error.message}, please try again later.`
         })
       })
       .finally(() => {

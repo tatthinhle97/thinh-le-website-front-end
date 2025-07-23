@@ -1,4 +1,4 @@
-import {DownloadCircle01Icon, Mailbox01Icon, SourceCodeCircleIcon} from '@hugeicons-pro/core-solid-rounded'
+import {FileDownloadIcon, SourceCodeCircleIcon} from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import {useSelector} from 'react-redux'
 import {createSelector, createStructuredSelector} from 'reselect'
@@ -49,7 +49,7 @@ export default function HeroSection() {
           ariaLabel={'Download resume'}
           className={'button-link-leading-icon min-w-fit justify-center'}
           href={'https://drive.google.com/file/d/1xFrFyALouO559dB6mST_BbmfoqLRRy0-/view?usp=sharing'}>
-          <HugeiconsIcon icon={DownloadCircle01Icon} size={21} />
+          <HugeiconsIcon icon={FileDownloadIcon} size={21} />
           Resume
         </SecondaryLinkButton>
       </div>

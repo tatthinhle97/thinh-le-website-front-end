@@ -1,11 +1,10 @@
-import React, {memo, PureComponent, useEffect, useMemo, useState} from 'react'
+import React, {memo, useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {
   Bar,
   BarChart,
-  Label,
   ResponsiveContainer,
-  Text, Tooltip,
+  Text,
   XAxis,
   YAxis
 } from 'recharts'

@@ -1,7 +1,7 @@
 import {HugeiconsIcon} from '@hugeicons/react'
 import iconConstant from './icon.jsx'
 import pageMetadataConstant from './metadata/page.jsx'
-import {Home01Icon, Mailbox01Icon, UserCircleIcon, WorkflowCircle06Icon} from '@hugeicons-pro/core-solid-rounded'
+import {Home01Icon, Mail02Icon, UserCircleIcon, WorkflowCircle06Icon} from '@hugeicons-pro/core-solid-rounded'
 
 const home = {
   path: pageMetadataConstant.home.path,
@@ -24,7 +24,7 @@ const projects = {
 const contactMe = {
   path: pageMetadataConstant.contactMe.path,
   label: pageMetadataConstant.contactMe.title,
-  iconComponent: <HugeiconsIcon icon={Mailbox01Icon} size={iconConstant.buttonIconSize} />
+  iconComponent: <HugeiconsIcon icon={Mail02Icon} size={iconConstant.buttonIconSize} />
 }
 
 const allNavigationItems = [home, aboutMe, projects, contactMe]
