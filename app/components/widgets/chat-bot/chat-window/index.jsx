@@ -46,7 +46,9 @@ export default function ChatWindow({
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      content: 'Hi there! How can I help you today?',
+      content: process.env.NODE_ENV === 'production'
+        ? 'This chatbot function is not yet support due to limited backend resource.'
+        : 'Hi there! I can help you navigate this website quickly. Please start to ask me something.',
       payload: {}
     }
   ])
@@ -162,9 +164,7 @@ export default function ChatWindow({
   }
 
   function getNotFoundMessage() {
-    return process.env.NODE_ENV === 'production'
-      ? 'This function is not available on production environment.'
-      : 'I can only answer queries related to this website, please try again with another query 😁.\n'
+    return 'I can only answer queries related to this website, please try again with another query 😁.'
   }
 
   function renderMessageContent(_message) {
@@ -263,6 +263,7 @@ export default function ChatWindow({
       backgroundTheme.primaryColor
     ])}>
       <TextAreaInput
+        isDisabled={process.env.NODE_ENV === 'production'}
         containerClassName={'grow'}
         id={'input-message'}
         rows={1}
@@ -274,6 +275,7 @@ export default function ChatWindow({
         onValueChange={onUserMessageValueChange}
         onKeyDown={onEnterKeyDown} />
       <IconButton
+        isDisabled={process.env.NODE_ENV === 'production'}
         ariaLabel={'Send message button'}
         onClick={addUserMessageToChatWindow}
         className={stringUtility.merge([

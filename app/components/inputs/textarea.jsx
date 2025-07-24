@@ -14,6 +14,7 @@ const themeStates = createStructuredSelector(
 export default function TextAreaInput({
   containerClassName,
   id,
+  isDisabled = false,
   inputClassName,
   // If true, it will apply default built-in validation, and have :invalid state
   shouldValidate = false,
@@ -55,6 +56,7 @@ export default function TextAreaInput({
     ])}>
       {prefix}
       <textarea
+        disabled={isDisabled}
         ref={inputRef}
         aria-label={label}
         id={id}
