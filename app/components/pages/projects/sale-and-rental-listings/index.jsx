@@ -281,18 +281,19 @@ export default function SaleAndRentalListingsPage() {
       <p className={'mb-6'}>
         This project searches for rental and sale listings in the US. As <span className={'font-medium'}>
           API key usage is limited
-        </span>, please create an account on the <a
+        </span> (50 times), please create your own account on the <a
           target='_blank'
           className={'font-medium underline'}
           href={'https://app.rentcast.io/app'} rel='noreferrer'>
           RentCast
-        </a> website to generate an API key and paste it in the search panel.
+        </a> website and generate an API key then paste it in the search panel.
       </p>
       <p className={'mb-2'}>
         Notes:
       </p>
       <ul className='list-disc pl-8'>
-        <li>The default data was collected in New York city in New York state.</li>
+        <li>I won&#39;t store your API key, just use it to fetch data fron RentCast API.</li>
+        <li>The default data is sale data in New York city in New York state (last update 07/20/2025).</li>
         <li>The first load may be slow due to the free backend host.</li>
       </ul>
     </div>
