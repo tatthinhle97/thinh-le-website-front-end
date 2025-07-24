@@ -10,6 +10,7 @@ import {useSelector} from 'react-redux'
 import {Link} from 'react-router'
 import {createSelector, createStructuredSelector} from 'reselect'
 import chatApi from '../../../../apis/chat.js'
+import iconConstant from '../../../../constants/icon.jsx'
 import chatbotAnswerTemplateConstant from '../../../../constants/templates/chatbot-answer.jsx'
 import renderUtility from '../../../../utilities/render.jsx'
 import stringUtility from '../../../../utilities/string.jsx'
@@ -70,7 +71,7 @@ export default function ChatWindow({
           payload: undefined
         }
 
-        if (pointDto.payload) {
+        if (pointDto?.payload) {
           newBotMessage.payload = pointDto.payload
 
           // Page navigation: add a template answer
@@ -125,7 +126,7 @@ export default function ChatWindow({
     return <img
       src={_imageSource}
       alt={_imageAlt}
-      className='w-10 h-10 rounded-full object-cover' />
+      className='size-11 rounded-full object-cover' />
   }
 
   function renderBotMessageByPayload(_message) {
@@ -140,7 +141,7 @@ export default function ChatWindow({
           <Link
             aria-label={'navigation-link'}
             className={stringUtility.merge([
-              'font-medium',
+              'font-medium underline',
               textTheme.hover.accentColor700
             ])}
             to={{
@@ -158,6 +159,12 @@ export default function ChatWindow({
         {_message.payload.answer}
       </>
     }
+  }
+
+  function getNotFoundMessage() {
+    return process.env.NODE_ENV === 'production'
+      ? 'This function is not available on production environment.'
+      : 'I can only answer queries related to this website, please try again with another query 😁.\n'
   }
 
   function renderMessageContent(_message) {
@@ -183,7 +190,7 @@ export default function ChatWindow({
         ? _message.content
         : _message.payload
           ? renderBotMessageByPayload(_message)
-          : 'I have searched everywhere but couldn\'t answer. Please try again with another query.'}
+          : getNotFoundMessage()}
     </p>
   }
 
@@ -203,13 +210,16 @@ export default function ChatWindow({
     ])}>
       <div className={'flex justify-between'}>
         <p className={'flex gap-2'}>
-          <HugeiconsIcon icon={ChatBotIcon} className={'wh-normal'} />
+          <HugeiconsIcon icon={ChatBotIcon} size={iconConstant.defaultSize} />
           Chatbot
         </p>
         <IconButton
           ariaLabel={'Close chat window icon button'}
           onClick={onCloseButtonClick}>
-          <HugeiconsIcon icon={Cancel01Icon} className={'wh-normal'} />
+          <HugeiconsIcon
+            icon={Cancel01Icon}
+            size={iconConstant.defaultSize}
+            className={'cursor-pointer'} />
         </IconButton>
       </div>
     </div>

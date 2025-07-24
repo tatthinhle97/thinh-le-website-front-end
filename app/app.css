@@ -59,7 +59,7 @@
 */
 
 @utility button-link-text {
-  @apply px-3 py-2 border-2 rounded-md  hover:cursor-pointer shadow-xs;
+  @apply px-4 py-2 border-2 rounded-md  hover:cursor-pointer shadow-xs;
 }
 
 @utility button-link-leading-icon {
