@@ -292,7 +292,7 @@ export default function SaleAndRentalListingsPage() {
         Notes:
       </p>
       <ul className='list-disc pl-8'>
-        <li>I won&#39;t store your API key, just use it to fetch data fron RentCast API.</li>
+        <li>I won&#39;t store your API key, just use it to fetch data from RentCast API.</li>
         <li>The default data is sale data in New York city in New York state (last update 07/20/2025).</li>
         <li>The first load may be slow due to the free backend host.</li>
       </ul>
