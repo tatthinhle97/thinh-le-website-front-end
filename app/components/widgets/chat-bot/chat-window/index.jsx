@@ -47,8 +47,8 @@ export default function ChatWindow({
     {
       sender: 'bot',
       content: process.env.NODE_ENV === 'production'
-        ? 'This chatbot function is not yet support due to limited backend resource.'
-        : 'Hi there! I can help you navigate this website quickly. Please start to ask me something.',
+        ? 'This chatbot function is not yet supported on production environment due to limited backend resources.'
+        : 'Hi there! I can help you navigate this website quickly. Please start by asking me something.',
       payload: {}
     }
   ])
