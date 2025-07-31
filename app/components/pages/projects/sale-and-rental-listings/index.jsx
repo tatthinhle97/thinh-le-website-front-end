@@ -331,7 +331,7 @@ export default function SaleAndRentalListingsPage() {
                   onMarkerClick={onGoogleMarkerClick} />}
             </Card>
             <Card
-              title={'Average price by Listinng type'}
+              title={'Average price by Listing type'}
               containerClassName={'grow basis-1/2'}
               contentClassName={stringUtility.merge([
                 'p-4 aspect-4/3',

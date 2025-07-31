@@ -270,7 +270,7 @@ export default function ChatWindow({
         label={'Chatbot message input'}
         shouldDisplayLabel={false}
         name={'input-message'}
-        placeholder={'Ask me something'}
+        placeholder={process.env.NODE_ENV === 'production' ? 'Disabled' : 'Ask me something'}
         value={userMessage}
         onValueChange={onUserMessageValueChange}
         onKeyDown={onEnterKeyDown} />
