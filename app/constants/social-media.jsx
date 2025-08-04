@@ -1,5 +1,5 @@
 import {HugeiconsIcon} from '@hugeicons/react'
-import {Facebook01Icon, Github01Icon, Home01Icon, LeetcodeIcon, Linkedin01Icon} from '@hugeicons-pro/core-solid-rounded'
+import {Facebook01Icon, Github01Icon, Linkedin01Icon} from '@hugeicons-pro/core-solid-rounded'
 import iconConstant from './icon.jsx'
 
 const iconSize = iconConstant.defaultSize
@@ -22,19 +22,12 @@ const gitHub = {
   icon: <HugeiconsIcon icon={Github01Icon} size={iconSize} />
 }
 
-const leetCode = {
-  label: 'Leetcode icon',
-  link: 'https://leetcode.com/u/letatthinh',
-  icon: <HugeiconsIcon icon={LeetcodeIcon} size={iconSize} />
-}
-
-const allSocialMedia = [facebook, linkedIn, gitHub, leetCode]
+const allSocialMedia = [facebook, linkedIn, gitHub]
 
 const socialMediaConstant = {
   facebook,
   linkedIn,
   gitHub,
-  leetCode,
   allSocialMedia
 }
 
