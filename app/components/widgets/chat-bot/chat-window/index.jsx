@@ -46,7 +46,9 @@ export default function ChatWindow({
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      content: 'Hi there! I can help you navigate this website quickly. Please start by asking me something.',
+      content: process.env.NODE_ENV === 'production'
+        ? 'This chatbot function is not yet supported on production environment due to limited backend resources.'
+        : 'Hi there! I can help you navigate this website quickly. Please start by asking me something.',
       payload: {}
     }
   ])
@@ -261,17 +263,19 @@ export default function ChatWindow({
       backgroundTheme.primaryColor
     ])}>
       <TextAreaInput
+        isDisabled={process.env.NODE_ENV === 'production'}
         containerClassName={'grow'}
         id={'input-message'}
         rows={1}
         label={'Chatbot message input'}
         shouldDisplayLabel={false}
         name={'input-message'}
-        placeholder={'Ask me something'}
+        placeholder={process.env.NODE_ENV === 'production' ? 'Disabled' : 'Ask me something'}
         value={userMessage}
         onValueChange={onUserMessageValueChange}
         onKeyDown={onEnterKeyDown} />
       <IconButton
+        isDisabled={process.env.NODE_ENV === 'production'}
         ariaLabel={'Send message button'}
         onClick={addUserMessageToChatWindow}
         className={stringUtility.merge([
