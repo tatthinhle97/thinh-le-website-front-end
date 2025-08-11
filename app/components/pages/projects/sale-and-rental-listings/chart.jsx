@@ -72,7 +72,7 @@ const AveragePriceByListingTypeChart = memo(({
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <BarChart
-        margin={{left: 16, bottom: isSmallScreen ? 80 : 0, top: isSmallScreen ? 16 : 0}}
+        margin={{left: 24, bottom: isSmallScreen ? 80 : 0, top: 24}}
         data={averagePriceData}>
         <XAxis
           dataKey='listingType'

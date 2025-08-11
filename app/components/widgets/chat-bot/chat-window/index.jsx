@@ -47,7 +47,7 @@ export default function ChatWindow({
     {
       sender: 'bot',
       content: process.env.NODE_ENV === 'production'
-        ? 'Sorry mate, this function is not available at the moment.'
+        ? 'Sorry, this function is not available at the moment.'
         : 'Hi there! I can help you navigate this website quickly. Please start by asking me something.',
       payload: {}
     }

@@ -18,7 +18,7 @@ const linkedIn = {
 
 const gitHub = {
   label: 'GitHub icon',
-  link: 'https://github.com/letatthinh',
+  link: 'https://github.com/tatthinhle97',
   icon: <HugeiconsIcon icon={Github01Icon} size={iconSize} />
 }
 
