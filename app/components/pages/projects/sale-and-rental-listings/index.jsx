@@ -288,6 +288,14 @@ export default function SaleAndRentalListingsPage() {
           RentCast
         </a> website and generate an API key then paste it in the search panel.
       </p>
+      <p className={'mb-6'}>
+        Instruction video: <a
+          target='_blank'
+          className={'font-medium underline'}
+          href={'https://youtu.be/U_ToOJHbHPE?si=n3P6aiHOm9-SN5r3'} rel='noreferrer'>
+          https://youtu.be/U_ToOJHbHPE?si=n3P6aiHOm9-SN5r3
+        </a>.
+      </p>
       <p className={'mb-2'}>
         Notes:
       </p>
