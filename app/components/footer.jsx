@@ -23,7 +23,7 @@ export default function Footer({className}) {
     ])}>
     <div
       className={stringUtility.merge([
-        'container-layout py-6 px-6'
+        'container-layout pb-6 px-6'
       ])}>
       <hr className={`mb-6 ${borderTheme.secondaryColor300}`} />
       <div className={stringUtility.merge([

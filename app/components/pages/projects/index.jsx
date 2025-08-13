@@ -1,6 +1,6 @@
 import pageMetadataConstant from '../../../constants/metadata/page.jsx'
 import FeatureSection from './feature-section.jsx'
-import Projects from './projects.jsx'
+import ProjectsSection from './projects-section.jsx'
 
 export function meta() {
   return [
@@ -12,6 +12,6 @@ export function meta() {
 export default function ProjectsPage() {
   return <>
     <FeatureSection />
-    <Projects />
+    <ProjectsSection />
   </>
 }

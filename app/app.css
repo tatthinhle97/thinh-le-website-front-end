@@ -104,6 +104,14 @@
 
 /* Padding */
 
+@utility p-y-content-section {
+  @apply py-28;
+}
+
+@utility p-b-content-section {
+  @apply pb-28;
+}
+
 @utility p-y-feature-section {
   @apply py-30;
 }
@@ -127,104 +135,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/* Sections */
-@utility section-pt {
-  @apply pt-18 lg:pt-24;
-}
-
-@utility section-pb {
-  @apply pb-18 lg:pb-24;
-}
-
-@utility section-py {
-  @apply section-pt section-pb;
-}
-
-@utility content-mt {
-  @apply mt-6;
-}
-
-@utility content-p {
-  @apply p-6;
-}
-
-@utility content-py {
-  @apply py-6;
-}
-
-@utility content-gap {
-  @apply gap-6;
-}
-
-@utility content-gap-y {
-  @apply gap-y-6;
-}
-
-@utility rounded-normal {
-  @apply rounded-md lg:rounded-lg;
-}
-
-@utility rounded-bl-normal {
-  @apply rounded-bl-lg;
-}
-
-@utility rounded-tr-normal {
-  @apply rounded-tr-lg;
-}
-
-@utility rounded-big-1 {
-  @apply rounded-xl;
-}
-
-@utility rounded-t-big-1 {
-  @apply rounded-t-xl;
-}
-
-@utility rounded-b-big-1 {
-  @apply rounded-b-xl;
-}
-
-@utility text-small-2 {
-  @apply text-sm
-}
-
-@utility text-small-1 {
-  @apply text-base;
-}
-
 @utility text-normal {
   @apply text-lg;
-}
-
-@utility text-big-1 {
-  @apply text-xl;
-}
-
-@utility text-big-2 {
-  @apply text-2xl;
-}
-
-@utility text-big-3 {
-  @apply text-3xl;
-}
-
-@utility text-big-4 {
-  @apply text-4xl;
-}
-
-@utility text-big-5 {
-  @apply text-5xl;
 }
 
 @utility text-big-6 {

@@ -54,8 +54,7 @@ export default function SearchPanel({
   const [stateNameOption, setStateNameOption] = useState('New York')
   const [cityNameValue, setCityNameValue] = useState('')
   const [cityNameOption, setCityNameOption] = useState('New York')
-  const [zipCodeValue, setZipCodeValue]
-      = useState('')
+  const [zipCodeValue, setZipCodeValue] = useState('')
   const [propertyTypeValue, setPropertyTypeValue]
     = useState('')
   const [
@@ -259,7 +258,6 @@ export default function SearchPanel({
           min={1}
           name={'bedRooms'}
           onValueChange={onNumberOfBedRoomsValueChange}
-          validationMessage={'Number must greater than 0'}
           value={numberOfBedRoomsValue} />
         <NumberInput
           id={'bathRooms'}
@@ -268,7 +266,6 @@ export default function SearchPanel({
           min={1}
           name={'bathRooms'}
           onValueChange={onNumberOfBathRoomsValueChange}
-          validationMessage={'Number must greater than 0'}
           value={numberOfBathRoomsValue} />
       </div>
       <PrimaryButton

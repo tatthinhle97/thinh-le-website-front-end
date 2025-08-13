@@ -207,7 +207,7 @@ export default function FilterPanel({
       toValue={setPriceRangeDisplayValue}
       fromValue={setPriceRangeReturnValue}
       onChange={onPriceRangeChange}
-      tooltipClassName={'text-small-1'} />
+      tooltipClassName={'small-text'} />
     <div className={'grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'}>
       <ComboBox
         label={'Property type'}

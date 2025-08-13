@@ -71,7 +71,7 @@ export default function BlogCard({
             key={_index}
             aria-label={_tag}
             className={stringUtility.merge([
-              'font-medium rounded-normal px-2 py-1',
+              'font-medium rounded-lg px-2 py-1',
               backgroundTheme.secondaryColor100
             ])}>{_tag}
           </button>

@@ -199,12 +199,12 @@ export default function ChatWindow({
     className={stringUtility.merge([
       'fixed bottom-18 lg:bottom-22 left-4 lg:left-auto right-4 lg:right-6 z-40',
       'flex-col hidden',
-      'w-auto lg:w-144 h-144 rounded-big-1 shadow-lg',
+      'w-auto lg:w-144 h-144 rounded-lg shadow-lg',
       shadowTheme.opacity.fourty.accentColor700
     ])}>
     {/* Header */}
     <div className={stringUtility.merge([
-      'px-4 py-2 font-semibold rounded-t-big-1',
+      'px-4 py-2 font-semibold rounded-t-lg',
       backgroundTheme.secondaryColor,
       textTheme.primaryColor
     ])}>
@@ -248,7 +248,7 @@ export default function ChatWindow({
       </div>
 
       {isBotTyping && (
-        <div className={`pl-12 mt-2 text-small-1 italic ${textTheme.secondaryColor600}`}>
+        <div className={`pl-12 mt-2 small-text italic ${textTheme.secondaryColor600}`}>
           Chatbot is typing...
         </div>
       )}
@@ -258,7 +258,7 @@ export default function ChatWindow({
 
     {/* Input Area */}
     <div className={stringUtility.merge([
-      'px-4 py-2 flex gap-4 items-center p-2 rounded-b-big-1 border-t-1',
+      'px-4 py-2 flex gap-4 items-center p-2 rounded-b-lg border-t-1',
       borderTheme.secondaryColor300,
       backgroundTheme.primaryColor
     ])}>

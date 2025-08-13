@@ -42,7 +42,7 @@ export default function ComboBox({
   options = [],
   optionsClassName,
   placeholder = 'Please select',
-  validationMessage = 'This is a required field',
+  validationMessage = 'Please fill out this field.',
   value = '' // value accepted by the input
 }) {
   const {
@@ -136,7 +136,7 @@ export default function ComboBox({
           placeholder={placeholder}
           className={stringUtility.merge([
             isReadonly ? 'cursor-default' : '',
-            'w-full rounded-normal py-2 pl-4',
+            'w-full rounded-lg py-2 pl-4',
             'outline-solid outline-1 focus:outline-2 focus:outline-offset-1',
             shouldValidate
               ? stringUtility.merge([
@@ -159,7 +159,7 @@ export default function ComboBox({
       </div>
       {renderUtility.renderIfTrue(shouldValidate, <p
         className={stringUtility.merge([
-          'mt-2 text-small-1 hidden peer-has-invalid:block',
+          'mt-2 small-text hidden peer-has-invalid:block',
           textTheme.invalid
         ])}>
         {validationMessage}

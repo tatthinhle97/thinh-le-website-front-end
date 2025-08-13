@@ -9,6 +9,12 @@ const white = {
         accentColor700: 'has-[input:focus-within]:outline-white-accent-color-700'
       },
       invalid: 'has-[input:invalid]:outline-white-invalid'
+    },
+    textarea: {
+      focusWithin: {
+        accentColor700: 'has-[textarea:focus-within]:outline-white-accent-color-700'
+      },
+      invalid: 'has-[textarea:invalid]:outline-white-invalid'
     }
   },
   secondaryColor300: 'outline-gray-300',
