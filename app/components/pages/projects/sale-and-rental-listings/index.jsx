@@ -42,7 +42,7 @@ export default function SaleAndRentalListingsPage() {
   } = useSelector(themeStates)
 
   const [shouldShowModal, setShouldShowModal] = useState(false)
-  const [modalText, setModalText] = useState({
+  const [modal, setModal] = useState({
     title: 'Error',
     description: 'Something went wrong!'
   })
@@ -66,7 +66,7 @@ export default function SaleAndRentalListingsPage() {
       })
       .catch(_error => {
         setShouldShowModal(true)
-        setModalText({
+        setModal({
           title: 'Error',
           description: `Server error: ${_error.message}, please try again later.`
         })
@@ -274,8 +274,8 @@ export default function SaleAndRentalListingsPage() {
     <Modal
       shouldShowModal={shouldShowModal}
       onModalClose={setShouldShowModal}
-      title={modalText.title}
-      description={modalText.description}
+      title={modal.title}
+      description={modal.description}
       onPrimaryButtonClick={() => setShouldShowModal(false)} />
     <div className={`mb-6 ${textTheme.secondaryColor600}`}>
       <p className={'mb-6'}>

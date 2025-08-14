@@ -21,6 +21,7 @@ const white = {
       primaryColor: 'data-focus:text-white'
     }
   },
+  valid: 'text-white-valid',
   invalid: 'text-white-invalid'
 }
 

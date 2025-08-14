@@ -1,10 +1,12 @@
 import {MailSend02Icon} from '@hugeicons-pro/core-solid-rounded'
 import {HugeiconsIcon} from '@hugeicons/react'
 import React, {useState} from 'react'
-import pageMetadataConstant from '../../../constants/metadata/page.jsx'
-import PrimaryLinkButton from '../../buttons/links/primary.jsx'
+import contactMeApi from '../../../apis/contact-me.js'
+import statusConstant from '../../../constants/status.jsx'
+import PrimaryButton from '../../buttons/primary.jsx'
 import TextInput from '../../inputs/text.jsx'
 import TextAreaInput from '../../inputs/textarea.jsx'
+import Modal from '../../widgets/modal.jsx'
 
 export default function ContactInfoSection() {
   const [shouldValidateForm, setShouldValidateForm] = useState(false)
@@ -13,6 +15,12 @@ export default function ContactInfoSection() {
   const [emailValue, setEmailValue] = useState('')
   const [phoneNumberValue, setPhoneNumberValue] = useState('')
   const [messageValue, setMessageValue] = useState('')
+  const [shouldShowModal, setShouldShowModal] = useState(false)
+  const [modal, setModal] = useState({
+    title: '',
+    description: '',
+    type: ''
+  })
 
   const onFirstNameValueChange = (_event) => {
     setFirstNameValue(_event.target.value)
@@ -34,7 +42,7 @@ export default function ContactInfoSection() {
     setMessageValue(_event.target.value)
   }
 
-  const onSearchPanelFormSubmit = async (_event) => {
+  const onContactFormSubmit = async (_event) => {
     _event.preventDefault()
 
     if (!_event.target.checkValidity()) {
@@ -43,12 +51,42 @@ export default function ContactInfoSection() {
     }
 
     const formData = new FormData(_event.target)
-    const searchLocationDto = Object.fromEntries(formData.entries())
+    const contactMeDto = Object.fromEntries(formData.entries())
+
+    contactMeApi.sendContactForm(contactMeDto)
+      .then(() => {
+        setModal({
+          title: 'Success',
+          description: 'Your message has been sent.',
+          type: statusConstant.success
+        })
+        setShouldShowModal(true)
+        setFirstNameValue('')
+        setLastNameValue('')
+        setEmailValue('')
+        setPhoneNumberValue('')
+        setMessageValue('')
+      }).catch(() => {
+        setModal({
+          title: 'Error',
+          description: 'Server error! please try again later.',
+          type: statusConstant.error
+        })
+        setShouldShowModal(true)
+      })
+
     setShouldValidateForm(false)
   }
 
   return <section className='container-layout p-b-content-section px-6'>
-    <form onSubmit={onSearchPanelFormSubmit} noValidate className='max-w-lg mx-auto'>
+    <Modal
+      type={modal.type}
+      shouldShowModal={shouldShowModal}
+      onModalClose={setShouldShowModal}
+      title={modal.title}
+      description={modal.description}
+      onPrimaryButtonClick={() => setShouldShowModal(false)} />
+    <form onSubmit={onContactFormSubmit} noValidate className='max-w-lg mx-auto'>
       <div className='mx-auto max-w-xl lg:mr-0 lg:max-w-lg'>
         <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 mb-6'>
           <TextInput
@@ -89,7 +127,7 @@ export default function ContactInfoSection() {
             <TextAreaInput
               isRequired={true}
               id={'message'}
-              rows={3}
+              rows={7}
               label={'Message'}
               shouldValidate={shouldValidateForm}
               name={'message'}
@@ -98,15 +136,13 @@ export default function ContactInfoSection() {
           </div>
         </div>
         <div className='flex justify-center'>
-          <PrimaryLinkButton
-            type='submit'
-            ariaLabel={'sendMessage'}
-            className={'button-link-leading-icon min-w-fit justify-center'}
-            href={pageMetadataConstant.projects.path}
-            isExternalLink={false}>
+          <PrimaryButton
+            ariaLabel={'Search listings button'}
+            type={'submit'}
+            className={'button-link-leading-icon min-w-fit'}>
             <HugeiconsIcon icon={MailSend02Icon} size={21} />
             Send
-          </PrimaryLinkButton>
+          </PrimaryButton>
         </div>
       </div>
     </form>

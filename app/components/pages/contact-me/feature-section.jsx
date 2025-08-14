@@ -22,7 +22,7 @@ export default function FeatureSection() {
         Get in touch
       </h2>
       <p className={`feature-section-description-text ${textTheme.secondaryColor600}`}>
-        Can’t wait to hear from you 🙌
+        Can’t wait to connect with you 🙌
       </p>
     </div>
   </section>

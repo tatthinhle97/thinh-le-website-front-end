@@ -40,7 +40,8 @@ export default function Modal({
       default:
         return <HugeiconsIcon
           icon={CheckmarkCircle01Icon}
-          size={iconConstant.sizeBig5} />
+          size={iconConstant.sizeBig5}
+          className={textTheme.valid} />
     }
   }
 
