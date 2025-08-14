@@ -6,6 +6,7 @@ import statusConstant from '../../../constants/status.jsx'
 import PrimaryButton from '../../buttons/primary.jsx'
 import TextInput from '../../inputs/text.jsx'
 import TextAreaInput from '../../inputs/textarea.jsx'
+import Loading from '../../widgets/loading.jsx'
 import Modal from '../../widgets/modal.jsx'
 
 export default function ContactInfoSection() {
@@ -21,6 +22,7 @@ export default function ContactInfoSection() {
     description: '',
     type: ''
   })
+  const [shouldShowLoadingComponent, setShouldShowLoadingComponent] = useState(false)
 
   const onFirstNameValueChange = (_event) => {
     setFirstNameValue(_event.target.value)
@@ -49,6 +51,7 @@ export default function ContactInfoSection() {
       setShouldValidateForm(true)
       return
     }
+    setShouldShowLoadingComponent(true)
 
     const formData = new FormData(_event.target)
     const contactMeDto = Object.fromEntries(formData.entries())
@@ -61,6 +64,7 @@ export default function ContactInfoSection() {
           type: statusConstant.success
         })
         setShouldShowModal(true)
+        setShouldShowLoadingComponent(false)
         setFirstNameValue('')
         setLastNameValue('')
         setEmailValue('')
@@ -73,6 +77,7 @@ export default function ContactInfoSection() {
           type: statusConstant.error
         })
         setShouldShowModal(true)
+        setShouldShowLoadingComponent(false)
       })
 
     setShouldValidateForm(false)
@@ -136,13 +141,15 @@ export default function ContactInfoSection() {
           </div>
         </div>
         <div className='flex justify-center'>
-          <PrimaryButton
-            ariaLabel={'Search listings button'}
-            type={'submit'}
-            className={'button-link-leading-icon min-w-fit'}>
-            <HugeiconsIcon icon={MailSend02Icon} size={21} />
-            Send
-          </PrimaryButton>
+          {shouldShowLoadingComponent
+            ? <Loading title={'Sending'} />
+            : <PrimaryButton
+              ariaLabel={'Search listings button'}
+              type={'submit'}
+              className={'button-link-leading-icon min-w-fit'}>
+              <HugeiconsIcon icon={MailSend02Icon} size={21} />
+              Send
+            </PrimaryButton>}
         </div>
       </div>
     </form>

@@ -28,11 +28,11 @@ export default function Loading({
       textTheme.secondaryColor600,
       containerClassName
     ])}>
-      <p>{title}</p>
       <HugeiconsIcon
         icon={Loading02Icon}
         size={iconConstant.defaultSize}
         className={'animate-spin'} />
+      <p>{title}</p>
     </div>
   )
 }
